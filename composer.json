@@ -1,0 +1,40 @@
+{
+  "name": "caseyamcl/paramee",
+  "description": "Parameter processing library that is compatible with the OpenApi 3.0 specification",
+  "keywords": ["openapi", "open-api", "open api", "swagger", "parameter", "processing"],
+  "homepage": "https://github.com/caseyamcl/paramee",
+  "authors": [
+    {
+      "name":     "Casey McLaughlin",
+      "email":    "caseyamcl@gmail.com",
+      "homepage": "http://caseymclaughlin.com",
+      "role":     "Developer"
+    }
+  ],
+  "license": "MIT",
+  "require": {
+    "php": ">=7.2",
+
+    "respect/validation": "^1.1",
+    "egulias/email-validator": "^2.1",
+    "webmozart/assert": "^1.4",
+    "nesbot/carbon": "^2.23",
+    "psr/log": "^1.1"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^8.0",
+    "squizlabs/php_codesniffer": "^3.4"
+  },
+  "autoload": {
+    "psr-4": {
+      "Paramee\\": ["src", "tests"],
+      "Paramee\\Example\\": ["example/src"]
+    }
+  },
+  "scripts": {
+    "test": "phpunit",
+    "quicktest": "phpunit --no-coverage",
+    "check-style": "phpcs -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests",
+    "fix-style": "phpcbf -p --standard=PSR2 --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 src tests"
+  }
+}

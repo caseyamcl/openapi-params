@@ -1,0 +1,10 @@
+# Composer
+vendor/
+composer.lock
+
+# IDE Stuff
+.idea
+.idea/*
+
+# Testing
+build/
