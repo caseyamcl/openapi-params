@@ -1,4 +1,17 @@
 <?php
+/**
+ * Paramee Library
+ *
+ * @license http://opensource.org/licenses/MIT
+ * @link https://github.com/caseyamcl/paramee
+ * @package caseyamcl/paramee
+ * @author Casey McLaughlin <caseyamcl@gmail.com>
+ *
+ *  For the full copyright and license information, please view the LICENSE.md
+ *  file that was distributed with this source code.
+ *
+ *  ------------------------------------------------------------------
+ */
 
 declare(strict_types=1);
 
@@ -65,6 +78,7 @@ class UnpackCSV
 
         // Use fgetcsv to read the CSV
         $stream = fopen('php://memory', 'r+');
+        $value = preg_replace("/[\r\n]+/", '', $value);
         fwrite($stream, $value);
         rewind($stream);
         $values = fgetcsv($stream, 0, $separators[0]);

@@ -42,6 +42,8 @@ final class ParamTypes
     const INTEGER = 'integer';
 
     /**
+     * Create a type instance of a given parameter
+     *
      * @param string $type        Parameter type (OpenApi) name
      * @param string $paramName   Optional name
      * @return Parameter

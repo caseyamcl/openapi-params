@@ -46,7 +46,7 @@ class ByteFormat extends AbstractParamFormat
         // Validate that the string is base64 encoded.  This may be an expensive operation.
         $callback = function (string $value): bool {
             // Check if there are valid base64 characters
-            if (!preg_match('/^[a-zA-Z0-9/\r\n+]*={0,2}$/', $value)) {
+            if (!preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $value)) {
                 return false;
             }
 
