@@ -18,6 +18,9 @@ namespace Paramee\Format;
 use Paramee\AbstractParamFormatTest;
 use Paramee\Contract\ParamFormatInterface;
 use Paramee\Model\Parameter;
+use Paramee\Model\ParameterValidationRule;
+use Paramee\Type\StringParameter;
+use Respect\Validation\Validator;
 
 /**
  * Class CsvFormatTest
@@ -25,15 +28,23 @@ use Paramee\Model\Parameter;
  */
 class CsvFormatTest extends AbstractParamFormatTest
 {
-
     public function testValidateEach()
     {
-
+        /** @var CsvFormat $format */
+        $format = $this->getFormat();
+        $validator = new ParameterValidationRule(Validator::equals('a'), 'test');
+        $format->setValidatorForEach($validator);
+        $param = (new StringParameter('test'))->setFormat($format);
+        $this->assertEquals(['a', 'a', 'a'], $param->prepare('a, a, a'));
     }
 
     public function testSetSeparator()
     {
-
+        /** @var CsvFormat $format */
+        $format = $this->getFormat();
+        $format->setSeparators('|;');
+        $param = (new StringParameter('test'))->setFormat($format);
+        $this->assertSame(['test', 'test1', 'test2'], $param->prepare('test;test1|test2'));
     }
 
     /**
@@ -49,6 +60,6 @@ class CsvFormatTest extends AbstractParamFormatTest
      */
     protected function getParameterWithFormat(): Parameter
     {
-        // TODO: Implement getParameterWithFormat() method.
+        return (new StringParameter('test'))->setFormat(new CsvFormat());
     }
 }

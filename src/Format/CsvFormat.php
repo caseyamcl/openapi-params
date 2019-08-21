@@ -39,22 +39,24 @@ class CsvFormat extends AbstractParamFormat
     public const NAME = 'csv';
 
     /**
-     * @var string
+     * @var array|string[]
      */
-    private $separator = ',';
+    private $separator = [','];
 
     /**
      * @var ParameterValidationRuleInterface
      */
-    private $validateEach;
+    private $validatorForEach;
 
     /**
-     * @param string $separator
+     * Set the separator
+     *
+     * @param string $separator  Value will be split into an array (e.g. ';|' will become [';', '|'])
      * @return self
      */
-    public function setSeparator(string $separator): self
+    public function setSeparators($separator): self
     {
-        $this->separator = $separator;
+        $this->separator = str_split($separator);
         return $this;
     }
 
@@ -67,12 +69,12 @@ class CsvFormat extends AbstractParamFormat
      */
     public function getValidationRules(): array
     {
-        if ($this->validateEach) {
+        if ($this->validatorForEach) {
             return [
                 new ParameterValidationRule(Validator::callback(function ($value) {
-                    $items = UnpackCSV::un($value);
-                    return Validator::each($this->validateEach->getValidator())->validate($items);
-                }), $this->validateEach->getDocumentation())
+                    $items = UnpackCSV::un($value, $this->separator);
+                    return Validator::each($this->validatorForEach->getValidator())->validate($items);
+                }), $this->validatorForEach->getDocumentation())
             ];
         } else {
             return [];
@@ -84,9 +86,9 @@ class CsvFormat extends AbstractParamFormat
      *
      * @param ParameterValidationRuleInterface $rule
      */
-    public function validateEach(ParameterValidationRuleInterface $rule)
+    public function setValidatorForEach(ParameterValidationRuleInterface $rule)
     {
-        $this->validateEach = $rule;
+        $this->validatorForEach = $rule;
     }
 
     /**
@@ -110,6 +112,9 @@ class CsvFormat extends AbstractParamFormat
      */
     public function getDocumentation(): ?string
     {
-        return "Value must be a list of items delimited by: '{$this->separator}'.";
+        $separator = implode(', ', $this->separator);
+        return count($this->separator) > 1
+            ? "Value must be a list of items delimited by one of the following: '$separator'."
+            : "Value must be a list of items delimited by: '$separator'.";
     }
 }
