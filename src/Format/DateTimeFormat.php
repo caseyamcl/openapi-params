@@ -47,23 +47,39 @@ class DateTimeFormat extends AbstractParamFormat
     /**
      * @var CarbonImmutable|null
      */
-    private $oldest;
+    private $earliestDate;
 
     /**
      * @var CarbonImmutable|null
      */
-    private $newest;
+    private $latestDate;
 
     /**
      * DateTimeFormat constructor.
      *
-     * @param DateTimeInterface|null $oldest  Specify oldest allowable date/time (inclusive)
-     * @param DateTimeInterface|null $newest  Specify newest allowable date/time (inclusive)
+     * @param DateTimeInterface|null $earliest  Specify oldest allowable date/time (inclusive)
+     * @param DateTimeInterface|null $latest  Specify newest allowable date/time (inclusive)
      */
-    public function __construct(DateTimeInterface $oldest = null, DateTimeInterface $newest = null)
+    public function __construct(DateTimeInterface $earliest = null, DateTimeInterface $latest = null)
     {
-        $this->oldest = $oldest ? CarbonImmutable::instance($oldest) : null;
-        $this->newest = $newest ? CarbonImmutable::instance($newest) : null;
+        $this->setEarliestDate($earliest);
+        $this->setLatestDate($latest);
+    }
+
+    /**
+     * @param DateTimeInterface|null $earliestDate
+     */
+    public function setEarliestDate(?DateTimeInterface $earliestDate): void
+    {
+        $this->earliestDate = $earliestDate ? CarbonImmutable::instance($earliestDate) : null;;
+    }
+
+    /**
+     * @param DateTimeInterface|null $latestDate
+     */
+    public function setLatestDate(?DateTimeInterface $latestDate): void
+    {
+        $this->latestDate = $latestDate ? CarbonImmutable::instance($latestDate) : null;
     }
 
     /**
@@ -77,17 +93,20 @@ class DateTimeFormat extends AbstractParamFormat
     {
         $rules[] = $this->getBaseRule();
 
-        if ($this->oldest) {
+        if ($this->earliestDate) {
             $rules[] = new ParameterValidationRule(
-                Validator::min($this->oldest->format(current(static::VALID_FORMATS))),
-                sprintf('value must be newer than (inclusive) %s', $this->oldest->format(current(static::VALID_FORMATS)))
+                Validator::min($this->earliestDate),
+                sprintf(
+                    'value must be newer than (inclusive) %s',
+                    $this->earliestDate->format(current(static::VALID_FORMATS))
+                )
             );
         }
 
-        if ($this->newest) {
+        if ($this->latestDate) {
             $rules[] = new ParameterValidationRule(
-                Validator::min($this->newest->format(current(static::VALID_FORMATS))),
-                sprintf('value must be older than (inclusive) %s', $this->newest->format(current(static::VALID_FORMATS)))
+                Validator::max($this->latestDate),
+                sprintf('value must be older than (inclusive) %s', $this->latestDate->format(current(static::VALID_FORMATS)))
             );
         }
 
@@ -135,11 +154,13 @@ class DateTimeFormat extends AbstractParamFormat
     }
 
     /**
+     * Build a Carbon object from a date string or throw exception
+     *
      * @param string $value
      * @return DateTimeImmutable|null
      * @throws Exception
      */
-    public function buildDate(string $value): ?DateTimeImmutable
+    public function buildDate(string $value): ?CarbonImmutable
     {
         $lastException = null;
         foreach (static::VALID_FORMATS as $format) {

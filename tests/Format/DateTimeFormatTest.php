@@ -60,6 +60,72 @@ class DateTimeFormatTest extends AbstractParamFormatTest
     }
 
     /**
+     * @dataProvider dateTimeProvider
+     * @param string $date
+     * @throws Exception
+     */
+    public function testEarliestDateWithValidDates(string $date): void
+    {
+        /** @var DateTimeFormat $format */
+        $format = $this->getFormat();
+        $carbonObj = $format->buildDate($date);
+        $format->setEarliestDate($carbonObj);
+        $param = (new StringParameter())->setFormat($format);
+        $this->assertEquals(new CarbonImmutable($date), $param->prepare($date));
+    }
+
+    /**
+     * @dataProvider dateTimeProvider
+     * @param string $date
+     * @throws Exception
+     */
+    public function testEarliestDateWithInvalidDates(string $date): void
+    {
+        $this->expectException(InvalidParameterException::class);
+        $this->expectExceptionMessage('invalid data');
+
+        /** @var DateTimeFormat $format */
+        $format = $this->getFormat();
+        $carbonObj = $format->buildDate($date);
+        $format->setEarliestDate($carbonObj->addSecond());
+        $param = (new StringParameter())->setFormat($format);
+        $param->prepare($date);
+    }
+
+    /**
+     * @dataProvider dateTimeProvider
+     * @param string $date
+     * @throws Exception
+     */
+    public function testLatestDateWithValidDates(string $date): void
+    {
+        /** @var DateTimeFormat $format */
+        $format = $this->getFormat();
+        $carbonObj = $format->buildDate($date);
+        $format->setLatestDate($carbonObj);
+        $param = (new StringParameter())->setFormat($format);
+        $this->assertEquals(new CarbonImmutable($date), $param->prepare($date));
+    }
+
+    /**
+     * @dataProvider dateTimeProvider
+     * @param string $date
+     * @throws Exception
+     */
+    public function testLatestDateWithInvalidDates(string $date): void
+    {
+        $this->expectException(InvalidParameterException::class);
+        $this->expectExceptionMessage('invalid data');
+
+        /** @var DateTimeFormat $format */
+        $format = $this->getFormat();
+        $carbonObj = $format->buildDate($date);
+        $format->setLatestDate($carbonObj->subSecond());
+        $param = (new StringParameter())->setFormat($format);
+        $param->prepare($date);
+    }
+
+    /**
      * @return ParamFormatInterface
      */
     protected function getFormat(): ParamFormatInterface
