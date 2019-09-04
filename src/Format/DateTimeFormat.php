@@ -106,7 +106,10 @@ class DateTimeFormat extends AbstractParamFormat
         if ($this->latestDate) {
             $rules[] = new ParameterValidationRule(
                 Validator::max($this->latestDate),
-                sprintf('value must be older than (inclusive) %s', $this->latestDate->format(current(static::VALID_FORMATS)))
+                sprintf(
+                    'value must be older than (inclusive) %s',
+                    $this->latestDate->format(current(static::VALID_FORMATS))
+                )
             );
         }
 

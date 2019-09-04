@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace Paramee\Format;
 
+use Carbon\CarbonImmutable;
 use DateTimeImmutable;
 use Paramee\Contract\PreparationStepInterface;
 use Paramee\PreparationStep\CallbackStep;
@@ -50,4 +51,18 @@ class DateFormat extends DateTimeFormat
             }, 'build date from format')
         ];
     }
+
+    /**
+     * Since this granularity level only concerns dates, we set all times to the beginning of the day
+     *
+     * @param string $value
+     * @return CarbonImmutable|null
+     * @throws \Exception
+     */
+    public function buildDate(string $value): ?CarbonImmutable
+    {
+        return parent::buildDate($value)->startOfDay();
+    }
+
+
 }
