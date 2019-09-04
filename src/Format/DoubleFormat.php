@@ -36,7 +36,11 @@ class DoubleFormat extends AbstractParamFormat
     public function __construct()
     {
         if (PHP_FLOAT_DIG < 15) {
-            throw new RuntimeException('This PHP installation does not support format: ' . get_called_class());
+            throw new RuntimeException(sprintf(
+                'This PHP installation does not support format: %s.  For more information, refer to: '
+                . 'https://www.php.net/manual/en/language.types.float.php',
+                get_called_class()
+            ));
         }
     }
 

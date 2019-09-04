@@ -32,7 +32,6 @@ class FloatFormat extends AbstractParamFormat
 {
     public const TYPE_CLASS = NumberParameter::class;
 
-
     /**
      * Get built-in validation rules
      *
