@@ -19,6 +19,7 @@ namespace Paramee\Format;
 
 use Carbon\CarbonImmutable;
 use DateTimeImmutable;
+use Exception;
 use InvalidArgumentException;
 use Respect\Validation\Validator;
 use Paramee\Contract\ParameterValidationRuleInterface;
@@ -62,12 +63,10 @@ class TemporalFormat extends DateTimeFormat
             Validator::callback(function (string $value) {
                 try {
                     return (bool) CarbonImmutable::parse($value);
-                } catch (InvalidArgumentException $e) {
+                } catch (Exception | InvalidArgumentException $e) {
                     return false;
                 }
             })
         );
     }
-
-
 }
