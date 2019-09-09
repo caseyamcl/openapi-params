@@ -29,7 +29,7 @@ class ValidUuidException extends ValidationException
             self::STANDARD => '{{name}} must be a valid UUID'
         ],
         self::MODE_NEGATIVE => [
-            self::MODE_NEGATIVE => '{{name}} must not be a valid UUID'
+            self::MODE_NEGATIVE => '{{name}} must not be a UUID'
         ]
     ];
 }
