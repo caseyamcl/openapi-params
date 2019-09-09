@@ -20,6 +20,8 @@ use Respect\Validation\Rules\Email;
 /**
  * Class ValidEmailLocal
  *
+ * See: https://en.wikipedia.org/wiki/Email_address#Local-part
+ *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
 class ValidEmailLocalPortion extends Email
