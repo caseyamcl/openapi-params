@@ -44,4 +44,17 @@ class InvalidParameterExceptionTest extends TestCase
         $this->assertInstanceOf(ParameterError::class, current($obj->getErrors()));
         $this->assertEquals(422, $obj->getCode());
     }
+
+    public function testGetStepAndValue(): void
+    {
+        $err = new CallbackStep('trim', 'test');
+        $obj = new InvalidParameterException(
+            $err,
+            'boo',
+            [new ParameterError('Bad stuff happened', 'test')]
+        );
+
+        $this->assertSame($err, $obj->getStep());
+        $this->assertSame('boo', $obj->getValue());
+    }
 }

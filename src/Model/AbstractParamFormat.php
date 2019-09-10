@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace Paramee\Model;
 
 use ReflectionClass;
-use RuntimeException;
+use ReflectionException;
 use Paramee\Contract\ParamFormatInterface;
 use Paramee\Contract\PreparationStepInterface;
 use Paramee\Utility\RequireConstantTrait;
@@ -49,21 +49,19 @@ abstract class AbstractParamFormat implements ParamFormatInterface
 
     /**
      * @return string
-     * @throws \ReflectionException
      */
     public function __toString(): string
     {
         if (static::NAME) {
             return (string) static::NAME;
         } else {
-            $shortName = (new ReflectionClass($this))->getShortName();
-            if (substr($shortName, -6) === 'Format') {
-                return strtolower(substr($shortName, 0, strlen($shortName)-6));
-            } else {
-                throw new RuntimeException(sprintf(
-                    "Could not automatically determine name of param format: %s",
-                    get_called_class()
-                ));
+            try {
+                $shortName = (new ReflectionClass($this))->getShortName();
+                return substr($shortName, -6) === 'Format'
+                    ? strtolower(substr($shortName, 0, strlen($shortName) - 6))
+                    : '';
+            } catch (ReflectionException $e) {
+                return '';
             }
         }
     }

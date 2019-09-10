@@ -46,11 +46,6 @@ abstract class AbstractParamFormatTest extends TestCase
         );
     }
 
-    public function testToStringNotEmpty()
-    {
-        $this->assertNotEmpty($this->getFormat()->__toString());
-    }
-
     /**
      * Test that a parameter with the given format contains the expected documentation
      */

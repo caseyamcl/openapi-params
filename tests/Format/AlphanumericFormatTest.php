@@ -42,6 +42,14 @@ class AlphanumericFormatTest extends AbstractParamFormatTest
         $this->getParameterWithFormat()->prepare('___');
     }
 
+    public function testSetExtraCharsClobbersExtraChars()
+    {
+        $format = new AlphanumericFormat();
+        $param = StringParameter::create('test')->setFormat($format);
+        $format->setExtraChars('_@');
+        $this->assertEquals('abc_@def', $param->prepare('abc_@def'));
+    }
+
     /**
      * @return ParamFormatInterface
      */

@@ -47,6 +47,8 @@ class AlphanumericFormat extends AbstractParamFormat
     }
 
     /**
+     * Sets (clobbers) allowed extra characters in the string
+     *
      * @param string $chars
      * @return self
      */
