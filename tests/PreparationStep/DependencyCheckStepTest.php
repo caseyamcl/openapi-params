@@ -23,6 +23,18 @@ use Paramee\Model\ParameterValues;
 
 class DependencyCheckStepTest extends TestCase
 {
+    public function testGetApiDocumentationReturnsExpectedMessageWhenModeIsMustExist()
+    {
+        $step = new DependencyCheckStep(['foo']);
+        $this->assertStringContainsString('only available if the other parameters are present:', $step->getApiDocumentation());
+    }
+
+    public function testGetApiDocumentationReturnsExpectedMessageWhenModeIsMustNotExist()
+    {
+        $step = new DependencyCheckStep(['zurb'], DependencyCheckStep::MUST_NOT_EXIST);
+        $this->assertStringContainsString('not available if other parameters are present:', $step->getApiDocumentation());
+    }
+
     public function testMustExistSucceedsWhenOtherValuePresent()
     {
         $step = new DependencyCheckStep(['foo']);
