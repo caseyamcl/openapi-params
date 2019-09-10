@@ -87,13 +87,14 @@ class EnumCheckStep implements PreparationStepInterface
     }
 
     /**
-     * Serialize values for error message
+     * Serialize values for message
      *
+     * @param array|null $values
      * @return string
      */
-    private function serializeValues(?array $vals = null): string
+    private function serializeValues(?array $values = null): string
     {
-        foreach ($vals ?: $this->allowedValues as $val) {
+        foreach ($values ?: $this->allowedValues as $val) {
             switch (true) {
                 case is_scalar($val):
                     $out[] = $val;

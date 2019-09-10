@@ -17,8 +17,6 @@ declare(strict_types=1);
 
 namespace Paramee\Utility;
 
-use InvalidArgumentException;
-use LogicException;
 use Webmozart\Assert\Assert;
 
 /**
@@ -35,20 +33,15 @@ trait RequireConstantTrait
     protected function requireConstant(string $name, string $message = '')
     {
         $constantName = 'static::' . $name;
+        $value = constant($constantName);
 
-        try {
-            $value = constant($constantName);
+        $message = $message ?: sprintf(
+            "missing required constant '%s' in class: %s",
+            $name,
+            get_called_class()
+        );
+        Assert::notEmpty($value, $message);
 
-            $message = $message ?: sprintf(
-                "missing required constant '%s' in class: %s",
-                $name,
-                get_called_class()
-            );
-            Assert::notEmpty($value, $message);
-
-            return $value;
-        } catch (InvalidArgumentException $e) {
-            throw new LogicException($e->getMessage(), $e->getCode(), $e);
-        }
+        return $value;
     }
 }

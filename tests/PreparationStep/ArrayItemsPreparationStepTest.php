@@ -119,4 +119,16 @@ class ArrayItemsPreparationStepTest extends TestCase
         $prepared = $step->__invoke(['35'], 'test', ParameterValues::single(['35']));
         $this->assertSame([35], $prepared);
     }
+
+    public function testInvalidTypeThrowsAppropriateException()
+    {
+        $this->expectException(InvalidParameterException::class);
+        $this->expectExceptionMessage('could not map to parameter');
+        // Resources are invalid
+        $fh = fopen('php://temp', 'r');
+        $items = [$fh];
+
+        $step = new ArrayItemsPreparationStep();
+        $step->__invoke($items, 'test', new ParameterValues([$items]));
+    }
 }
