@@ -184,7 +184,12 @@ abstract class Parameter
         } elseif ($rule instanceof Validatable) {
             $this->validationRules[] = new ParameterValidationRule($rule, $documentation);
         } else {
-            throw new InvalidArgumentException('%s::addValidation() expects either callable, or validation rule');
+            throw new InvalidArgumentException(sprintf(
+                '%s::addValidation() expects callable or instance of one of the following: %s, %s',
+                get_called_class(),
+                ParameterValidationRule::class,
+                Validatable::class
+            ));
         }
 
         return $this;
@@ -230,7 +235,7 @@ abstract class Parameter
             $description .= PHP_EOL . $step->getApiDocumentation();
         }
 
-        return trim($description);
+        return trim(preg_replace('/\s{2,}/', "\n", $description));
     }
 
     /**
@@ -311,7 +316,7 @@ abstract class Parameter
      * @param bool $allowTypeCast
      * @return static
      */
-    public function setAllowTypeCast(bool $allowTypeCast): self
+    final public function setAllowTypeCast(bool $allowTypeCast): self
     {
         $this->allowTypeCast = $allowTypeCast;
         return $this;
@@ -655,6 +660,7 @@ abstract class Parameter
 
     /**
      * Return whether or not this parameter allows typecast
+     *
      * @return bool
      */
     public function allowsTypeCast(): bool

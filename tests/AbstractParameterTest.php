@@ -15,12 +15,17 @@
 
 namespace Paramee;
 
+use InvalidArgumentException;
+use LogicException;
+use Paramee\Model\ParameterValidationRule;
 use PHPUnit\Framework\TestCase;
 use Paramee\Exception\InvalidParameterException;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValues;
 use Paramee\PreparationStep\AllowNullPreparationStep;
 use Paramee\PreparationStep\EnsureCorrectDataTypeStep;
+use Respect\Validation\Rules\AlwaysValid;
+use Respect\Validation\Validatable;
 
 /**
  * Class AbstactParameterTest
@@ -155,8 +160,95 @@ abstract class AbstractParameterTest extends TestCase
         ));
     }
 
+    public function testGetDefault(): void
+    {
+        $param = $this->getInstance('test');
+        $value = current($this->getTwoOrMoreValidValues());
+        $param->setDefaultValue($value);
+        $this->assertSame($value, $param->getDefault());
+    }
+
+    public function testSetDescription(): void
+    {
+        $param = $this->getInstance();
+        $param->setDescription('test');
+        $this->assertStringStartsWith('test', $param->getDescription());
+    }
+
+    /**
+     * @param ParameterValidationRule|Validatable|callable $rule
+     * @dataProvider validValidationRuleProvider
+     */
+    public function testAddValidationWithValidArguments($rule)
+    {
+        $param = $this->getInstance();
+        $param->addValidation($rule);
+        $this->assertTrue(true, 'test passed');
+    }
+
+    public function testAddValidationRuleThrowsInvalidArgumentExceptionWhenInvalidDataPassed()
+    {
+        $this->expectException(InvalidArgumentException::class);
+        $param = $this->getInstance();
+        $param->addValidation('foo');
+    }
+
+    public function testSetExamples()
+    {
+        $param = $this->getInstance();
+        $examples = $this->getTwoOrMoreValidValues();
+        $param->setExamples($examples);
+        $this->assertEquals($examples, $param->listExamples());
+    }
+
+    public function testSetDefaultThrowsExceptionWhenIsRequired()
+    {
+        $this->expectException(LogicException::class);
+        $param = $this->getInstance();
+        $param->setRequired(true);
+        $param->setDefaultValue(current($this->getTwoOrMoreValidValues()));
+    }
+
+    public function testSetRequiredThrowsExceptionIfDefaultIsSet()
+    {
+        $this->expectException(LogicException::class);
+        $param = $this->getInstance();
+        $param->setDefaultValue(current($this->getTwoOrMoreValidValues()));
+        $param->setRequired(true);
+    }
+
+    public function testSetDeprecatedSetsDocumentationAppropriately()
+    {
+        $param = $this->getInstance();
+        $param->setDeprecated(true);
+        $this->assertArrayHasKey('deprecated', $param->getDocumentation());
+    }
+
+    public function testSetWriteOnly()
+    {
+        $param = $this->getInstance();
+        $param->setWriteOnly(true);
+        $this->assertTrue($param->isWriteOnly());
+    }
+
+    public function testReadOnly()
+    {
+        $param = $this->getInstance();
+        $param->setReadOnly(true);
+        $this->assertTrue($param->isReadOnly());
+    }
+
     // --------------------------------------------------------------
     // Data providers for built-in methods
+
+    public function validValidationRuleProvider(): array
+    {
+        return [
+            [new ParameterValidationRule(new AlwaysValid(), 'always valid')],
+            [new AlwaysValid()],
+            [function() { return true; }]
+        ];
+    }
 
     /**
      * @return array|array[]
