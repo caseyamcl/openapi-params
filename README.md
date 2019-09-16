@@ -2,8 +2,8 @@
 
 An OpenApi-compatible parameter processing library
 
-This library aims to provide a cross-framework, reusable parameter processing
-library compatible with [OpenApi 3.x](https://swagger.io/specification/).
+This library aims to provide a cross-framework, reusable framework for
+describing and processing parameters compatible with [OpenApi 3.x](https://swagger.io/specification/).
 
 ## Features:
  

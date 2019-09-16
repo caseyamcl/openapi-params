@@ -52,7 +52,7 @@ class ParameterValue
      * ParameterValue constructor.
      *
      * @param string $name
-     * @param $rawValue
+     * @param mixed $rawValue
      */
     public function __construct(string $name, $rawValue)
     {
@@ -77,11 +77,13 @@ class ParameterValue
     }
 
     /**
+     * Does this contain a prepared value?
+     *
      * @return bool
      */
     public function isPrepared(): bool
     {
-        return $this->prepared;
+        return (bool) $this->prepared;
     }
 
     /**

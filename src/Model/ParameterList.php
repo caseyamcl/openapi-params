@@ -23,7 +23,7 @@ use Generator;
 use IteratorAggregate;
 
 /**
- * Parameter List contains a list of parameters
+ * Parameter List contains an immutable list of parameters
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */

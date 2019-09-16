@@ -17,12 +17,18 @@ declare(strict_types=1);
 
 namespace Paramee\ParamContext;
 
+use Paramee\Contract\ParameterDeserializer;
 use Paramee\Model\ParameterValuesContext;
 
 final class ParamBodyContext extends ParameterValuesContext
 {
-    public function __construct()
+    /**
+     * ParamBodyContext constructor.
+     *
+     * @param ParameterDeserializer|null $deserializer
+     */
+    public function __construct(?ParameterDeserializer $deserializer = null)
     {
-        parent::__construct('body', null);
+        parent::__construct('body', $deserializer);
     }
 }

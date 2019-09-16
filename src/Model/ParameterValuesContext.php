@@ -68,7 +68,7 @@ class ParameterValuesContext
     /**
      * @return string
      */
-    public function getName(): string
+    final public function getName(): string
     {
         return $this->name;
     }
@@ -76,7 +76,7 @@ class ParameterValuesContext
     /**
      * @return LoggerInterface
      */
-    public function getLogger(): LoggerInterface
+    final public function getLogger(): LoggerInterface
     {
         return $this->logger;
     }
@@ -84,7 +84,7 @@ class ParameterValuesContext
     /**
      * @return string
      */
-    public function __toString(): string
+    final public function __toString(): string
     {
         return $this->name;
     }
@@ -92,7 +92,7 @@ class ParameterValuesContext
     /**
      * @return ParameterDeserializer|null
      */
-    public function getDeserializer(): ?ParameterDeserializer
+    final public function getDeserializer(): ?ParameterDeserializer
     {
         return $this->deserializer;
     }
