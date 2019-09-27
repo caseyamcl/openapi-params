@@ -19,13 +19,13 @@ namespace Paramee\Type;
 
 use InvalidArgumentException;
 use LogicException;
-use Respect\Validation\Validator;
 use Paramee\Contract\ParamFormatInterface;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\PreparationStep\CallbackStep;
 use Paramee\PreparationStep\SanitizeStep;
 use Paramee\Utility\FilterNull;
+use Respect\Validation\Validator;
 use Throwable;
 use Webmozart\Assert\Assert;
 
@@ -72,6 +72,10 @@ final class StringParameter extends Parameter
      */
     public function setFormat(?ParamFormatInterface $format): self
     {
+        if (! empty($this->format)) {
+            trigger_error('Format already set for parameter: ' . $this->__toString() ?: '(unnamed parameter)');
+        }
+
         if ($format && $format->appliesToType() !== static::class) {
             throw new LogicException(sprintf(
                 "Cannot apply format %s to type %s (format only applies to type: %s) in parameter: %s",

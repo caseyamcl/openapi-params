@@ -19,9 +19,11 @@ use InvalidArgumentException;
 use LogicException;
 use Paramee\AbstractParameterTest;
 use Paramee\Exception\InvalidParameterException;
+use Paramee\Format\AlphanumericFormat;
 use Paramee\Format\Int32Format;
 use Paramee\Format\PasswordFormat;
 use Paramee\Model\Parameter;
+use PHPUnit\Framework\Error\Notice;
 
 /**
  * Class StringParameterTest
@@ -114,6 +116,16 @@ class StringParameterTest extends AbstractParameterTest
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Cannot apply format');
         $this->getInstance()->setFormat(new Int32Format()); // Invalid!
+    }
+
+    public function testSetFormatGeneratesNoticeWhenFormatAlreadySet()
+    {
+        $this->expectException(Notice::class);
+        $this->expectExceptionMessage('Format already set for parameter');
+
+        $obj = $this->getInstance();
+        $obj->setFormat(new AlphanumericFormat());
+        $obj->setFormat(new PasswordFormat());
     }
 
     protected function getTwoOrMoreValidValues(): array
