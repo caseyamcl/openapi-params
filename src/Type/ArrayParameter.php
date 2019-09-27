@@ -33,8 +33,6 @@ use stdClass;
  */
 final class ArrayParameter extends Parameter
 {
-    public const AUTO = null;
-
     public const TYPE_NAME = 'array';
     public const PHP_DATA_TYPE = 'array';
 
@@ -157,6 +155,11 @@ final class ArrayParameter extends Parameter
         return $this;
     }
 
+    /**
+     * Array Deserialize is a pre-type cast preparation step
+     *
+     * @return array
+     */
     protected function getPreTypeCastPreparationSteps(): array
     {
         return [
