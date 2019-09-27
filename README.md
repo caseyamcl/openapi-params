@@ -23,10 +23,9 @@ use Paramee\PreparationStep\CallbackStep;
 $queryParams = Paramee::queryParams();
 
 // Add a string
-$queryParams->addString('test1')
+$queryParams->addAlphanumeric('test1')
     ->makeRequired()
-    ->setDescription('Test parameter')
-    ->makeAlphanumeric('_'); // make alphanumeric 
+    ->setDescription('Test parameter'); 
 
 $queryParams->addInteger('test2')
     ->makeRequired()
@@ -44,8 +43,7 @@ $queryParams->addNumber('test3')
     ->max(25.35)
     ->setRequireDecimal(true);
 
-$queryParams->addString('test4')
-    ->makeYesNo()
+$queryParams->addYesNo('test4')
     ->setDescription('Boolean parameter');
 
 // Prepared is an instance of Paramee\Model\ParameterValues
