@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace Paramee\Format;
 
+use Paramee\Behavior\SetValidatorTrait;
 use Respect\Validation\Validatable;
 use Respect\Validation\Validator;
 use Paramee\Contract\ParameterValidationRuleInterface;
@@ -36,6 +37,8 @@ use Paramee\Utility\UnpackCSV;
  */
 class CsvFormat extends AbstractParamFormat
 {
+    use SetValidatorTrait;
+
     public const TYPE_CLASS = StringParameter::class;
     public const NAME = 'csv';
 
@@ -93,13 +96,15 @@ class CsvFormat extends AbstractParamFormat
     }
 
     /**
-     * Convenience method
+     * Convenience method for setting validation (calls CsvFormat::setValidatorForEach())
      *
      * @param Validatable|ParameterValidationRule|callable $rule
+     * @return self
      */
-    public function each($rule)
+    public function each($rule): self
     {
-
+        $this->setValidatorForEach($this->buildValidationRule($rule));
+        return $this;
     }
 
     /**

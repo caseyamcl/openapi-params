@@ -19,6 +19,7 @@ namespace Paramee\ParamContext;
 
 use Paramee\Contract\ParameterDeserializer;
 use Paramee\Model\ParameterValuesContext;
+use Psr\Log\LoggerInterface;
 
 final class ParamBodyContext extends ParameterValuesContext
 {
@@ -27,8 +28,8 @@ final class ParamBodyContext extends ParameterValuesContext
      *
      * @param ParameterDeserializer|null $deserializer
      */
-    public function __construct(?ParameterDeserializer $deserializer = null)
+    public function __construct(?ParameterDeserializer $deserializer = null, ?LoggerInterface $logger = null)
     {
-        parent::__construct('body', $deserializer);
+        parent::__construct('body', $deserializer, $logger);
     }
 }

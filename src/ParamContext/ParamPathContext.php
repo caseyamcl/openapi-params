@@ -19,6 +19,7 @@ namespace Paramee\ParamContext;
 
 use Paramee\Model\ParameterValuesContext;
 use Paramee\ParamDeserializer\StandardDeserializer;
+use Psr\Log\LoggerInterface;
 
 /**
  * Class ParamPathContext
@@ -27,8 +28,8 @@ use Paramee\ParamDeserializer\StandardDeserializer;
  */
 final class ParamPathContext extends ParameterValuesContext
 {
-    public function __construct()
+    public function __construct(?LoggerInterface $logger = null)
     {
-        parent::__construct('path', new StandardDeserializer());
+        parent::__construct('path', new StandardDeserializer(), $logger);
     }
 }

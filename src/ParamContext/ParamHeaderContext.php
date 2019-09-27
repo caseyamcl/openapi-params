@@ -19,11 +19,12 @@ namespace Paramee\ParamContext;
 
 use Paramee\Model\ParameterValuesContext;
 use Paramee\ParamDeserializer\StandardDeserializer;
+use Psr\Log\LoggerInterface;
 
 final class ParamHeaderContext extends ParameterValuesContext
 {
-    public function __construct()
+    public function __construct(?LoggerInterface $logger = null)
     {
-        parent::__construct('header', new StandardDeserializer());
+        parent::__construct('header', new StandardDeserializer(), $logger);
     }
 }
