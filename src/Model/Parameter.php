@@ -17,10 +17,9 @@ declare(strict_types=1);
 
 namespace Paramee\Model;
 
-use InvalidArgumentException;
 use LogicException;
+use Paramee\Behavior\SetValidatorTrait;
 use Respect\Validation\Validatable;
-use Respect\Validation\Validator;
 use Paramee\Contract\ParamFormatInterface;
 use Paramee\Contract\PreparationStepInterface;
 use Paramee\PreparationStep\AllowNullPreparationStep;
@@ -48,6 +47,7 @@ abstract class Parameter
     public const READ_WRITE = 2;
 
     use RequireConstantTrait;
+    use SetValidatorTrait;
 
     /**
      * @var string
@@ -151,7 +151,7 @@ abstract class Parameter
     public function __construct(string $name = '', bool $required = false)
     {
         $this->name = $name;
-        $required ? $this->setRequired() : $this->makeOptional();
+        $required ? $this->makeRequired() : $this->makeOptional();
     }
 
     /**
@@ -177,21 +177,7 @@ abstract class Parameter
      */
     final public function addValidation($rule, string $documentation = ''): self
     {
-        if ($rule instanceof ParameterValidationRule) {
-            $this->validationRules[] = $rule;
-        } elseif (is_callable($rule)) {
-            $this->validationRules[] = new ParameterValidationRule(Validator::callback($rule), $documentation);
-        } elseif ($rule instanceof Validatable) {
-            $this->validationRules[] = new ParameterValidationRule($rule, $documentation);
-        } else {
-            throw new InvalidArgumentException(sprintf(
-                '%s::addValidation() expects callable or instance of one of the following: %s, %s',
-                get_called_class(),
-                ParameterValidationRule::class,
-                Validatable::class
-            ));
-        }
-
+        $this->validationRules[] = $this->buildValidationRule($rule, $documentation);
         return $this;
     }
 
@@ -406,7 +392,7 @@ abstract class Parameter
      * @param bool $isRequired
      * @return self|Parameter
      */
-    final public function setRequired(bool $isRequired = true): self
+    final public function makeRequired(bool $isRequired = true): self
     {
         if ($this->hasDefault() && $isRequired === true) {
             throw new LogicException(sprintf(
@@ -427,7 +413,7 @@ abstract class Parameter
      */
     final public function makeOptional(bool $isOptional = true): self
     {
-        $this->setRequired(! $isOptional);
+        $this->makeRequired(! $isOptional);
         return $this;
     }
 
