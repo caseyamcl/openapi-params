@@ -17,7 +17,7 @@ namespace Paramee\Type;
 
 use Paramee\AbstractNumericParameterTest;
 use Paramee\Contract\ParamFormatInterface;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\PreparationStep\EnsureCorrectDataTypeStep;
 
@@ -42,7 +42,7 @@ class NumberParameterTest extends AbstractNumericParameterTest
 
     public function testIntegerTypeNotFailsWhenDecimalRequired()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(EnsureCorrectDataTypeStep::class);
 
         $obj = $this->getInstance()
@@ -74,7 +74,7 @@ class NumberParameterTest extends AbstractNumericParameterTest
 
     public function testIntegerDisallowedWhenRequireDecimalIsTrue()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('invalid data type');
         $obj = $this->getInstance()->setRequireDecimal(true);
         $obj->prepare(25);

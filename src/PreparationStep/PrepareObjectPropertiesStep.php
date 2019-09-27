@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace Paramee\PreparationStep;
 
 use Paramee\Contract\PreparationStepInterface;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValues;
 use Paramee\Type\ObjectParameter;
@@ -110,14 +110,14 @@ class PrepareObjectPropertiesStep implements PreparationStepInterface
             try {
                 // Prepare the parameter
                 $value->$propName = $parameter->prepare($value->$propName);
-            } catch (InvalidParameterException $e) {
+            } catch (InvalidValueException $e) {
                 // Merge all errors down the stack into a single exception
                 $errors = array_merge($errors, $e->getErrors());
             }
         }
 
         if (! empty($errors)) {
-            throw new InvalidParameterException($this, $value, $errors);
+            throw new InvalidValueException($this, $value, $errors);
         }
 
         return $value;

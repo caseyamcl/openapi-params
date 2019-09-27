@@ -19,7 +19,7 @@ use Carbon\CarbonImmutable;
 use Exception;
 use Paramee\AbstractParamFormatTest;
 use Paramee\Contract\ParamFormatInterface;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Type\StringParameter;
 
@@ -53,7 +53,7 @@ class DateTimeFormatTest extends AbstractParamFormatTest
 
     public function testInvalidDatesThrowException()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('invalid data');
         $param = $this->getParameterWithFormat();
         $param->prepare('foobar');
@@ -81,7 +81,7 @@ class DateTimeFormatTest extends AbstractParamFormatTest
      */
     public function testEarliestDateWithInvalidDates(string $date): void
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('invalid data');
 
         /** @var DateTimeFormat $format */
@@ -114,7 +114,7 @@ class DateTimeFormatTest extends AbstractParamFormatTest
      */
     public function testLatestDateWithInvalidDates(string $date): void
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('invalid data');
 
         /** @var DateTimeFormat $format */

@@ -17,7 +17,7 @@ namespace Paramee\Type;
 
 use InvalidArgumentException;
 use Paramee\AbstractParameterTest;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValues;
 use Paramee\Model\ParameterValuesContext;
@@ -53,7 +53,7 @@ class ArrayParameterTest extends AbstractParameterTest
 
     public function testSetAllowedParamDefinitionSingleWithInvalidValues()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(ArrayItemsPreparationStep::class);
 
         $subParam = (new StringParameter(''))->setTrim(true);
@@ -75,14 +75,14 @@ class ArrayParameterTest extends AbstractParameterTest
 
     public function testSetAllowedTypesThrowsExceptionWithValidTypesButInvalidData()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $param = $this->getInstance()->addAllowedType('string', 'integer');
         $param->prepare([25.35, 'test']);
     }
 
     public function testSetAllowedParamDefinitionWithInvalidValues()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('Invalid data type: string');
 
         $param = $this->getInstance()->addAllowedParamDefinition(new IntegerParameter('item'));
@@ -128,7 +128,7 @@ class ArrayParameterTest extends AbstractParameterTest
 
     public function testSetUniqueItemsWithInvalidData()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(RespectValidationStep::class);
 
         $param = $this->getInstance()->setUniqueItems(true);
@@ -137,7 +137,7 @@ class ArrayParameterTest extends AbstractParameterTest
 
     public function testSetMinItems()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(RespectValidationStep::class);
 
         $param = $this->getInstance()->setMinItems(3);
@@ -146,7 +146,7 @@ class ArrayParameterTest extends AbstractParameterTest
 
     public function testSetMaxItems()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(RespectValidationStep::class);
 
         $param = $this->getInstance()->setMaxItems(3);
@@ -159,8 +159,8 @@ class ArrayParameterTest extends AbstractParameterTest
 
         try {
             $param->prepare([3, 9, -4, 'oops', 6, 'crud']);
-            $this->fail('Expected exception: ' . InvalidParameterException::class);
-        } catch (InvalidParameterException $e) {
+            $this->fail('Expected exception: ' . InvalidValueException::class);
+        } catch (InvalidValueException $e) {
             $this->assertEquals('/test/3', $e->getErrors()[0]->getPointer());
             $this->assertEquals('/test/5', $e->getErrors()[1]->getPointer());
         }
@@ -178,8 +178,8 @@ class ArrayParameterTest extends AbstractParameterTest
                 (object) ['firstName' => 'Bud'] // should fail
             ]);
 
-            $this->fail('Expected exception: ' . InvalidParameterException::class);
-        } catch (InvalidParameterException $e) {
+            $this->fail('Expected exception: ' . InvalidValueException::class);
+        } catch (InvalidValueException $e) {
             $this->assertEquals('/test/1/firstName', $e->getErrors()[0]->getPointer());
         }
     }
@@ -197,7 +197,7 @@ class ArrayParameterTest extends AbstractParameterTest
 
     public function testPrepareThrowsInvalidParameterExceptionWihNoDeserializer()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('invalid data type; expected: array; you provided: string');
 
         $context = (new ParameterValuesContext('test', null));
@@ -206,7 +206,7 @@ class ArrayParameterTest extends AbstractParameterTest
 
     public function testPrepareThrowsInvalidParameterExceptionWithDeserializerButInvalidDataType()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $context = (new ParameterValuesContext('test', new StandardDeserializer()));
         $this->getInstance()->prepare(15.3, ParameterValues::single(15.3, $context, 'test'));
     }

@@ -17,14 +17,14 @@ namespace Paramee\PreparationStep;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\ParameterValues;
 
 class CallbackStepTest extends TestCase
 {
     public function testInvokeConvertsInvalidArgumentExceptionIntoInvalidParameterException()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
 
         $step = new CallbackStep(function () {
             throw new InvalidArgumentException('Boo');

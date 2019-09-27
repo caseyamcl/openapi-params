@@ -15,7 +15,7 @@
 
 namespace Paramee\PreparationStep;
 
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\ParameterValues;
 use Paramee\ParamContext\ParamQueryContext;
 use Paramee\Type\ObjectParameter;
@@ -56,7 +56,7 @@ class ObjectDeserializeStepTest extends TestCase
      */
     public function testInvokeThrowsExceptionForObjectWithInvalidData(): void
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('malformed string');
         $param = new ObjectParameter('test');
         $value = 'xx;;asdfread@#@#$&*#@$';

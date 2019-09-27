@@ -19,7 +19,7 @@ namespace Paramee\PreparationStep;
 
 use InvalidArgumentException;
 use Paramee\Contract\PreparationStepInterface;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\ParameterValues;
 
 /**
@@ -110,7 +110,7 @@ class DependencyCheckStep implements PreparationStepInterface
         }
 
         if (! $valid) {
-            throw InvalidParameterException::fromMessage($this, $paramName, $value, sprintf(
+            throw InvalidValueException::fromMessage($this, $paramName, $value, sprintf(
                 $template,
                 $paramName,
                 implode(', ', $this->params)
@@ -124,7 +124,7 @@ class DependencyCheckStep implements PreparationStepInterface
                     call_user_func($callable, $allValues->get($paramName));
                 }
             } catch (InvalidArgumentException $e) {
-                throw InvalidParameterException::fromMessage($this, $paramName, $value, $e->getMessage());
+                throw InvalidValueException::fromMessage($this, $paramName, $value, $e->getMessage());
             }
         }
 

@@ -18,7 +18,7 @@ namespace Paramee\Format;
 use Carbon\CarbonImmutable;
 use Paramee\AbstractParamFormatTest;
 use Paramee\Contract\ParamFormatInterface;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Type\StringParameter;
 
@@ -39,7 +39,7 @@ class TemporalFormatTest extends AbstractParamFormatTest
      */
     public function testFormatThrowsExceptionWithInvalidValues(string $value): void
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->getParameterWithFormat()->prepare($value);
     }
 

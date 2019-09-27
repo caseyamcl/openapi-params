@@ -19,7 +19,7 @@ namespace Paramee\PreparationStep;
 
 use RuntimeException;
 use Paramee\Contract\PreparationStepInterface;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValues;
 use Paramee\ParamTypes;
@@ -95,7 +95,7 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
             try {
                 $itemName = implode('/', [$paramName, (string) $idx]);
                 $value[$idx] = $this->prepareItem($item, $itemName, $this->resolveParamsForItem($item, $itemName));
-            } catch (InvalidParameterException $e) {
+            } catch (InvalidValueException $e) {
                 $exceptions[$idx] = $e;
             }
         }
@@ -119,7 +119,7 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
         foreach ($paramTypeMapping as $param) {
             try {
                 return $param->prepare($value);
-            } catch (InvalidParameterException $e) {
+            } catch (InvalidValueException $e) {
                 if (count($paramTypeMapping) === 1) {
                     throw $e;
                 }
@@ -127,17 +127,17 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
         }
 
         // If made it here, then we thrown an ambiguous exception, because none of the types worked.
-        throw InvalidParameterException::fromMessage($this, $itemName, $value, sprintf(
+        throw InvalidValueException::fromMessage($this, $itemName, $value, sprintf(
             "Invalid parameter (type mis-match or type constraints failed: %s)",
             implode(', ', $this->resolveValidParameterTypeNames($paramTypeMapping))
         ));
     }
 
     /**
-     * @param array|InvalidParameterException[] $exceptions All of the exceptions that occurred;
+     * @param array|InvalidValueException[] $exceptions All of the exceptions that occurred;
      *                                                       keys are the respective indexes that failed.
      * @param $value
-     * @return InvalidParameterException
+     * @return InvalidValueException
      */
     private function generateException(array $exceptions, $value)
     {
@@ -146,7 +146,7 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
             $errors = array_merge($errors, $exception->getErrors());
         }
 
-        return new InvalidParameterException($this, $value, $errors);
+        return new InvalidValueException($this, $value, $errors);
     }
 
     /**
@@ -165,7 +165,7 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
                 $params = [ParamTypes::resolveParameterForValue($item, $paramName)];
             } catch (RuntimeException $e) {
                 $msg = sprintf('Invalid data type: %s (could not map to parameter)', gettype($item));
-                throw InvalidParameterException::fromMessage($this, $paramName, $item, $msg);
+                throw InvalidValueException::fromMessage($this, $paramName, $item, $msg);
             }
 
         } elseif (array_key_exists(gettype($item), $this->parameterTypeMap)) {
@@ -183,7 +183,7 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
             }
 
             $message = sprintf('Invalid data type: %s (allowed: %s)', gettype($item), implode(', ', $validTypes));
-            throw InvalidParameterException::fromMessage($this, $paramName, $item, $message);
+            throw InvalidValueException::fromMessage($this, $paramName, $item, $message);
         }
 
         // Set name and append additional preparation steps for each parameter

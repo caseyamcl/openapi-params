@@ -19,7 +19,7 @@ use InvalidArgumentException;
 use LogicException;
 use Paramee\Model\ParameterValidationRule;
 use PHPUnit\Framework\TestCase;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValues;
 use Paramee\PreparationStep\AllowNullPreparationStep;
@@ -66,7 +66,7 @@ abstract class AbstractParameterTest extends TestCase
      */
     public function testTypeCastThrowsExceptionForInvalidTypeWhenDisabled($value): void
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(EnsureCorrectDataTypeStep::class);
 
         $param = $this->getInstance()->setAllowTypeCast(false);
@@ -75,7 +75,7 @@ abstract class AbstractParameterTest extends TestCase
 
     public function testNullValueThrowsExceptionIfDisabled()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(EnsureCorrectDataTypeStep::class);
 
         $param = $this->getInstance()->setAllowTypeCast(false);
@@ -110,7 +110,7 @@ abstract class AbstractParameterTest extends TestCase
 
     public function testEnumCheckFailsIfEnumNotPresent()
     {
-        $this->expectExceptionMessage(InvalidParameterException::class);
+        $this->expectExceptionMessage(InvalidValueException::class);
         $this->expectExceptionMessage('value must be one of');
 
         $values = $this->getTwoOrMoreValidValues();
@@ -122,7 +122,7 @@ abstract class AbstractParameterTest extends TestCase
 
     public function testDependencyTestRunsAndFailsIfMissingDependency()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('parameter can only be used when other parameter(s) are present: nonexistent');
 
         $param = $this->getInstance('test');
@@ -147,7 +147,7 @@ abstract class AbstractParameterTest extends TestCase
 
     public function testDependencyTestRunsAndFailsIfOtherNotAllowedParamPresent()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('parameter can not be used when other parameter(s) are present: foo');
 
         $param = $this->getInstance('test');

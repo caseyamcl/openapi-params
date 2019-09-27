@@ -16,7 +16,7 @@
 namespace Paramee\Type;
 
 use Paramee\AbstractParameterTest;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\PreparationStep\RespectValidationStep;
 
@@ -41,7 +41,7 @@ class ObjectParameterTest extends AbstractParameterTest
 
     public function testObjectWithExplicitPropertiesDefinedDoesNotAllowArbitraryParametersByDefault()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('value can only contain properties: name');
 
         $param = $this->getInstance()->addProperty(StringParameter::create('name'));
@@ -70,7 +70,7 @@ class ObjectParameterTest extends AbstractParameterTest
 
     public function testMinPropertiesWithInvalidData()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(RespectValidationStep::class);
 
         $param = $this->getInstance()->setMinProperties(5);
@@ -87,7 +87,7 @@ class ObjectParameterTest extends AbstractParameterTest
 
     public function testMaxPropertiesWithInvalidData()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(RespectValidationStep::class);
 
         $param = $this->getInstance()->setMaxProperties(1);
@@ -99,7 +99,7 @@ class ObjectParameterTest extends AbstractParameterTest
         $param = $this->getInstance()->addProperty(
             ObjectParameter::create('person')
                 ->addProperty(StringParameter::create('firstName')->setTrim(true))
-                ->addProperty(IntegerParameter::create('age')->setRequired())
+                ->addProperty(IntegerParameter::create('age')->makeRequired())
         );
 
         $prepared = $param->prepare((object) [
@@ -118,8 +118,8 @@ class ObjectParameterTest extends AbstractParameterTest
 
         try {
             $param->prepare((object) ['firstName' => 'Bob']);
-            $this->fail('Expected exception: ' . InvalidParameterException::class);
-        } catch (InvalidParameterException $e) {
+            $this->fail('Expected exception: ' . InvalidValueException::class);
+        } catch (InvalidValueException $e) {
             $this->assertEquals('/test/firstName', $e->getErrors()[0]->getPointer());
         }
     }
@@ -134,8 +134,8 @@ class ObjectParameterTest extends AbstractParameterTest
 
         try {
             $param->prepare((object) ['person' => (object) ['firstName' => ' Bob ']]);
-            $this->fail('Expected exception: ' . InvalidParameterException::class);
-        } catch (InvalidParameterException $e) {
+            $this->fail('Expected exception: ' . InvalidValueException::class);
+        } catch (InvalidValueException $e) {
             $this->assertEquals('/test/person/firstName', $e->getErrors()[0]->getPointer());
         }
     }
@@ -143,8 +143,8 @@ class ObjectParameterTest extends AbstractParameterTest
     public function testRequiredPropertiesProduceTheCorrectDocumentationFormat()
     {
         $param = $this->getInstance('test')->addProperties(
-            StringParameter::create('firstName')->setRequired(true),
-            IntegerParameter::create('age')->setRequired(true)
+            StringParameter::create('firstName')->makeRequired(true),
+            IntegerParameter::create('age')->makeRequired(true)
         );
 
         $docs = $param->getDocumentation();
@@ -155,12 +155,12 @@ class ObjectParameterTest extends AbstractParameterTest
 
     public function testRequiredPropertiesThrowExceptionWhenValueNotPresent()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('missing required properties: firstName, age');
 
         $param = $this->getInstance('test')->addProperties(
-            StringParameter::create('firstName')->setRequired(true),
-            IntegerParameter::create('age')->setRequired(true)
+            StringParameter::create('firstName')->makeRequired(true),
+            IntegerParameter::create('age')->makeRequired(true)
         );
 
         $param->prepare((object) []);

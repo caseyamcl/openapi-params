@@ -18,7 +18,7 @@ namespace Paramee\PreparationStep;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\ParameterValues;
 
 class DependencyCheckStepTest extends TestCase
@@ -44,7 +44,7 @@ class DependencyCheckStepTest extends TestCase
 
     public function testMustExistFailsWhenOtherValueAbsent()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('buzz parameter can only be used when other parameter(s) are present: zurb');
 
         $step = new DependencyCheckStep(['zurb']);
@@ -60,7 +60,7 @@ class DependencyCheckStepTest extends TestCase
 
     public function testMustNotExistFailsWhenOtherValuePresent()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('buzz parameter can not be used when other parameter(s) are present: foo');
 
         $step = new DependencyCheckStep(['foo'], DependencyCheckStep::MUST_NOT_EXIST);
@@ -95,7 +95,7 @@ class DependencyCheckStepTest extends TestCase
 
     public function testCallbackInvalidArgumentExceptionIsConvertedToInvalidParameterException()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
 
         $callback = function (): void {
             throw new InvalidArgumentException('I am an exception');

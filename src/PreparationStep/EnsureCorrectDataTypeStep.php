@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace Paramee\PreparationStep;
 
 use Paramee\Contract\PreparationStepInterface;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\ParameterValues;
 
 /**
@@ -100,7 +100,7 @@ class EnsureCorrectDataTypeStep implements PreparationStepInterface
                     $this->phpDataType,
                     gettype($value)
                 );
-                throw InvalidParameterException::fromMessages($this, $paramName, $value, [$message]);
+                throw InvalidValueException::fromMessages($this, $paramName, $value, [$message]);
             }
         }
     }

@@ -20,7 +20,7 @@ namespace Paramee\PreparationStep;
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Validator;
 use Paramee\Contract\PreparationStepInterface;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\Model\ParameterValues;
 
@@ -102,7 +102,7 @@ class RespectValidationStep implements PreparationStepInterface
             $this->validator->assert($value);
             return $value;
         } catch (NestedValidationException $e) {
-            throw InvalidParameterException::fromMessages($this, $paramName, $value, $e->getMessages());
+            throw InvalidValueException::fromMessages($this, $paramName, $value, $e->getMessages());
         }
     }
 }

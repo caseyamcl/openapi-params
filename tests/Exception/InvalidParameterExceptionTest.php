@@ -23,7 +23,7 @@ class InvalidParameterExceptionTest extends TestCase
 {
     public function testFromMessages()
     {
-        $obj = InvalidParameterException::fromMessages(
+        $obj = InvalidValueException::fromMessages(
             new CallbackStep('trim', 'test'),
             'test',
             'boo',
@@ -35,7 +35,7 @@ class InvalidParameterExceptionTest extends TestCase
 
     public function testConstructor()
     {
-        $obj = new InvalidParameterException(
+        $obj = new InvalidValueException(
             new CallbackStep('trim', 'test'),
             'boo',
             [new ParameterError('Bad stuff happened', 'test')]
@@ -48,7 +48,7 @@ class InvalidParameterExceptionTest extends TestCase
     public function testGetStepAndValue(): void
     {
         $err = new CallbackStep('trim', 'test');
-        $obj = new InvalidParameterException(
+        $obj = new InvalidValueException(
             $err,
             'boo',
             [new ParameterError('Bad stuff happened', 'test')]

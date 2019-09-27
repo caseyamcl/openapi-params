@@ -17,7 +17,7 @@ namespace Paramee\Format;
 
 use Paramee\Contract\ParamFormatInterface;
 use Paramee\AbstractParamFormatTest;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Type\StringParameter;
 
@@ -37,7 +37,7 @@ class AlphanumericFormatTest extends AbstractParamFormatTest
 
     public function testNonValidValueThrowsException()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('RespectValidationStep');
         $this->getParameterWithFormat()->prepare('___');
     }

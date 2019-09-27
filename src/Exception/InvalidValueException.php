@@ -17,7 +17,6 @@ declare(strict_types=1);
 
 namespace Paramee\Exception;
 
-use RuntimeException;
 use Paramee\Contract\PreparationStepInterface;
 use Paramee\Model\ParameterError;
 use Webmozart\Assert\Assert;
@@ -29,7 +28,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-final class InvalidParameterException extends RuntimeException
+final class InvalidValueException extends ParameterException
 {
     /**
      * @var PreparationStepInterface
@@ -53,7 +52,7 @@ final class InvalidParameterException extends RuntimeException
      * @param string $paramName  Full parameter name
      * @param $value
      * @param string $message
-     * @return InvalidParameterException
+     * @return InvalidValueException
      */
     public static function fromMessage(PreparationStepInterface $step, string $paramName, $value, string $message)
     {
@@ -65,7 +64,7 @@ final class InvalidParameterException extends RuntimeException
      * @param string $paramName
      * @param mixed $value
      * @param array|string[] $messages
-     * @return InvalidParameterException
+     * @return InvalidValueException
      */
     public static function fromMessages(PreparationStepInterface $step, string $paramName, $value, array $messages)
     {

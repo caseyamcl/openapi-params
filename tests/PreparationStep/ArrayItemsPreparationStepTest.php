@@ -17,7 +17,7 @@ namespace Paramee\PreparationStep;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\ParameterValues;
 use Paramee\Type\IntegerParameter;
 use Paramee\Type\StringParameter;
@@ -81,7 +81,7 @@ class ArrayItemsPreparationStepTest extends TestCase
             ]
         ]);
 
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('type mis-match or type constraints failed');
         $step->__invoke(['XX'], 'test', new ParameterValues(['XX']));
     }
@@ -122,7 +122,7 @@ class ArrayItemsPreparationStepTest extends TestCase
 
     public function testInvalidTypeThrowsAppropriateException()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('could not map to parameter');
         // Resources are invalid
         $fh = fopen('php://temp', 'r');

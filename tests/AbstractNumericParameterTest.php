@@ -15,7 +15,7 @@
 
 namespace Paramee;
 
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\AbstractNumericParameter;
 use Paramee\PreparationStep\RespectValidationStep;
 
@@ -35,7 +35,7 @@ abstract class AbstractNumericParameterTest extends AbstractParameterTest
 
     public function testSetMultipleOf()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(RespectValidationStep::class);
 
         $obj = $this->getInstance()->setMultipleOf(5);
@@ -50,7 +50,7 @@ abstract class AbstractNumericParameterTest extends AbstractParameterTest
 
     public function testSetMinimum()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(RespectValidationStep::class);
         $obj = $this->getInstance()->setMinimum(-5);
         $obj->prepare($this->cast(-22));
@@ -65,7 +65,7 @@ abstract class AbstractNumericParameterTest extends AbstractParameterTest
 
     public function testSetMaximum()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(RespectValidationStep::class);
         $obj = $this->getInstance()->setMaximum(22);
         $obj->prepare($this->cast(55));
@@ -73,7 +73,7 @@ abstract class AbstractNumericParameterTest extends AbstractParameterTest
 
     public function testSetExclusiveMaximum()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(RespectValidationStep::class);
         $obj = $this->getInstance()->setMaximum(22)->setExclusiveMaximum(true);
         $obj->prepare($this->cast(22));
@@ -81,7 +81,7 @@ abstract class AbstractNumericParameterTest extends AbstractParameterTest
 
     public function testSetExclusiveMinimum()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(RespectValidationStep::class);
         $obj = $this->getInstance()->setMinimum(-5)->setExclusiveMinimum(true);
         $obj->prepare($this->cast(-5));

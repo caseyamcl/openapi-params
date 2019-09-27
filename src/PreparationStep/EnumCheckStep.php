@@ -18,7 +18,7 @@ declare(strict_types=1);
 namespace Paramee\PreparationStep;
 
 use Paramee\Contract\PreparationStepInterface;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\ParameterValues;
 
 /**
@@ -79,7 +79,7 @@ class EnumCheckStep implements PreparationStepInterface
         if (in_array($value, $this->allowedValues)) {
             return $value;
         } else {
-            throw InvalidParameterException::fromMessage($this, $paramName, $value, sprintf(
+            throw InvalidValueException::fromMessage($this, $paramName, $value, sprintf(
                 'value must be one of: %s',
                 $this->serializeValues()
             ));

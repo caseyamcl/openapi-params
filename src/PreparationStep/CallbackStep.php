@@ -19,7 +19,7 @@ namespace Paramee\PreparationStep;
 
 use InvalidArgumentException;
 use Paramee\Contract\PreparationStepInterface;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\ParameterValues;
 
 /**
@@ -81,7 +81,7 @@ class CallbackStep implements PreparationStepInterface
         try {
             return call_user_func($this->step, $value);
         } catch (InvalidArgumentException $e) {
-            throw InvalidParameterException::fromMessage($this, $paramName, $value, $e->getMessage());
+            throw InvalidValueException::fromMessage($this, $paramName, $value, $e->getMessage());
         }
     }
 

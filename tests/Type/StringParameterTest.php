@@ -18,7 +18,7 @@ namespace Paramee\Type;
 use InvalidArgumentException;
 use LogicException;
 use Paramee\AbstractParameterTest;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Format\AlphanumericFormat;
 use Paramee\Format\Int32Format;
 use Paramee\Format\PasswordFormat;
@@ -54,7 +54,7 @@ class StringParameterTest extends AbstractParameterTest
 
     public function testSetMaxLength()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $param = $this->getInstance()->setMaxLength(2);
         $this->assertArrayHasKey('maxLength', $param->getDocumentation());
         $param->prepare('some value');
@@ -62,7 +62,7 @@ class StringParameterTest extends AbstractParameterTest
 
     public function testSetMinLength()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $param = $this->getInstance()->setMinLength(25);
         $this->assertArrayHasKey('minLength', $param->getDocumentation());
         $param->prepare('some value');
@@ -77,7 +77,7 @@ class StringParameterTest extends AbstractParameterTest
 
     public function testSetLength()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $param = $this->getInstance()->setLength(1, 3);
         $this->assertArrayHasKey('minLength', $param->getDocumentation());
         $this->assertArrayHasKey('maxLength', $param->getDocumentation());
@@ -86,7 +86,7 @@ class StringParameterTest extends AbstractParameterTest
 
     public function testSetPatternWithPhpDelimiters()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $param = $this->getInstance()->setPattern('/^abc$/');
         $this->assertArrayHasKey('pattern', $param->getDocumentation());
         $param->prepare('def');
@@ -94,7 +94,7 @@ class StringParameterTest extends AbstractParameterTest
 
     public function testSetPatternWithoutPhpDelimiters()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $param = $this->getInstance()->setPattern('^abc$');
         $param->prepare('def');
     }

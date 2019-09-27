@@ -17,7 +17,7 @@ namespace Paramee\Format;
 
 use Paramee\AbstractParamFormatTest;
 use Paramee\Contract\ParamFormatInterface;
-use Paramee\Exception\InvalidParameterException;
+use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Type\StringParameter;
 
@@ -32,7 +32,7 @@ class ByteFormatTest extends AbstractParamFormatTest
 
     public function testNonBase64EncodedStringThrowsException()
     {
-        $this->expectException(InvalidParameterException::class);
+        $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('invalid data');
         $param = $this->getParameterWithFormat();
         $param->prepare('@@@@');
