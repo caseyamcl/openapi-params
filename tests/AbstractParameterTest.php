@@ -205,7 +205,7 @@ abstract class AbstractParameterTest extends TestCase
     {
         $this->expectException(LogicException::class);
         $param = $this->getInstance();
-        $param->setRequired(true);
+        $param->makeRequired(true);
         $param->setDefaultValue(current($this->getTwoOrMoreValidValues()));
     }
 
@@ -214,7 +214,7 @@ abstract class AbstractParameterTest extends TestCase
         $this->expectException(LogicException::class);
         $param = $this->getInstance();
         $param->setDefaultValue(current($this->getTwoOrMoreValidValues()));
-        $param->setRequired(true);
+        $param->makeRequired(true);
     }
 
     public function testSetDeprecatedSetsDocumentationAppropriately()
