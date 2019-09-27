@@ -17,9 +17,11 @@ declare(strict_types=1);
 
 namespace Paramee\Type;
 
+use DateTimeInterface;
 use InvalidArgumentException;
 use LogicException;
 use Paramee\Contract\ParamFormatInterface;
+use Paramee\Format;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\PreparationStep\CallbackStep;
@@ -34,7 +36,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-final class StringParameter extends Parameter
+class StringParameter extends Parameter
 {
     public const TYPE_NAME = 'string';
     public const PHP_DATA_TYPE = 'string';
@@ -63,6 +65,117 @@ final class StringParameter extends Parameter
      * @var bool
      */
     private $sanitize = false;
+
+    // -----------------------------------------------------------------
+    // Convenience methods
+
+    /**
+     * Set format to alphanumeric
+     *
+     * @param string $extraChars
+     * @return $this
+     */
+    public function makeAlphanumeric(string $extraChars = ''): self
+    {
+        return $this->setFormat(new Format\AlphanumericFormat($extraChars));
+    }
+
+    /**
+     * Set format to yes/no (accepts '1', '0', 1, 0, 'true', 'false', 'yes', 'no', 'on', 'off')
+     * @return $this
+     */
+    public function makeYesNo(): self
+    {
+        return $this->setFormat(new Format\YesNoFormat());
+    }
+
+    /**
+     * Set format to byte (base64-encoded)
+     *
+     * @return $this
+     */
+    public function makeByte(): self
+    {
+        return $this->setFormat(new Format\ByteFormat());
+    }
+
+    /**
+     * Set format to date
+     *
+     * Times are ignored; use StringParameter::makeDateTime() if you want to preserve the time
+     *
+     * @param DateTimeInterface|null $earliest
+     * @param DateTimeInterface|null $latest
+     * @return $this
+     */
+    public function makeDate(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
+    {
+        return $this->setFormat(new Format\DateFormat($earliest, $latest));
+    }
+
+    /**
+     * Set the format to date/time
+     *
+     * @param DateTimeInterface|null $earliest
+     * @param DateTimeInterface|null $latest
+     * @return $this
+     */
+    public function makeDateTime(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
+    {
+        return $this->setFormat(new Format\DateTimeFormat($earliest, $latest));
+
+    }
+
+    /**
+     * Set the format to CSV
+     *
+     * @param string $separator
+     * @return $this
+     */
+    public function makeCsvFormat(string $separator = ','): self
+    {
+        return $this->setFormat(new Format\CsvFormat($separator));
+
+    }
+
+    /**
+     * Set the format to password
+     *
+     * This format does nothing programmatically, but is important for API documentation in the case that clients
+     * automatically parse the documentation to generate forms.
+     *
+     * @return $this
+     */
+    public function makePasswordFormat(): self
+    {
+        return $this->setFormat(new Format\PasswordFormat());
+
+    }
+
+    /**
+     * Set the format to temporal value
+     *
+     * Accepts all date/time values and anything that can be parsed by Carbon
+     * (e.g. "yesterday", "tomorrow", "today at 3pm", etc)
+     *
+     * @param DateTimeInterface|null $earliest
+     * @param DateTimeInterface|null $latest
+     * @return $this
+     */
+    public function makeTemporalFormat(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
+    {
+        return $this->setFormat(new Format\TemporalFormat($earliest, $latest));
+    }
+
+    /**
+     * Sets the format to UUID
+     *
+     * @return $this
+     */
+    public function makeUuidFormat(): self
+    {
+        return $this->setFormat(new Format\UuidFormat());
+    }
 
     /**
      * Set format
