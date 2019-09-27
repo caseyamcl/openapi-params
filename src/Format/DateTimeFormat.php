@@ -60,7 +60,7 @@ class DateTimeFormat extends AbstractParamFormat
      * @param DateTimeInterface|null $earliest  Specify oldest allowable date/time (inclusive)
      * @param DateTimeInterface|null $latest  Specify newest allowable date/time (inclusive)
      */
-    public function __construct(DateTimeInterface $earliest = null, DateTimeInterface $latest = null)
+    public function __construct(?DateTimeInterface $earliest = null, DateTimeInterface $latest = null)
     {
         $this->setEarliestDate($earliest);
         $this->setLatestDate($latest);
