@@ -48,6 +48,28 @@ class CsvFormatTest extends AbstractParamFormatTest
     }
 
     /**
+     * @dataProvider separatorInConstructorDataProvider
+     * @param string|string[]|array $separator
+     * @param string $values
+     */
+    public function testSetSeparatorInConstructor($separator, string $values): void
+    {
+        $format = new CsvFormat($separator);
+        $param = (new StringParameter())->setFormat($format);
+        $this->assertSame(['test1', 'test2', 'test3'], $param->prepare($values));
+
+    }
+
+    public function separatorInConstructorDataProvider(): array
+    {
+        return [
+            [',', 'test1,test2,test3'],
+            [',|', 'test1|test2,test3'],
+            [',|', 'test1|test2,test3']
+        ];
+    }
+
+    /**
      * @return ParamFormatInterface
      */
     protected function getFormat(): ParamFormatInterface

@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace Paramee\Format;
 
+use Respect\Validation\Validatable;
 use Respect\Validation\Validator;
 use Paramee\Contract\ParameterValidationRuleInterface;
 use Paramee\Contract\PreparationStepInterface;
@@ -49,12 +50,22 @@ class CsvFormat extends AbstractParamFormat
     private $validatorForEach;
 
     /**
+     * CsvFormat constructor.
+     * @param string|array|string[] $separators
+     */
+    public function __construct($separators = ',')
+    {
+        $this->separator = is_array($separators) ? $separators : str_split($separators);
+    }
+
+
+    /**
      * Set the separator
      *
      * @param string $separator  Value will be split into an array (e.g. ';|' will become [';', '|'])
      * @return self
      */
-    public function setSeparators($separator): self
+    public function setSeparators(string $separator): self
     {
         $this->separator = str_split($separator);
         return $this;
@@ -79,6 +90,16 @@ class CsvFormat extends AbstractParamFormat
         } else {
             return [];
         }
+    }
+
+    /**
+     * Convenience method
+     *
+     * @param Validatable|ParameterValidationRule|callable $rule
+     */
+    public function each($rule)
+    {
+
     }
 
     /**
