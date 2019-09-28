@@ -23,11 +23,11 @@ use Throwable;
  * Class UndefinedParameterException
  * @package Paramee\Exception
  */
-class UndefinedParameterException extends ParameterException
+class UndefinedParametersException extends ParameterException
 {
-    public function __construct(string $paramName, $code = 422, Throwable $previous = null)
+    public function __construct(array $paramNames, $code = 422, Throwable $previous = null)
     {
-        $message = "Undefined parameter: " . $paramName;
+        $message = "Undefined parameters: " . implode(', ', $paramNames);
         parent::__construct($message, $code, $previous);
     }
 }

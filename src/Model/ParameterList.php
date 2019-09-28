@@ -23,6 +23,7 @@ use Generator;
 use IteratorAggregate;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Exception\MissingParameterException;
+use Paramee\Exception\UndefinedParametersException;
 use Paramee\Format;
 use Paramee\Type\ArrayParameter;
 use Paramee\Type\BooleanParameter;
@@ -214,24 +215,44 @@ class ParameterList implements IteratorAggregate, Countable
     // Preparation
 
     /**
-     * Prepare the values
+     * Prepare some values
      *
      * @param iterable $values
      * @param bool $strict  If TRUE, then undefined parameters will create an error, otherwise they will be ignored
+     * @param string $prependPointer  If set, then the path will be prepended to all errors
      * @return ParameterValues
      */
-    public function prepare(iterable $values, bool $strict = true): ParameterValues
+    public function prepare(iterable $values, bool $strict = true, string $prependPointer = ''): ParameterValues
     {
         $paramValues = new ParameterValues($values, $this->getContext());
+
+        // LEFT OFF HERE
+        // Needs tests and figure out how to deal with errors in aggregate
+
+        // Check for undefined parameters
+        if ($strict) {
+            $diff = array_diff(array_keys($this->items), $paramValues->listNames());
+            if (! empty($diff)) {
+                throw new UndefinedParametersException($diff);
+            }
+        }
+
+        // Iterate through items and prepare each of them.
         foreach ($this->items as $param) {
+            // Check if parameter is required, and throw exception if it is not in the values
             if ($param->isRequired() && ! $paramValues->hasValue($param->__toString())) {
                 throw new MissingParameterException($param->__toString());
             }
 
-            try {
-                // LEFT OFF HERE...
-            } catch (InvalidValueException $e) {
+            // ..or skip parameters that are optional and missing from the values
+            if (! $paramValues->hasValue($param->__toString())) {
+                continue;
+            }
 
+            try {
+                $param->prepare($paramValues->get($param->__toString()), $paramValues);
+            } catch (InvalidValueException $e) {
+                // Collect all errors
             }
         }
 

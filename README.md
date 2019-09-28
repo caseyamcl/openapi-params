@@ -17,6 +17,7 @@ describing and processing parameters compatible with [OpenApi 3.x](https://swagg
 
 ```php
 
+use Paramee\Paramee;
 use Paramee\PreparationStep\CallbackStep;
 
 // Create an empty parameter list
