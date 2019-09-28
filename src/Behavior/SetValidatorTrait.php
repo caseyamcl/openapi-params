@@ -36,10 +36,10 @@ trait SetValidatorTrait
     {
         if ($rule instanceof ParameterValidationRule) {
             return $rule;
-        } elseif (is_callable($rule)) {
-            return new ParameterValidationRule(Validator::callback($rule), $documentation);
         } elseif ($rule instanceof Validatable) {
             return new ParameterValidationRule($rule, $documentation);
+        } elseif (is_callable($rule)) {
+            return new ParameterValidationRule(Validator::callback($rule), $documentation);
         } else {
             throw new InvalidArgumentException(sprintf(
                 '%s::addValidation() expects callable or instance of one of the following: %s, %s',
