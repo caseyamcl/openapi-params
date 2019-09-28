@@ -132,7 +132,7 @@ class StringParameter extends Parameter
      * @param string $separator
      * @return $this
      */
-    public function makeCsvFormat(string $separator = ','): self
+    public function makeCsv(string $separator = ','): self
     {
         return $this->setFormat(new Format\CsvFormat($separator));
 
@@ -146,7 +146,7 @@ class StringParameter extends Parameter
      *
      * @return $this
      */
-    public function makePasswordFormat(): self
+    public function makePassword(): self
     {
         return $this->setFormat(new Format\PasswordFormat());
 
@@ -162,7 +162,7 @@ class StringParameter extends Parameter
      * @param DateTimeInterface|null $latest
      * @return $this
      */
-    public function makeTemporalFormat(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
+    public function makeTemporal(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
     {
         return $this->setFormat(new Format\TemporalFormat($earliest, $latest));
     }
@@ -172,7 +172,7 @@ class StringParameter extends Parameter
      *
      * @return $this
      */
-    public function makeUuidFormat(): self
+    public function makeUuid(): self
     {
         return $this->setFormat(new Format\UuidFormat());
     }

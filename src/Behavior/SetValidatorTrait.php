@@ -48,7 +48,5 @@ trait SetValidatorTrait
                 Validatable::class
             ));
         }
-
     }
-
 }

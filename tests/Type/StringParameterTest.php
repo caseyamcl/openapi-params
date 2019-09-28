@@ -19,7 +19,7 @@ use InvalidArgumentException;
 use LogicException;
 use Paramee\AbstractParameterTest;
 use Paramee\Exception\InvalidValueException;
-use Paramee\Format\AlphanumericFormat;
+use Paramee\Format;
 use Paramee\Format\Int32Format;
 use Paramee\Format\PasswordFormat;
 use Paramee\Model\Parameter;
@@ -124,8 +124,35 @@ class StringParameterTest extends AbstractParameterTest
         $this->expectExceptionMessage('Format already set for parameter');
 
         $obj = $this->getInstance();
-        $obj->setFormat(new AlphanumericFormat());
+        $obj->setFormat(new Format\AlphanumericFormat());
         $obj->setFormat(new PasswordFormat());
+    }
+
+    /**
+     * @dataProvider makeMethodDataProvider
+     * @param string $methodName
+     * @param string $expectedFormatClass
+     */
+    public function testMakeMethods(string $methodName, string $expectedFormatClass)
+    {
+        /** @var StringParameter $obj */
+        $obj = call_user_func([$this->getInstance(), $methodName]);
+        $this->assertInstanceOf($expectedFormatClass, $obj->getFormat());
+    }
+
+    public function makeMethodDataProvider(): array
+    {
+        return [
+            ['makeAlphanumeric', Format\AlphanumericFormat::class],
+            ['makeYesNo',        Format\YesNoFormat::class],
+            ['makeByte',         Format\ByteFormat::class],
+            ['makeDate',         Format\DateFormat::class],
+            ['makeDateTime',     Format\DateTimeFormat::class],
+            ['makeCsv',          Format\CsvFormat::class],
+            ['makePassword',     Format\PasswordFormat::class],
+            ['makeTemporal',     Format\TemporalFormat::class],
+            ['makeUuid',         Format\UuidFormat::class]
+        ];
     }
 
     protected function getTwoOrMoreValidValues(): array
