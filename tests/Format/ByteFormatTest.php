@@ -21,6 +21,12 @@ use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Type\StringParameter;
 
+/**
+ * Byte Format is defined in the OpenApi Docs as a base64-encoded value
+ * See: https://swagger.io/docs/specification/data-models/data-types/#string
+ *
+ * @package Paramee\Format
+ */
 class ByteFormatTest extends AbstractParamFormatTest
 {
     public function testValidValueIsPrepared()

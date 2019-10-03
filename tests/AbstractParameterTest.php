@@ -54,8 +54,8 @@ abstract class AbstractParameterTest extends TestCase
     public function testTypeCastWorksCorrectlyWhenEnabled($value): void
     {
         $param = $this->getInstance()->setAllowTypeCast(true);
-        if ($type = $param->getPhpDataType()) {
-            $this->assertSame($type, gettype($param->prepare($value)));
+        if ($types = $param->getPhpDataTypes()) {
+            $this->assertContains(gettype($param->prepare($value)), $types);
         } else {
             $this->markTestSkipped('Skipping test (no explicit data type required for: ' . get_class($param));
         }
@@ -63,6 +63,7 @@ abstract class AbstractParameterTest extends TestCase
 
     /**
      * @dataProvider typeCastDataProvider()
+     * @param mixed $value
      */
     public function testTypeCastThrowsExceptionForInvalidTypeWhenDisabled($value): void
     {
@@ -129,7 +130,8 @@ abstract class AbstractParameterTest extends TestCase
         $value = current($this->getTwoOrMoreValidValues());
         $param->addDependsOn('nonexistent');
 
-        $param->prepare($value, new ParameterValues(['test' => $param]));
+        $allValues = new ParameterValues(['test' => $param]);
+        $param->prepare($value, $allValues);
     }
 
     /**
@@ -154,10 +156,8 @@ abstract class AbstractParameterTest extends TestCase
         $param->addDependsOnAbsenceOf('foo');
         $value = current($this->getTwoOrMoreValidValues());
 
-        $param->prepare($value, $param->prepare(
-            $value,
-            new ParameterValues(['test' => $value, 'foo' => 'bar'])
-        ));
+        $allValues = new ParameterValues(['test' => $value, 'foo' => 'bar']);
+        $param->prepare($value, $param->prepare($value, $allValues));
     }
 
     public function testGetDefault(): void

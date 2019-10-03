@@ -21,6 +21,7 @@ use ArrayObject;
 use Countable;
 use Generator;
 use IteratorAggregate;
+use Paramee\Exception\AggregateErrorsException;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Exception\MissingParameterException;
 use Paramee\Exception\UndefinedParametersException;
@@ -163,49 +164,49 @@ class ParameterList implements IteratorAggregate, Countable
         return $this->add($param->setFormat(new Format\AlphanumericFormat($extraChars)));
     }
 
-    public function addBinaryValue(string $name, bool $required): StringParameter
+    public function addBinaryValue(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->add($param->setFormat(new Format\BinaryFormat()));
     }
 
-    public function addByteValue(string $name, bool $required): StringParameter
+    public function addByteValue(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->add($param->setFormat(new Format\ByteFormat()));
     }
 
-    public function addCsvValue(string $name, bool $required, string $separator = ','): StringParameter
+    public function addCsvValue(string $name, bool $required = false, string $separator = ','): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->add($param->setFormat(new Format\CsvFormat($separator)));
     }
 
-    public function addDateValue(string $name, bool $required): StringParameter
+    public function addDateValue(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->add($param->setFormat(new Format\DateFormat()));
     }
 
-    public function addDateTimeValue(string $name, bool $required): StringParameter
+    public function addDateTimeValue(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->add($param->setFormat(new Format\DateTimeFormat()));
     }
 
-    public function addPasswordValue(string $name, bool $required): StringParameter
+    public function addPasswordValue(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->add($param->setFormat(new Format\PasswordFormat()));
     }
 
-    public function addUuidValue(string $name, bool $required): StringParameter
+    public function addUuidValue(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->add($param->setFormat(new Format\UuidFormat()));
     }
 
-    public function addYesNoValue(string $name, bool $required): StringParameter
+    public function addYesNoValue(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->add($param->setFormat(new Format\YesNoFormat()));
@@ -219,21 +220,18 @@ class ParameterList implements IteratorAggregate, Countable
      *
      * @param iterable $values
      * @param bool $strict  If TRUE, then undefined parameters will create an error, otherwise they will be ignored
-     * @param string $prependPointer  If set, then the path will be prepended to all errors
      * @return ParameterValues
+     * @throws AggregateErrorsException  If there were 1 or more errors during preparation, this will throw an exception
      */
-    public function prepare(iterable $values, bool $strict = true, string $prependPointer = ''): ParameterValues
+    public function prepare(iterable $values, bool $strict = true): ParameterValues
     {
         $paramValues = new ParameterValues($values, $this->getContext());
 
-        // LEFT OFF HERE
-        // Needs tests and figure out how to deal with errors in aggregate
-
         // Check for undefined parameters
         if ($strict) {
-            $diff = array_diff(array_keys($this->items), $paramValues->listNames());
+            $diff = array_diff(array_keys($this->items->getArrayCopy()), $paramValues->listNames());
             if (! empty($diff)) {
-                throw new UndefinedParametersException($diff);
+                $errors[] = new UndefinedParametersException($diff);
             }
         }
 
@@ -241,7 +239,7 @@ class ParameterList implements IteratorAggregate, Countable
         foreach ($this->items as $param) {
             // Check if parameter is required, and throw exception if it is not in the values
             if ($param->isRequired() && ! $paramValues->hasValue($param->__toString())) {
-                throw new MissingParameterException($param->__toString());
+                $errors[] = new MissingParameterException($param->__toString());
             }
 
             // ..or skip parameters that are optional and missing from the values
@@ -250,10 +248,14 @@ class ParameterList implements IteratorAggregate, Countable
             }
 
             try {
-                $param->prepare($paramValues->get($param->__toString()), $paramValues);
+                $param->prepare($paramValues->get($param->__toString())->getRawValue(), $paramValues);
             } catch (InvalidValueException $e) {
-                // Collect all errors
+                $errors[] = $e;
             }
+        }
+
+        if (isset($errors)) {
+            throw new AggregateErrorsException($errors);
         }
 
         return $paramValues;
@@ -281,6 +283,20 @@ class ParameterList implements IteratorAggregate, Countable
     public function getContext(): ?ParameterValuesContext
     {
         return $this->context;
+    }
+
+    /**
+     * Get the OpenAPI documentation for this set of parameters
+     *
+     * @return array
+     */
+    public function getApiDocumentation(): array
+    {
+        $apiDocs = [];
+        foreach ($this->items as $name => $parameter) {
+            $apiDocs[$name] = $parameter->getDocumentation();
+        }
+        return $apiDocs;
     }
 
     // --------------------------------------------------------------

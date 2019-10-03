@@ -42,5 +42,4 @@ class BinaryFormat extends AbstractParamFormat
     {
         return []; // no extra rules
     }
-
 }
