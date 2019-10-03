@@ -602,7 +602,7 @@ abstract class Parameter
      * @param ParameterValues $allValues
      * @return mixed|void
      */
-    final public function prepare($value, ParameterValues $allValues = null)
+    final public function prepare($value, ParameterValues &$allValues = null)
     {
         $myName = $this->__toString() ?: '(no name)';
 
