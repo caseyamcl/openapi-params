@@ -90,6 +90,28 @@ abstract class AbstractNumericParameter extends Parameter
     }
 
     /**
+     * Alias for setMinimum()
+     *
+     * @param float|null $min
+     * @return float|AbstractNumericParameter|float|int|null
+     */
+    public function min(?float $min = null)
+    {
+        return $this->setMinimum($min);
+    }
+
+    /**
+     * Alias for setMaximum()
+     *
+     * @param float|null $max
+     * @return float|AbstractNumericParameter|float|int|null
+     */
+    public function max(?float $max = null)
+    {
+        return $this->setMaximum($max);
+    }
+
+    /**
      * @return bool
      */
     public function isExclusiveMinimum(): bool

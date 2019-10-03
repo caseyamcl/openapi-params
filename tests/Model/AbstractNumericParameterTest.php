@@ -1,11 +1,11 @@
 <?php
 /**
- *  Paramee Library
+ * Paramee Library
  *
- *  @license http://opensource.org/licenses/MIT
- *  @link https://github.com/caseyamcl/paramee
- *  @package caseyamcl/paramee
- *  @author Casey McLaughlin <caseyamcl@gmail.com>
+ * @license http://opensource.org/licenses/MIT
+ * @link https://github.com/caseyamcl/paramee
+ * @package caseyamcl/paramee
+ * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
  *  file that was distributed with this source code.
@@ -48,7 +48,23 @@ abstract class AbstractNumericParameterTest extends AbstractParameterTest
         $this->assertEquals($this->cast(-5), $obj->getMinimum());
     }
 
-    public function testSetMinimum()
+    public function testMin()
+    {
+        $this->expectException(InvalidValueException::class);
+        $this->expectExceptionMessage(RespectValidationStep::class);
+        $obj = $this->getInstance()->min(-5);
+        $obj->prepare($this->cast(-22));
+    }
+
+    public function testMax()
+    {
+        $this->expectException(InvalidValueException::class);
+        $this->expectExceptionMessage(RespectValidationStep::class);
+        $obj = $this->getInstance()->max(22);
+        $obj->prepare($this->cast(55));
+    }
+
+    public function testSetMinimumWithInvalidValue()
     {
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(RespectValidationStep::class);
@@ -56,14 +72,13 @@ abstract class AbstractNumericParameterTest extends AbstractParameterTest
         $obj->prepare($this->cast(-22));
     }
 
-
     public function testGetMaximum()
     {
         $obj = $this->getInstance()->setMinimum(22);
         $this->assertEquals(22, $obj->getMinimum());
     }
 
-    public function testSetMaximum()
+    public function testSetMaximumWithInvalidValue()
     {
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(RespectValidationStep::class);
