@@ -23,6 +23,14 @@ use Paramee\Model\Parameter;
 
 abstract class AbstractParamFormatTest extends TestCase
 {
+    public function testToString()
+    {
+        $constantName = sprintf("%s::NAME", get_class($this->getFormat()));
+        if (defined($constantName)) {
+            $this->assertEquals(constant($constantName), (string) $this->getFormat());
+        }
+    }
+
     public function testGetPreparationSteps()
     {
         $this->assertIsArray($this->getFormat()->getPreparationSteps());
