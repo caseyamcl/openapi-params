@@ -135,7 +135,7 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
 
     /**
      * @param array|InvalidValueException[] $exceptions All of the exceptions that occurred;
-     *                                                       keys are the respective indexes that failed.
+     *                                                  keys are the respective indexes that failed.
      * @param $value
      * @return InvalidValueException
      */
