@@ -24,15 +24,15 @@ use Paramee\PreparationStep\CallbackStep;
 $queryParams = Paramee::queryParams();
 
 // Add a string
-$queryParams->addAlphanumeric('test1')
+$queryParams->addAlphaNumericValue('test1')
     ->makeRequired()
     ->setDescription('Test parameter'); 
 
 $queryParams->addInteger('test2')
     ->makeRequired()
     ->setDescription('Another test parameter')
-    ->min(5)
-    ->max(10)
+    ->setMinimum(5)
+    ->setMaximum(10)
     ->addPreparationStep(new CallbackStep(function ($value) {
         return abs($value);
     }, 'Return the absolute value of the item passed'));
@@ -44,7 +44,7 @@ $queryParams->addNumber('test3')
     ->max(25.35)
     ->setRequireDecimal(true);
 
-$queryParams->addYesNo('test4')
+$queryParams->addYesNoValue('test4')
     ->setDescription('Boolean parameter');
 
 // Prepared is an instance of Paramee\Model\ParameterValues
