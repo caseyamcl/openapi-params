@@ -60,6 +60,7 @@ class ObjectDeserializeStepTest extends TestCase
         $this->expectExceptionMessage('malformed string');
         $param = new ObjectParameter('test');
         $value = 'xx;;asdfread@#@#$&*#@$';
-        $param->prepare($value, new ParameterValues(['test' => 'xx;;asdfread@#@#$&*#@$'], new ParamQueryContext()));
+        $allValues = new ParameterValues(['test' => 'xx;;asdfread@#@#$&*#@$'], new ParamQueryContext());
+        $param->prepare($value, $allValues);
     }
 }
