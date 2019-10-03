@@ -555,8 +555,8 @@ abstract class Parameter
         $steps = $this->getPreTypeCastPreparationSteps();
 
         // Add type-check
-        if ($phpType = $this->getPhpDataType()) {
-            $steps[] = new EnsureCorrectDataTypeStep($phpType, $this->allowTypeCast);
+        if ($phpTypes = $this->getPhpDataTypes()) {
+            $steps[] = new EnsureCorrectDataTypeStep($phpTypes, $this->allowTypeCast);
         }
 
         // Add enum check
@@ -637,11 +637,11 @@ abstract class Parameter
     /**
      * Get the PHP data-type for this parameter
      *
-     * @return string|null
+     * @return array|string[]
      */
-    public function getPhpDataType(): ?string
+    public function getPhpDataTypes(): array
     {
-        return static::PHP_DATA_TYPE;
+        return [static::PHP_DATA_TYPE];
     }
 
     /**

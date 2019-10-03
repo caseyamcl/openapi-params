@@ -15,7 +15,7 @@
 
 namespace Paramee\Type;
 
-use Paramee\AbstractNumericParameterTest;
+use Paramee\Model\AbstractNumericParameterTest;
 use Paramee\Model\Parameter;
 
 class IntegerParameterTest extends AbstractNumericParameterTest

@@ -191,7 +191,8 @@ class ArrayParameterTest extends AbstractParameterTest
             ->getInstance()
             ->addAllowedParamDefinition(IntegerParameter::create()->setAllowTypeCast(true));
 
-        $prepared = $parameter->prepare('1,2,3', ParameterValues::single(['1,2,3'], $context, 'test'));
+        $allValues = ParameterValues::single(['1,2,3'], $context, 'test');
+        $prepared = $parameter->prepare('1,2,3', $allValues);
         $this->assertSame([1, 2, 3], $prepared);
     }
 
@@ -201,14 +202,16 @@ class ArrayParameterTest extends AbstractParameterTest
         $this->expectExceptionMessage('invalid data type; expected: array; you provided: string');
 
         $context = (new ParameterValuesContext('test', null));
-        $this->getInstance()->prepare('1,2,3', ParameterValues::single('1,2,3', $context, 'test'));
+        $allValues = ParameterValues::single('1,2,3', $context, 'test');
+        $this->getInstance()->prepare('1,2,3', $allValues);
     }
 
     public function testPrepareThrowsInvalidParameterExceptionWithDeserializerButInvalidDataType()
     {
         $this->expectException(InvalidValueException::class);
         $context = (new ParameterValuesContext('test', new StandardDeserializer()));
-        $this->getInstance()->prepare(15.3, ParameterValues::single(15.3, $context, 'test'));
+        $allValues = ParameterValues::single(15.3, $context, 'test');
+        $this->getInstance()->prepare(15.3, $allValues);
     }
 
     // --------------------------------------------------------------

@@ -13,10 +13,10 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee;
+namespace Paramee\Model;
 
+use Paramee\AbstractParameterTest;
 use Paramee\Exception\InvalidValueException;
-use Paramee\Model\AbstractNumericParameter;
 use Paramee\PreparationStep\RespectValidationStep;
 
 /**

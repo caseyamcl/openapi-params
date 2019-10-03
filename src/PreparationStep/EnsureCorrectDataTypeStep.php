@@ -37,7 +37,7 @@ class EnsureCorrectDataTypeStep implements PreparationStepInterface
     /**
      * @var string
      */
-    private $phpDataType;
+    private $phpDataTypes;
 
     /**
      * @var bool
@@ -46,12 +46,12 @@ class EnsureCorrectDataTypeStep implements PreparationStepInterface
 
     /**
      * EnsureCorrectDataTypeStep constructor.
-     * @param string $phpDataType  Built-in PHP data type to check for
+     * @param array|string[] $phpDataTypes  Built-in PHP data type to check for
      * @param bool $allowCast      Attempt to auto-cast to the given type (useful in numeric query values)
      */
-    public function __construct(string $phpDataType, bool $allowCast = false)
+    public function __construct(array $phpDataTypes, bool $allowCast = false)
     {
-        $this->phpDataType = $phpDataType;
+        $this->phpDataTypes = $phpDataTypes;
         $this->allowCast = $allowCast;
     }
 
@@ -89,19 +89,21 @@ class EnsureCorrectDataTypeStep implements PreparationStepInterface
      */
     public function __invoke($value, string $paramName, ParameterValues $allAllValues)
     {
-        if (gettype($value) === $this->phpDataType) {
+        if (in_array(gettype($value), $this->phpDataTypes)) {
             return $value;
-        } else {
-            if ($this->allowCast && settype($value, $this->phpDataType)) {
-                return $value;
-            } else {
-                $message = sprintf(
-                    'invalid data type; expected: %s; you provided: %s',
-                    $this->phpDataType,
-                    gettype($value)
-                );
-                throw InvalidValueException::fromMessages($this, $paramName, $value, [$message]);
+        } elseif ($this->allowCast) {
+            foreach ($this->phpDataTypes as $type) {
+                if (settype($value, $type)) {
+                    return $value;
+                }
             }
         }
+
+        $message = sprintf(
+            'invalid data type; expected: %s; you provided: %s',
+            implode(', ', $this->phpDataTypes),
+            gettype($value)
+        );
+        throw InvalidValueException::fromMessages($this, $paramName, $value, [$message]);
     }
 }

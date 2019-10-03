@@ -151,7 +151,10 @@ final class ArrayParameter extends Parameter
      */
     public function addAllowedParamDefinition(Parameter $parameter): self
     {
-        $this->allowedTypes[$parameter->getPhpDataType()][] = $parameter;
+        foreach ($parameter->getPhpDataTypes() as $dataType) {
+            $this->allowedTypes[$dataType][] = $parameter;
+        }
+
         return $this;
     }
 

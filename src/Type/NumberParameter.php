@@ -91,17 +91,17 @@ final class NumberParameter extends AbstractNumericParameter
     /**
      * Get the PHP data-type for this parameter
      *
-     * @return string|null
+     * @return array|string[]
      */
-    public function getPhpDataType(): ?string
+    public function getPhpDataTypes(): array
     {
+        $decimalFormat = (PHP_FLOAT_DIG >= 15) ? 'double' : 'float';
+
         // Only require that the value be a float/double if explicitly declared that it must be a decimal
         if ($this->requireDecimal) {
-            return $this->format instanceof DoubleFormat ? 'double' : 'float';
+            return [$decimalFormat];
         } else {
-            return null;
+            return [$decimalFormat, IntegerParameter::PHP_DATA_TYPE];
         }
     }
-
-
 }
