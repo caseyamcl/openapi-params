@@ -273,12 +273,40 @@ class ParameterListTest extends TestCase
 
     public function testGetApiDocumentationReturnsEmptyArrayWhenNoParametersAreAdded(): void
     {
-
+        $obj = new ParameterList('test');
+        $this->assertSame([], $obj->getApiDocumentation());
     }
 
+    /**
+     * LEFT OFF HERE - need to flatten the items
+     */
     public function testGetApiDocumentationReturnsExpectedValuesWhenParametersAreAdded(): void
     {
+        $obj = new ParameterList('test');
+        $obj->addString('test1')
+            ->makeRequired()
+            ->setMinLength(5)
+            ->setMaxLength(10)
+            ->setDescription('here');
 
+        $obj->addArray('test2')
+            ->makeOptional()
+            ->addAllowedParamDefinition(StringParameter::create('abc')->makeOptional()->setDeprecated(true));
+
+        $this->assertSame([
+            'test1' => [
+                'type' => 'string',
+                'required' => true,
+                'description' => 'here',
+                'minLength' => 5,
+                'maxLength' => 10
+            ],
+            'test2' => [
+                'type' => 'array',
+                'items' => []
+
+            ]
+        ], $obj->getApiDocumentation());
     }
 
     public function testGetIterator(): void

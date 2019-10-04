@@ -61,6 +61,8 @@ final class ArrayParameter extends Parameter
      */
     protected function listExtraDocumentationItems(): array
     {
+        // LEFT OFF HERE --> need to "flatten" the $items, because I
+
         if (empty($this->allowedTypes)) {
             $items = new stdClass();
         } elseif (count($this->listAllowedTypes()) === 1) {
