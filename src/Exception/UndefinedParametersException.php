@@ -27,7 +27,9 @@ class UndefinedParametersException extends ParameterException
 {
     public function __construct(array $paramNames, $code = 422, Throwable $previous = null)
     {
-        $message = "Undefined parameters: " . implode(', ', $paramNames);
+        $message = ((count($paramNames) === 1) ? "Undefined parameter: " : 'Undefined parameters: ')
+            . implode(', ', $paramNames);
+
         parent::__construct($message, $code, $previous);
     }
 }

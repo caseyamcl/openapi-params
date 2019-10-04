@@ -17,9 +17,13 @@ namespace Paramee\Model;
 
 use ArrayObject;
 use DateTime;
+use Paramee\Exception\AggregateErrorsException;
+use Paramee\Exception\ParameterException;
 use Paramee\ParamContext\ParamQueryContext;
 use Paramee\PreparationStep\CallbackStep;
 use Paramee\Type\ArrayParameter;
+use Paramee\Type\BooleanParameter;
+use Paramee\Type\IntegerParameter;
 use Paramee\Type\StringParameter;
 use PHPUnit\Framework\TestCase;
 
@@ -205,17 +209,66 @@ class ParameterListTest extends TestCase
 
     public function testPrepareWithUndefinedValuesAndStrictIsTrue(): void
     {
+        $this->expectException(AggregateErrorsException::class);
+        $this->expectExceptionMessage('Undefined parameter: test3');
 
+        $params = [
+            (new StringParameter('test')),
+            (new ArrayParameter('test2'))
+        ];
+
+        $obj = new ParameterList('test', $params);
+        $obj->prepare(['test' => 'a', 'test2' => ['a', 'b'], 'test3' => 't']);
     }
 
     public function testPrepareWithUndefinedValuesAndStrictIsFalse(): void
     {
+        $params = [
+            (new StringParameter('test')),
+            (new ArrayParameter('test2'))
+        ];
 
+        $obj = new ParameterList('test', $params);
+        $prepared = $obj->prepare(['test' => 'a', 'test2' => ['a', 'b'], 'test3' => 't'], false);
+        $this->assertEquals(['test', 'test2', 'test3'], $prepared->listNames());
     }
 
     public function testPrepareWithMissingRequiredValues(): void
     {
+        $this->expectException(AggregateErrorsException::class);
+        $this->expectExceptionMessage('Missing required parameter: test2');
 
+        $params = [
+            (new StringParameter('test'))->makeRequired(),
+            (new ArrayParameter('test2'))->makeRequired()
+        ];
+
+        $obj = new ParameterList('test', $params);
+        $obj->prepare(['test' => 'a'], false);
+    }
+
+    public function testPrepareWithInvalidValues(): void
+    {
+        $params = [
+            (new IntegerParameter('test'))->makeRequired(),
+            (new BooleanParameter('test2'))->makeRequired()
+        ];
+
+        try {
+            $obj = new ParameterList('test', $params);
+            $obj->prepare(['test' => 'a', 'test2' => 'b']);
+        } catch (AggregateErrorsException $e) {
+            $this->assertStringContainsString('There were 2 validation errors', $e->getMessage());
+            $this->assertEquals(2, $e->count());
+
+            foreach ($e as $ex) {
+                $this->assertInstanceOf(ParameterException::class, $ex);
+            }
+
+            return;
+        }
+
+        $this->fail('Should not have made it here');
     }
 
     public function testGetApiDocumentationReturnsEmptyArrayWhenNoParametersAreAdded(): void
@@ -230,6 +283,10 @@ class ParameterListTest extends TestCase
 
     public function testGetIterator(): void
     {
-
+        $params = [new IntegerParameter('test'), new BooleanParameter('test2')];
+        $obj = new ParameterList('test', $params);
+        foreach ($obj as $item) {
+            $this->assertInstanceOf(Parameter::class, $item);
+        }
     }
 }

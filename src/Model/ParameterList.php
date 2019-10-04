@@ -229,7 +229,7 @@ class ParameterList implements IteratorAggregate, Countable
 
         // Check for undefined parameters
         if ($strict) {
-            $diff = array_diff(array_keys($this->items->getArrayCopy()), $paramValues->listNames());
+            $diff = array_diff($paramValues->listNames(), array_keys($this->items->getArrayCopy()));
             if (! empty($diff)) {
                 $errors[] = new UndefinedParametersException($diff);
             }
