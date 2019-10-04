@@ -15,9 +15,12 @@
 
 namespace Paramee\Model;
 
+use ArrayObject;
 use DateTime;
 use Paramee\ParamContext\ParamQueryContext;
 use Paramee\PreparationStep\CallbackStep;
+use Paramee\Type\ArrayParameter;
+use Paramee\Type\StringParameter;
 use PHPUnit\Framework\TestCase;
 
 class ParameterListTest extends TestCase
@@ -125,56 +128,77 @@ class ParameterListTest extends TestCase
         $obj = new ParameterList('test');
         $param = $obj->addArray('test');
         $param->setUniqueItems(true);
+        $allValues = new ParameterValues(['test' => 'a=apple,b=banana'], new ParamQueryContext());
+
         $param->addPreparationStep(new CallbackStep(function (array $value) {
             return array_map('strtoupper', $value);
         }, 'convert to uppercase'));
-        $this->assertSame(['A', 'B', 'C'], $param->prepare(['a','b', 'c']));
+        $this->assertSame(['A', 'B', 'C'], $param->prepare('a,b,c', $allValues));
     }
 
     public function testAddObject(): void
     {
-        // LEFT OFF HERE...
-        $obj = new ParameterList('test', [], new ParamQueryContext());
+        $obj = new ParameterList('test', []);
+
+        $allValues = new ParameterValues(['test' => 'a=apple,b=banana'], new ParamQueryContext());
+
         $param = $obj->addObject('test');
-        $this->assertSame((object) ['a' => 'apple', 'b' => 'banana'], $param->prepare('a=apple,b=banana'));
+        $this->assertEquals(
+            (object) ['a' => 'apple', 'b' => 'banana'],
+            $param->prepare('a=apple,b=banana', $allValues)
+        );
     }
 
     public function testAddPasswordValue(): void
     {
-
-    }
-
-    public function testAdd(): void
-    {
-
+        $obj = new ParameterList('test');
+        $obj->addPasswordValue('test');
+        $this->assertSame('test', $obj->prepare(['test' => 'test'])->getPreparedValue('test'));
     }
 
     public function testAddString(): void
     {
-
+        $obj = new ParameterList('test');
+        $obj->addString('test');
+        $this->assertSame('test', $obj->prepare(['test' => 'test'])->getPreparedValue('test'));
     }
 
     public function testGetName(): void
     {
-
+        $obj = new ParameterList('test');
+        $this->assertSame('test', $obj->getName());
     }
 
     public function testGetParameters(): void
     {
+        $params = [
+            new StringParameter('test'),
+            new ArrayParameter('test2')
+        ];
 
+        $obj = new ParameterList('test', $params);
+        $this->assertInstanceOf(ArrayObject::class, $obj->getParameters());
+        $this->assertSame(2, $obj->count());
     }
 
     public function testGetContext(): void
     {
-
+        $obj = new ParameterList('test', [], new ParamQueryContext());
+        $this->assertInstanceOf(ParamQueryContext::class, $obj->getContext());
     }
 
     public function testCount(): void
     {
+        $params = [
+            new StringParameter('test'),
+            new ArrayParameter('test2')
+        ];
 
+        $obj = new ParameterList('test', $params);
+        $this->assertSame(2, $obj->count());
     }
 
-    public function testPrepareWithDefaults(): void
+    public function testPrepareWithDefaultParameters(): void
     {
 
     }
