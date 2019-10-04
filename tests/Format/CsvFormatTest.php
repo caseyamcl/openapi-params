@@ -74,7 +74,7 @@ class CsvFormatTest extends AbstractParamFormatTest
         $format = new CsvFormat(',|');
         $param = (new StringParameter())->setFormat($format);
         $this->assertSame(
-            "Value must be a list of items delimited by one of the following: ',|'",
+            "Value must be a list of items delimited by one of the following: ',|'.",
             $param->getDocumentation()['description']
         );
     }

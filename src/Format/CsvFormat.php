@@ -140,7 +140,7 @@ class CsvFormat extends AbstractParamFormat
     {
         $separator = implode('', $this->separator);
         return count($this->separator) > 1
-            ? "Value must be a list of items delimited by one of the following: '$separator'"
-            : "Value must be a list of items delimited by: '$separator'";
+            ? "Value must be a list of items delimited by one of the following: '$separator'."
+            : "Value must be a list of items delimited by: '$separator'.";
     }
 }
