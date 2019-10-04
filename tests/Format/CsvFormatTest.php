@@ -67,7 +67,16 @@ class CsvFormatTest extends AbstractParamFormatTest
         $format = new CsvFormat($separator);
         $param = (new StringParameter())->setFormat($format);
         $this->assertSame(['test1', 'test2', 'test3'], $param->prepare($values));
+    }
 
+    public function testGetDocumentationWhenMultipleSeparators()
+    {
+        $format = new CsvFormat(',|');
+        $param = (new StringParameter())->setFormat($format);
+        $this->assertSame(
+            "Value must be a list of items delimited by one of the following: ',|'",
+            $param->getDocumentation()['description']
+        );
     }
 
     public function separatorInConstructorDataProvider(): array
