@@ -28,7 +28,17 @@ use Respect\Validation\Validator;
  */
 class CsvFormatTest extends AbstractParamFormatTest
 {
-    public function testValidateEach()
+    public function testEach()
+    {
+        /** @var CsvFormat $format */
+        $format = $this->getFormat();
+        $validator = new ParameterValidationRule(Validator::equals('a'), 'test');
+        $format->each($validator);
+        $param = (new StringParameter('test'))->setFormat($format);
+        $this->assertEquals(['a', 'a', 'a'], $param->prepare('a, a, a'));
+    }
+
+    public function testSetValidatorForEach()
     {
         /** @var CsvFormat $format */
         $format = $this->getFormat();
