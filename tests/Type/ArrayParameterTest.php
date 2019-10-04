@@ -93,18 +93,14 @@ class ArrayParameterTest extends AbstractParameterTest
     public function testAddPreparationStepForEachRulesAreRun()
     {
         $param = $this->getInstance();
-        $param->addPreparationStepForEach(new CallbackStep(function ($value) {
-            return strtoupper($value);
-        }, 'Convert string to upper-case'));
+        $param->addPreparationStepForEach(new CallbackStep('strtoupper', 'Convert string to upper-case'));
         $this->assertSame(['A','B','C'], $param->prepare(['a', 'b', 'c']));
     }
 
     public function testEach()
     {
         $param = $this->getInstance();
-        $param->each(new CallbackStep(function ($value) {
-            return strtoupper($value);
-        }, 'Convert string to upper-case'));
+        $param->each(new CallbackStep('strtoupper', 'Convert string to upper-case'));
         $this->assertSame(['A','B','C'], $param->prepare(['a', 'b', 'c']));
     }
 
