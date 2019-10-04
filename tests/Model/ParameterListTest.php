@@ -202,11 +202,6 @@ class ParameterListTest extends TestCase
         $this->assertSame(2, $obj->count());
     }
 
-    public function testPrepareWithDefaultParameters(): void
-    {
-
-    }
-
     public function testPrepareWithUndefinedValuesAndStrictIsTrue(): void
     {
         $this->expectException(AggregateErrorsException::class);
@@ -277,9 +272,6 @@ class ParameterListTest extends TestCase
         $this->assertSame([], $obj->getApiDocumentation());
     }
 
-    /**
-     * LEFT OFF HERE - need to flatten the items
-     */
     public function testGetApiDocumentationReturnsExpectedValuesWhenParametersAreAdded(): void
     {
         $obj = new ParameterList('test');
@@ -291,7 +283,8 @@ class ParameterListTest extends TestCase
 
         $obj->addArray('test2')
             ->makeOptional()
-            ->addAllowedParamDefinition(StringParameter::create('abc')->makeOptional()->setDeprecated(true));
+            ->addAllowedParamDefinition(StringParameter::create()->makeOptional()->setDeprecated(true))
+            ->addAllowedParamDefinition(IntegerParameter::create()->max(5));
 
         $this->assertSame([
             'test1' => [
@@ -303,8 +296,17 @@ class ParameterListTest extends TestCase
             ],
             'test2' => [
                 'type' => 'array',
-                'items' => []
-
+                'items' => ['oneOf' => [
+                    [
+                        'type' => 'string',
+                        'deprecated' => true
+                    ],
+                    [
+                        'type' => 'integer',
+                        'format' => 'int64',
+                        'maximum' => 5.0
+                    ]
+                ]]
             ]
         ], $obj->getApiDocumentation());
     }
