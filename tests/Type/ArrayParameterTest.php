@@ -23,6 +23,7 @@ use Paramee\Model\ParameterValues;
 use Paramee\Model\ParameterValuesContext;
 use Paramee\ParamDeserializer\StandardDeserializer;
 use Paramee\PreparationStep\ArrayItemsPreparationStep;
+use Paramee\PreparationStep\CallbackStep;
 use Paramee\PreparationStep\RespectValidationStep;
 use stdClass;
 
@@ -89,7 +90,25 @@ class ArrayParameterTest extends AbstractParameterTest
         $param->prepare(['hi', 25]);
     }
 
-    public function testDescribeWithDefaults()
+    public function testAddPreparationStepForEachRulesAreRun()
+    {
+        $param = $this->getInstance();
+        $param->addPreparationStepForEach(new CallbackStep(function ($value) {
+            return strtoupper($value);
+        }, 'Convert string to upper-case'));
+        $this->assertSame(['A','B','C'], $param->prepare(['a', 'b', 'c']));
+    }
+
+    public function testEach()
+    {
+        $param = $this->getInstance();
+        $param->each(new CallbackStep(function ($value) {
+            return strtoupper($value);
+        }, 'Convert string to upper-case'));
+        $this->assertSame(['A','B','C'], $param->prepare(['a', 'b', 'c']));
+    }
+
+    public function testDescribeWithDefaultArguments()
     {
         $param = $this->getInstance();
         $this->assertEquals(['type' => 'array', 'items' => new stdClass()], $param->getDocumentation());

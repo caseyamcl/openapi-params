@@ -80,7 +80,7 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
     }
 
     /**
-     * Prepare a parameter
+     * Prepare array parameter
      *
      * @param array $value The current value to be processed
      * @param string $paramName
@@ -108,14 +108,16 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
     }
 
     /**
-     * @param mixed $value
-     * @param string $itemName
+     * Prepare each item in the array
+     *
+     * @param mixed $value      The value
+     * @param string $itemName  Pointer to index (e.g. 'myparam/5' or 'myparam/6', etc..)
      * @param array|Parameter[] $paramTypeMapping
      * @return mixed
      */
     protected function prepareItem($value, string $itemName, array $paramTypeMapping)
     {
-        // Otherwise, go through each mapping and the first one that works wins..
+        // Go through each mapping and the first one that works wins..
         foreach ($paramTypeMapping as $param) {
             try {
                 return $param->prepare($value);
@@ -126,7 +128,7 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
             }
         }
 
-        // If made it here, then we thrown an ambiguous exception, because none of the types worked.
+        // If made it here, then we throw an ambiguous exception, because none of the types worked.
         throw InvalidValueException::fromMessage($this, $itemName, $value, sprintf(
             "Invalid parameter (type mis-match or type constraints failed: %s)",
             implode(', ', $this->resolveValidParameterTypeNames($paramTypeMapping))

@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace Paramee\Type;
 
+use Paramee\Contract\PreparationStepInterface;
 use Respect\Validation\Validator;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValidationRule;
@@ -57,6 +58,11 @@ final class ArrayParameter extends Parameter
     private $maxItems = null;
 
     /**
+     * @var array|PreparationStepInterface[]
+     */
+    private $extraPreparationSteps = [];
+
+    /**
      * @return array
      */
     protected function listExtraDocumentationItems(): array
@@ -78,7 +84,6 @@ final class ArrayParameter extends Parameter
             'maxItems'    => $this->maxItems
         ]);
     }
-
 
     /**
      * Specify that all items must be unique
@@ -122,8 +127,31 @@ final class ArrayParameter extends Parameter
     protected function getPostValidationPreparationSteps(): array
     {
         return [
-            new ArrayItemsPreparationStep($this->allowedTypes) // TODO: Add forEach..
+            new ArrayItemsPreparationStep($this->allowedTypes, $this->extraPreparationSteps)
         ];
+    }
+
+    /**
+     * Alias for 'ArrayParameter::addPreparationStepForEach'
+     *
+     * @param PreparationStepInterface $step
+     * @return $this
+     */
+    public function each(PreparationStepInterface $step): self
+    {
+        return $this->addPreparationStepForEach($step);
+    }
+
+    /**
+     * Add a preparation step for each item
+     *
+     * @param PreparationStepInterface $step
+     * @return $this
+     */
+    public function addPreparationStepForEach(PreparationStepInterface $step): self
+    {
+        $this->extraPreparationSteps[] = $step;
+        return $this;
     }
 
     /**
