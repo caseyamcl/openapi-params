@@ -25,7 +25,7 @@ use Paramee\Contract\PreparationStepInterface;
 /**
  * Parameter Preparation Steps
  *
- * Contains preparation task queue for a parameter
+ * Contains immutable preparation task queue for a parameter
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */

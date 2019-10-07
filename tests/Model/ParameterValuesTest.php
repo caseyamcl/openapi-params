@@ -92,4 +92,79 @@ class ParameterValuesTest extends TestCase
 
         $this->assertEquals('BAR', $allValues->getPreparedValue('foo'));
     }
+
+    public function testConstructorWorksCorrectlyWhenIteratorContainsInstancesOfParameterValueClass()
+    {
+        $obj = new ParameterValues([
+            'foo' => 'bar',
+            'baz' => new ParameterValue('biz', 123)
+        ]);
+
+        $this->assertSame(2, count($obj));
+    }
+
+    public function testGetPreparedValueThrowsExceptionWhenParameterNotExists()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Parameter not found');
+
+        $obj = new ParameterValues([
+            'foo' => 'bar',
+            'baz' => new ParameterValue('biz', 123)
+        ]);
+
+        $obj->getPreparedValue('FIZZ');
+    }
+
+    public function testGetRawValueThrowsExceptionWhenParameterNotExists()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Parameter not found');
+
+        $obj = new ParameterValues([
+            'foo' => 'bar',
+            'baz' => new ParameterValue('biz', 123)
+        ]);
+
+        $obj->getRawValue('FIZZ');
+    }
+
+    public function testGetThrowsExceptionWhenParameterNotExists()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Parameter not found');
+
+        $obj = new ParameterValues([
+            'foo' => 'bar',
+            'baz' => new ParameterValue('biz', 123)
+        ]);
+
+        $obj->get('FIZZ');
+    }
+
+    public function testWithPreparedValueThrowsExceptionWhenAttemptingToSetParameterWithNoName()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Cannot set prepared value for parameter with no name');
+
+        $obj = new ParameterValues([
+            'foo' => 'bar',
+            'baz' => new ParameterValue('biz', 123)
+        ]);
+
+        $obj->withPreparedValue('', 123);
+    }
+
+    public function testWithPreparedValueThrowsExceptionWhenAttemptingToSetUndefinedParameter()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Cannot set prepared value for undefined parameter: ');
+
+        $obj = new ParameterValues([
+            'foo' => 'bar',
+            'baz' => new ParameterValue('biz', 123)
+        ]);
+
+        $obj->withPreparedValue('FIZZ', 123);
+    }
 }

@@ -62,7 +62,7 @@ class AggregateErrorsException extends RuntimeException implements IteratorAggre
     }
 
     /**
-     * Get count of exceptions
+     * Get count of exceptions (not errors)
      *
      * @return int
      */
