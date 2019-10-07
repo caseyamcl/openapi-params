@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -32,5 +33,4 @@ class ValidUnixPathException extends ValidationException
             self::MODE_NEGATIVE => '{{name}} must not be a UNIX path'
         ]
     ];
-
 }

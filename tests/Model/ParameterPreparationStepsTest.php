@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Paramee Library
  *
@@ -59,6 +60,5 @@ class ParameterPreparationStepsTest extends TestCase
         return (new ParameterPreparationSteps())
             ->withStep(new EnumCheckStep(['foo', 'bar']))
             ->withStep(new CallbackStep('strtoupper', 'Convert string to upper-case'));
-
     }
 }

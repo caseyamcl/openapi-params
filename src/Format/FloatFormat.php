@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -43,5 +44,4 @@ class FloatFormat extends AbstractParamFormat
     {
         return []; // no extra validation rules
     }
-
 }

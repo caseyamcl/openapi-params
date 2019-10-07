@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -246,7 +247,9 @@ abstract class AbstractParameterTest extends TestCase
         return [
             [new ParameterValidationRule(new AlwaysValid(), 'always valid')],
             [new AlwaysValid()],
-            [function() { return true; }]
+            [function () {
+                return true;
+            }]
         ];
     }
 

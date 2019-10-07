@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -32,7 +33,7 @@ use Webmozart\Assert\Assert;
  */
 class ArrayItemsPreparationStep implements PreparationStepInterface
 {
-    const ALL = [];
+    public const ALL = [];
 
     /**
      * @var array|Parameter[]
@@ -169,7 +170,6 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
                 $msg = sprintf('Invalid data type: %s (could not map to parameter)', gettype($item));
                 throw InvalidValueException::fromMessage($this, $paramName, $item, $msg);
             }
-
         } elseif (array_key_exists(gettype($item), $this->parameterTypeMap)) {
             // If parameters are explicitly defined for this type, then use those
             $params = $this->parameterTypeMap[gettype($item)];

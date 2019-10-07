@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -123,7 +124,6 @@ class StringParameter extends Parameter
     public function makeDateTime(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
     {
         return $this->setFormat(new Format\DateTimeFormat($earliest, $latest));
-
     }
 
     /**
@@ -135,7 +135,6 @@ class StringParameter extends Parameter
     public function makeCsv(string $separator = ','): self
     {
         return $this->setFormat(new Format\CsvFormat($separator));
-
     }
 
     /**
@@ -149,7 +148,6 @@ class StringParameter extends Parameter
     public function makePassword(): self
     {
         return $this->setFormat(new Format\PasswordFormat());
-
     }
 
     /**

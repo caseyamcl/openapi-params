@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -32,10 +33,10 @@ use Paramee\Utility\RequireConstantTrait;
  */
 abstract class AbstractParamFormat implements ParamFormatInterface
 {
-    const TYPE_CLASS = null;
-    const NAME = null;
-
     use RequireConstantTrait;
+
+    public const TYPE_CLASS = null;
+    public const NAME = null;
 
     /**
      * Return the type class that this format can be applied to

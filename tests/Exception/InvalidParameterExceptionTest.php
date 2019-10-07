@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -61,7 +62,7 @@ class InvalidParameterExceptionTest extends TestCase
     public function testGetErrorsWithPointerPrefix()
     {
         $step = new CallbackStep('trim', 'test');
-        $obj = InvalidValueException::fromMessage($step,  'test','boo', 'Bad stuff happened');
+        $obj = InvalidValueException::fromMessage($step, 'test', 'boo', 'Bad stuff happened');
         $this->assertSame(
             '/data/attributes/test',
             current($obj->getErrorsWithPointerPrefix('data/attributes'))->getPointer()

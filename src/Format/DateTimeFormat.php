@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -71,7 +72,8 @@ class DateTimeFormat extends AbstractParamFormat
      */
     public function setEarliestDate(?DateTimeInterface $earliestDate): void
     {
-        $this->earliestDate = $earliestDate ? CarbonImmutable::instance($earliestDate) : null;;
+        $this->earliestDate = $earliestDate ? CarbonImmutable::instance($earliestDate) : null;
+        ;
     }
 
     /**
@@ -137,7 +139,7 @@ class DateTimeFormat extends AbstractParamFormat
      */
     public function getDocumentation(): ?string
     {
-        return 'Value must be a valid RFC 3339 (section 5.6) date-time; e.g. "'. static::DATE_FORMAT_EXAMPLE .'".';
+        return 'Value must be a valid RFC 3339 (section 5.6) date-time; e.g. "' . static::DATE_FORMAT_EXAMPLE . '".';
     }
 
     /**

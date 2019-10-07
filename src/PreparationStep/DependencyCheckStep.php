@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -29,8 +30,8 @@ use Paramee\Model\ParameterValues;
  */
 class DependencyCheckStep implements PreparationStepInterface
 {
-    const MUST_EXIST = true;
-    const MUST_NOT_EXIST = false;
+    public const MUST_EXIST = true;
+    public const MUST_NOT_EXIST = false;
 
     /**
      * @var array|string[]

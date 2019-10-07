@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -198,5 +199,4 @@ abstract class AbstractNumericParameter extends Parameter
 
         return $rules ?? [];
     }
-
 }

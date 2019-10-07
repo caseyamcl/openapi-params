@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Paramee Library
  *
@@ -53,7 +54,6 @@ class ParameterErrorTest extends TestCase
     public function testGetTitle()
     {
         $this->assertSame('There was a problem', $this->getInstance()->getTitle());
-
     }
 
     public function testGetExtra()

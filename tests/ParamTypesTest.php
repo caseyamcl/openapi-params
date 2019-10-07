@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -55,5 +56,4 @@ class ParamTypesTest extends TestCase
             ['abc', ParamTypes::STRING]
         ];
     }
-
 }

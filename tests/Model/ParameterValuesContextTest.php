@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Paramee Library
  *
@@ -30,7 +31,7 @@ abstract class ParameterValuesContextTest extends TestCase
 
     public function testGetLoggerReturnsNullLoggerWhenNoLoggerSpecified()
     {
-        $this->assertInstanceOf(NullLogger::class,$this->getContextInstance()->getLogger());
+        $this->assertInstanceOf(NullLogger::class, $this->getContextInstance()->getLogger());
     }
 
     public function testGetDeserializer()

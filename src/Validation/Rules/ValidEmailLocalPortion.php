@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -34,5 +35,4 @@ class ValidEmailLocalPortion extends Email
     {
         return parent::validate($input . '@example.org');
     }
-
 }

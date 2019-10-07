@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -63,6 +64,4 @@ class DateFormat extends DateTimeFormat
     {
         return parent::buildDate($value)->startOfDay();
     }
-
-
 }

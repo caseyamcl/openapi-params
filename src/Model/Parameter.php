@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -39,15 +40,15 @@ use Paramee\Utility\RequireConstantTrait;
  */
 abstract class Parameter
 {
+    use RequireConstantTrait;
+    use SetValidatorTrait;
+
     public const TYPE_NAME = null;
     public const PHP_DATA_TYPE = null;
 
     public const READ_ONLY  = 0;
     public const WRITE_ONLY = 1;
     public const READ_WRITE = 2;
-
-    use RequireConstantTrait;
-    use SetValidatorTrait;
 
     /**
      * @var string

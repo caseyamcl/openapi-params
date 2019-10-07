@@ -1,4 +1,5 @@
 <?php
+
 /**
  *  Paramee Library
  *
@@ -34,12 +35,12 @@ use Webmozart\Assert\Assert;
  */
 final class ParamTypes
 {
-    const STRING = 'string';
-    const BOOLEAN = 'boolean';
-    const OBJECT = 'object';
-    const ARRAY = 'array';
-    const NUMBER = 'number';
-    const INTEGER = 'integer';
+    public const STRING = 'string';
+    public const BOOLEAN = 'boolean';
+    public const OBJECT = 'object';
+    public const ARRAY = 'array';
+    public const NUMBER = 'number';
+    public const INTEGER = 'integer';
 
     /**
      * Create a type instance of a given parameter

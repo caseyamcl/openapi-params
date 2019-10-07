@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Paramee Library
  *
@@ -46,8 +47,10 @@ class Paramee
      * @param ParameterDeserializer|null $deserializer
      * @return ParameterList
      */
-    public static function bodyParams(?LoggerInterface $logger = null, ?ParameterDeserializer $deserializer = null): ParameterList
-    {
+    public static function bodyParams(
+        ?LoggerInterface $logger = null,
+        ?ParameterDeserializer $deserializer = null
+    ): ParameterList {
         return new ParameterList('body', [], new ParamBodyContext($deserializer, $logger));
     }
 

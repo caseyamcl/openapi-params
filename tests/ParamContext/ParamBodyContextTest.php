@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Paramee Library
  *
@@ -40,6 +41,4 @@ class ParamBodyContextTest extends ParameterValuesContextTest
     {
         return 'body';
     }
-
-
 }
