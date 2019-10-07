@@ -31,20 +31,22 @@ class ParameeTest extends TestCase
      * @param ParameterList $params
      * @param string $expectedClass
      */
-    public function testFactoryMethods(ParameterList $params, string $expectedClass)
+    public function testFactoryMethods(array $toCall, string $expectedClass)
     {
-        $this->assertInstanceOf(ParameterValuesContext::class, $params->getContext());
-        $this->assertSame($expectedClass, get_class($params->getContext()));
+        /** @var ParameterList $paramList */
+        $paramList = call_user_func($toCall);
+        $this->assertInstanceOf(ParameterValuesContext::class, $paramList->getContext());
+        $this->assertSame($expectedClass, get_class($paramList->getContext()));
     }
 
 
     public function dataValuesProvider()
     {
         return [
-            [Paramee::queryParams(), ParamQueryContext::class],
-            [Paramee::headerParams(), ParamHeaderContext::class],
-            [Paramee::bodyParams(), ParamBodyContext::class],
-            [Paramee::pathParams(), ParamPathContext::class]
+            [[Paramee::class, 'queryParams'], ParamQueryContext::class],
+            [[Paramee::class, 'headerParams'], ParamHeaderContext::class],
+            [[Paramee::class, 'bodyParams'], ParamBodyContext::class],
+            [[Paramee::class, 'pathParams'], ParamPathContext::class]
         ];
     }
 }
