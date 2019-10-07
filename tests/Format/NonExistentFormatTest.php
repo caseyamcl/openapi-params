@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 namespace Format;
 
-use Paramee\AbstractParamFormatTest;
+use Paramee\Model\AbstractParamFormatTest;
 use Paramee\Contract\ParamFormatInterface;
 use Paramee\Model\AbstractParamFormat;
 use Paramee\Model\Parameter;

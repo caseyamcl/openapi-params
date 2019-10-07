@@ -16,7 +16,7 @@
 
 namespace Paramee\Format;
 
-use Paramee\AbstractParamFormatTest;
+use Paramee\Model\AbstractParamFormatTest;
 use Paramee\Contract\ParamFormatInterface;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValidationRule;

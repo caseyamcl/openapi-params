@@ -18,7 +18,7 @@ namespace Paramee\Format;
 
 use Carbon\CarbonImmutable;
 use Exception;
-use Paramee\AbstractParamFormatTest;
+use Paramee\Model\AbstractParamFormatTest;
 use Paramee\Contract\ParamFormatInterface;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;

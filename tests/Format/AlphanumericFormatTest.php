@@ -17,7 +17,7 @@
 namespace Paramee\Format;
 
 use Paramee\Contract\ParamFormatInterface;
-use Paramee\AbstractParamFormatTest;
+use Paramee\Model\AbstractParamFormatTest;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Type\StringParameter;

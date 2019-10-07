@@ -14,13 +14,12 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee;
+namespace Paramee\Model;
 
 use PHPUnit\Framework\TestCase;
 use Paramee\Contract\ParameterValidationRuleInterface;
 use Paramee\Contract\ParamFormatInterface;
 use Paramee\Contract\PreparationStepInterface;
-use Paramee\Model\Parameter;
 
 abstract class AbstractParamFormatTest extends TestCase
 {
