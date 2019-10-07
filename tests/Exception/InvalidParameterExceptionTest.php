@@ -30,7 +30,7 @@ class InvalidParameterExceptionTest extends TestCase
             ['Bad Stuff']
         );
 
-        $this->assertEquals('Bad Stuff', $obj->getErrors()[0]->getTitle());
+        $this->assertEquals('Bad Stuff', current($obj->getErrors())->getTitle());
     }
 
     public function testConstructor()
@@ -56,5 +56,15 @@ class InvalidParameterExceptionTest extends TestCase
 
         $this->assertSame($err, $obj->getStep());
         $this->assertSame('boo', $obj->getValue());
+    }
+
+    public function testGetErrorsWithPointerPrefix()
+    {
+        $step = new CallbackStep('trim', 'test');
+        $obj = InvalidValueException::fromMessage($step,  'test','boo', 'Bad stuff happened');
+        $this->assertSame(
+            '/data/attributes/test',
+            current($obj->getErrorsWithPointerPrefix('data/attributes'))->getPointer()
+        );
     }
 }

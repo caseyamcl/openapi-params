@@ -120,7 +120,7 @@ class ObjectParameterTest extends AbstractParameterTest
             $param->prepare((object) ['firstName' => 'Bob']);
             $this->fail('Expected exception: ' . InvalidValueException::class);
         } catch (InvalidValueException $e) {
-            $this->assertEquals('/test/firstName', $e->getErrors()[0]->getPointer());
+            $this->assertEquals('/test/firstName', current($e->getErrors())->getPointer());
         }
     }
 
@@ -136,7 +136,7 @@ class ObjectParameterTest extends AbstractParameterTest
             $param->prepare((object) ['person' => (object) ['firstName' => ' Bob ']]);
             $this->fail('Expected exception: ' . InvalidValueException::class);
         } catch (InvalidValueException $e) {
-            $this->assertEquals('/test/person/firstName', $e->getErrors()[0]->getPointer());
+            $this->assertEquals('/test/person/firstName', current($e->getErrors())->getPointer());
         }
     }
 

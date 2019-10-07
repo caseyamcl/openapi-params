@@ -176,8 +176,9 @@ class ArrayParameterTest extends AbstractParameterTest
             $param->prepare([3, 9, -4, 'oops', 6, 'crud']);
             $this->fail('Expected exception: ' . InvalidValueException::class);
         } catch (InvalidValueException $e) {
-            $this->assertEquals('/test/3', $e->getErrors()[0]->getPointer());
-            $this->assertEquals('/test/5', $e->getErrors()[1]->getPointer());
+            $errors = $e->getErrors();
+            $this->assertEquals('/test/3', current($errors)->getPointer());
+            $this->assertEquals('/test/5', next($errors)->getPointer());
         }
     }
 
@@ -195,7 +196,7 @@ class ArrayParameterTest extends AbstractParameterTest
 
             $this->fail('Expected exception: ' . InvalidValueException::class);
         } catch (InvalidValueException $e) {
-            $this->assertEquals('/test/1/firstName', $e->getErrors()[0]->getPointer());
+            $this->assertEquals('/test/1/firstName', current($e->getErrors())->getPointer());
         }
     }
 

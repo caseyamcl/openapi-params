@@ -55,11 +55,11 @@ trait ParameterErrorsTrait
             return $e->withPointer($pointerPrefix . $e->getPointer());
         };
 
-        $arr = $this->getErrors();
+        $arr = [];
 
-        foreach ($arr as $pointer => $error) {
+        foreach ($this->getErrors() as $pointer => $error) {
             $newErr = $addPrefix($error);
-            $arr[$newErr->getPointer()] = $error;
+            $arr[$newErr->getPointer()] = $newErr;
         }
 
         return $arr;

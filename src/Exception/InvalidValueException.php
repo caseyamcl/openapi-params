@@ -97,7 +97,7 @@ final class InvalidValueException extends RuntimeException implements ParameterE
 
         $this->step = $step;
         $this->value = $value;
-        $this->errors = $errors;
+        array_map([$this, 'addError'], $errors);
     }
 
     /**
