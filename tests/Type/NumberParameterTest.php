@@ -32,14 +32,14 @@ class NumberParameterTest extends AbstractNumericParameterTest
     /**
      * Test that, if we are not requiring a decimal, integers are automatically typecast (even if typecast is disabled)
      */
-//    public function testIntegerTypeCastToFloatOrDoubleWhenDecimalNotRequired()
-//    {
-//        $obj = $this->getInstance('test')
-//            ->setAllowTypeCast(false)
-//            ->setRequireDecimal(false);
-//
-//        $this->assertSame($this->cast(5.0), $obj->prepare(5));
-//    }
+    public function testIntegerTypeCastToFloatOrDoubleWhenDecimalNotRequired()
+    {
+        $obj = $this->getInstance('test')
+            ->setAllowTypeCast(false)
+            ->setRequireDecimal(false);
+
+        $this->assertSame($this->cast(5.0), $obj->prepare(5));
+    }
 
     public function testIntegerTypeNotFailsWhenDecimalRequired()
     {
