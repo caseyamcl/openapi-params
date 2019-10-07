@@ -11,19 +11,14 @@
          stopOnFailure="false">
 
     <testsuites>
-        <testsuite name="Paramee Client Test Suite">
-            <directory suffix="Test.php">./tests</directory>
+        <testsuite name="Paramee Test Suite">
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 
     <filter>
         <whitelist>
-            <directory>./</directory>
-            <exclude>
-                <directory>./example</directory>
-                <directory>./tests</directory>
-                <directory>./vendor</directory>
-            </exclude>
+            <directory suffix=".php">src/</directory>
         </whitelist>
     </filter>
     <logging>
