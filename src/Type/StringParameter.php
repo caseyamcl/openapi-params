@@ -202,7 +202,10 @@ class StringParameter extends Parameter
     }
 
     /**
-     * Enable string sanitization (default is FALSE in case data is binary or you wish to use non-built in sanitization)
+     * Enable string sanitization
+     *
+     * default is FALSE in case data is binary or you wish to use non-built in sanitization
+     *
      * @param bool $sanitize
      * @return self
      */
