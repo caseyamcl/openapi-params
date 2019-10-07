@@ -4,7 +4,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @package caseyamcl/paramee
+ *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -25,7 +25,7 @@ use Paramee\Validation\Rules\ValidUuid;
 
 /**
  * Class UuidFormat
- * @package Paramee\Format
+ * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
 class UuidFormat extends AbstractParamFormat
 {

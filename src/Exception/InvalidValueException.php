@@ -4,7 +4,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @package caseyamcl/paramee
+ *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -17,8 +17,11 @@ declare(strict_types=1);
 
 namespace Paramee\Exception;
 
+use Paramee\Behavior\ParameterErrorsTrait;
+use Paramee\Contract\ParameterException;
 use Paramee\Contract\PreparationStepInterface;
 use Paramee\Model\ParameterError;
+use RuntimeException;
 use Webmozart\Assert\Assert;
 
 /**
@@ -28,8 +31,10 @@ use Webmozart\Assert\Assert;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-final class InvalidValueException extends ParameterException
+final class InvalidValueException extends RuntimeException implements ParameterException
 {
+    use ParameterErrorsTrait;
+
     /**
      * @var PreparationStepInterface
      */
@@ -41,12 +46,7 @@ final class InvalidValueException extends ParameterException
     private $value;
 
     /**
-     * @var array|ParameterError[]
-     */
-    private $errors;
-
-    /**
-     * From single message
+     * Generate an InvalidValueException from a single error message
      *
      * @param PreparationStepInterface $step
      * @param string $paramName  Full parameter name
@@ -60,6 +60,8 @@ final class InvalidValueException extends ParameterException
     }
 
     /**
+     * Generate an InvalidValueException from multiple error messages
+     *
      * @param PreparationStepInterface $step
      * @param string $paramName
      * @param mixed $value
@@ -116,15 +118,5 @@ final class InvalidValueException extends ParameterException
     public function getValue()
     {
         return $this->value;
-    }
-
-    /**
-     * Get messages for the end-user
-     *
-     * @return array|ParameterError[]
-     */
-    public function getErrors(): array
-    {
-        return $this->errors;
     }
 }

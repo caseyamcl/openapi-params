@@ -4,7 +4,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @package caseyamcl/paramee
+ *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -231,7 +231,7 @@ class ParameterList implements IteratorAggregate, Countable
         if ($strict) {
             $diff = array_diff($paramValues->listNames(), array_keys($this->items->getArrayCopy()));
             if (! empty($diff)) {
-                $errors[] = new UndefinedParametersException($diff);
+                $exceptions[] = new UndefinedParametersException($diff);
             }
         }
 
@@ -239,7 +239,7 @@ class ParameterList implements IteratorAggregate, Countable
         foreach ($this->items as $param) {
             // Check if parameter is required, and throw exception if it is not in the values
             if ($param->isRequired() && ! $paramValues->hasValue($param->__toString())) {
-                $errors[] = new MissingParameterException($param->__toString());
+                $exceptions[] = new MissingParameterException($param->__toString());
             }
 
             // ..or skip parameters that are optional and missing from the values
@@ -249,13 +249,13 @@ class ParameterList implements IteratorAggregate, Countable
 
             try {
                 $param->prepare($paramValues->get($param->__toString())->getRawValue(), $paramValues);
-            } catch (InvalidValueException $e) {
-                $errors[] = $e;
+            } catch (InvalidValueException | MissingParameterException $e) {
+                $exceptions[] = $e;
             }
         }
 
-        if (isset($errors)) {
-            throw new AggregateErrorsException($errors);
+        if (isset($exceptions)) {
+            throw new AggregateErrorsException($exceptions);
         }
 
         return $paramValues;

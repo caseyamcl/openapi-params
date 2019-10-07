@@ -4,7 +4,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/Paramee
- *  @package caseyamcl/Paramee
+ *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/Paramee
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md

@@ -4,7 +4,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -17,18 +17,29 @@ declare(strict_types=1);
 
 namespace Paramee\Exception;
 
+use Paramee\Behavior\ParameterErrorsTrait;
+use Paramee\Contract\ParameterException;
+use Paramee\Model\ParameterError;
+use RuntimeException;
 use Throwable;
 
 /**
  * Class UndefinedParameterException
- * @package Paramee\Exception
+ * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class UndefinedParametersException extends ParameterException
+class UndefinedParametersException extends RuntimeException implements ParameterException
 {
+    use ParameterErrorsTrait;
+
     public function __construct(array $paramNames, $code = 422, Throwable $previous = null)
     {
-        $message = ((count($paramNames) === 1) ? "Undefined parameter: " : 'Undefined parameters: ')
-            . implode(', ', $paramNames);
+        foreach ($paramNames as $paramName) {
+            $this->addError(new ParameterError('Undefined parameter: ' . $paramName, $paramName));
+        }
+
+        $message = count($paramNames) === 1
+            ? current($this->getErrors())->getTitle()
+            : 'There were undefined parameters.';
 
         parent::__construct($message, $code, $previous);
     }

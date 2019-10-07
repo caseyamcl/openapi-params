@@ -4,7 +4,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -17,17 +17,24 @@ declare(strict_types=1);
 
 namespace Paramee\Exception;
 
+use Paramee\Behavior\ParameterErrorsTrait;
+use Paramee\Contract\ParameterException;
+use Paramee\Model\ParameterError;
+use RuntimeException;
 use Throwable;
 
 /**
  * Class MissingParameterException
- * @package Paramee\Exception
+ * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class MissingParameterException extends ParameterException
+class MissingParameterException extends RuntimeException implements ParameterException
 {
+    use ParameterErrorsTrait;
+
     public function __construct(string $paramName, $code = 422, Throwable $previous = null)
     {
-        $message = "Missing required parameter: " . $paramName;
-        parent::__construct($message, $code, $previous);
+        $error = new ParameterError('Missing required parameter: ' . $paramName, $paramName);
+        $this->addError($error);
+        parent::__construct($error->getTitle(), $code, $previous);
     }
 }

@@ -4,7 +4,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @package caseyamcl/paramee
+ *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -22,7 +22,7 @@ use stdClass;
 /**
  * Parameter Deserializer
  *
- * @package Paramee\Contract
+ * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
 interface ParameterDeserializer
 {

@@ -4,7 +4,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -21,7 +21,7 @@ use Webmozart\Assert\Assert;
 
 /**
  * Class RequireConstantTrait
- * @package Paramee\Utility
+ * @author Casey McLaughlin <caseyamcl@gmail.com> Paramee\Utility
  */
 trait RequireConstantTrait
 {

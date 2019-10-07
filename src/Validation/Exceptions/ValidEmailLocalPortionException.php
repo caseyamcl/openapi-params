@@ -4,7 +4,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -19,6 +19,11 @@ namespace Paramee\Validation\Exceptions;
 
 use Respect\Validation\Exceptions\ValidationException;
 
+/**
+ * Class ValidEmailLocalPortionException
+ *
+ * @author Casey McLaughlin <caseyamcl@gmail.com>
+ */
 class ValidEmailLocalPortionException extends ValidationException
 {
     public static $defaultTemplates = [

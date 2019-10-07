@@ -18,7 +18,7 @@ namespace Paramee\Model;
 use ArrayObject;
 use DateTime;
 use Paramee\Exception\AggregateErrorsException;
-use Paramee\Exception\ParameterException;
+use Paramee\Contract\ParameterException;
 use Paramee\ParamContext\ParamQueryContext;
 use Paramee\PreparationStep\CallbackStep;
 use Paramee\Type\ArrayParameter;

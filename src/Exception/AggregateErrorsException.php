@@ -4,7 +4,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -20,17 +20,23 @@ namespace Paramee\Exception;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
+use Paramee\Behavior\ParameterErrorsTrait;
+use Paramee\Contract\ParameterException;
+use Paramee\Model\ParameterError;
+use RuntimeException;
 use Throwable;
 use Traversable;
 use Webmozart\Assert\Assert;
 
 /**
- * Aggregate Parameter Exception
+ * Aggregate Parameter Exception - Represents multiple errors
  *
- * @package Paramee\Exception
+ * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class AggregateErrorsException extends ParameterException implements IteratorAggregate, Countable
+class AggregateErrorsException extends RuntimeException implements IteratorAggregate, Countable, ParameterException
 {
+    use ParameterErrorsTrait;
+
     /**
      * @var array|ParameterException[]
      */
@@ -73,5 +79,17 @@ class AggregateErrorsException extends ParameterException implements IteratorAgg
     public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->exceptions);
+    }
+
+    /**
+     * @return array|ParameterError[]
+     */
+    public function getErrors(): array
+    {
+        $errors = [];
+        foreach ($this->getIterator() as $exception) {
+            $errors = array_merge($errors, $exception->getErrors());
+        }
+        return $errors;
     }
 }
