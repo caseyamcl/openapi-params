@@ -28,7 +28,7 @@ class ParameeTest extends TestCase
 {
     /**
      * @dataProvider dataValuesProvider
-     * @param ParameterList $params
+     * @param array $toCall
      * @param string $expectedClass
      */
     public function testFactoryMethods(array $toCall, string $expectedClass)
