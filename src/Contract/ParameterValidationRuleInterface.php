@@ -41,5 +41,5 @@ interface ParameterValidationRuleInterface
      *
      * @return string
      */
-    public function getDocumentation(): string;
+    public function getDescription(): string;
 }

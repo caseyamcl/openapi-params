@@ -89,7 +89,7 @@ class CsvFormat extends AbstractParamFormat
                 new ParameterValidationRule(Validator::callback(function ($value) {
                     $items = UnpackCSV::un($value, $this->separator);
                     return Validator::each($this->validatorForEach->getValidator())->validate($items);
-                }), $this->validatorForEach->getDocumentation())
+                }), $this->validatorForEach->getDescription())
             ];
         } else {
             return [];

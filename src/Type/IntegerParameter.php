@@ -53,7 +53,7 @@ final class IntegerParameter extends AbstractNumericParameter
     {
         return array_merge(
             parent::getBuiltInValidationRules(),
-            [new ParameterValidationRule(Validator::intType())]
+            [new ParameterValidationRule(Validator::intType(), 'value must be an integer', false)]
         );
     }
 }

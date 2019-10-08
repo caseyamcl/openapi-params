@@ -210,18 +210,28 @@ final class ArrayParameter extends Parameter
     protected function getBuiltInValidationRules(): array
     {
         if ($this->minItems !== null) {
-            $rules[] = new ParameterValidationRule(Validator::length($this->minItems, null));
+            $rules[] = new ParameterValidationRule(
+                Validator::length($this->minItems, null),
+                sprintf('number of items in array must be greater than or equal to %s', number_format($this->minItems)),
+                false
+            );
         }
 
         if ($this->maxItems !== null) {
-            $rules[] = new ParameterValidationRule(Validator::length(null, $this->maxItems));
+            $rules[] = new ParameterValidationRule(
+                Validator::length(null, $this->maxItems),
+                sprintf('number of items in array must be less than or equal to %s', number_format($this->maxItems)),
+                false
+            );
         }
 
         if ($this->uniqueItems) {
             $rules[] = new ParameterValidationRule(
                 Validator::callback(function (array $value) {
                     return count(array_unique($value)) === count($value);
-                })
+                }),
+                'values must be unique items',
+                false
             );
         }
 

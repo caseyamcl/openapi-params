@@ -184,17 +184,46 @@ abstract class AbstractNumericParameter extends Parameter
     protected function getBuiltInValidationRules(): array
     {
         $rules = [
-            new ParameterValidationRule(Validator::oneOf(Validator::intType(), Validator::floatType()))
+            new ParameterValidationRule(
+                Validator::oneOf(Validator::intType(), Validator::floatType()),
+                'value must be an integer or a float',
+                false
+            )
         ];
 
         if ($this->getMinimum()) {
-            $rules[] = new ParameterValidationRule(Validator::min($this->getMinimum(), ! $this->exclusiveMinimum));
+            $minMessage = sprintf(
+                'value must be greater than%s: %s',
+                $this->exclusiveMinimum ? ' or equal to' : null,
+                number_format($this->getMinimum())
+            );
+
+            $rules[] = new ParameterValidationRule(
+                Validator::min($this->getMinimum(), ! $this->exclusiveMinimum),
+                $minMessage,
+                false
+            );
         }
+
         if ($this->getMaximum()) {
-            $rules[] = new ParameterValidationRule(Validator::max($this->getMaximum(), ! $this->exclusiveMaximum));
+            $maxMessage = sprintf(
+                'value must be less than%s: %s',
+                $this->exclusiveMaximum ? ' or equal to' : null,
+                number_format($this->getMaximum())
+            );
+
+            $rules[] = new ParameterValidationRule(
+                Validator::max($this->getMaximum(), ! $this->exclusiveMaximum),
+                $maxMessage,
+                false
+            );
         }
-        if ($multipleOf = (int) $this->getMultipleOf()) {
-            $rules[] = new ParameterValidationRule(Validator::multiple($multipleOf));
+        if ($multipleOf = $this->getMultipleOf()) {
+            $rules[] = new ParameterValidationRule(
+                Validator::multiple((int) $multipleOf),
+                sprintf('value must be a multiple of %s', number_format((int) $this->getMultipleOf())),
+                false
+            );
         }
 
         return $rules ?? [];

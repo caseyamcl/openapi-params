@@ -176,16 +176,24 @@ final class ObjectParameter extends Parameter
     {
         // Minimum number of properties?
         if ($this->minProperties) {
-            $rules[] = new ParameterValidationRule(Validator::callback(function ($obj) {
-                return count((array) $obj) >= $this->minProperties;
-            }));
+            $rules[] = new ParameterValidationRule(
+                Validator::callback(function ($obj) {
+                    return count((array) $obj) >= $this->minProperties;
+                }),
+                sprintf('number of properties in object must be greater than or equal to %s', number_format($this->minProperties)),
+                false
+            );
         }
 
         // Maximum number of properties?
         if ($this->maxProperties) {
-            $rules[] = new ParameterValidationRule(Validator::callback(function ($obj) {
-                return count((array) $obj) <= $this->maxProperties;
-            }));
+            $rules[] = new ParameterValidationRule(
+                Validator::callback(function ($obj) {
+                    return count((array) $obj) <= $this->maxProperties;
+                }),
+                sprintf('number of properties in object must be less than or equal to %s', number_format($this->maxProperties)),
+                false
+            );
         }
 
         // Required parameters
@@ -204,7 +212,9 @@ final class ObjectParameter extends Parameter
                         implode(', ', $diff)
                     ));
                 }
-            })
+            }),
+            sprintf('object must contain properties: %s', implode(', ', array_keys($this->properties))),
+            false
         );
 
         // Extra undefined parameters

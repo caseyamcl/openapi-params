@@ -339,13 +339,25 @@ class StringParameter extends Parameter
 
         // Rules do not provide documentation, because that would be redundant in the API documentation
         if ($this->minLength !== null) {
-            $rules[] = new ParameterValidationRule(Validator::length($this->minLength));
+            $rules[] = new ParameterValidationRule(
+                Validator::length($this->minLength),
+                sprintf('Ensure length no shorter than %s', number_format($this->minLength)),
+                false
+            );
         }
         if ($this->maxLength !== null) {
-            $rules[] = new ParameterValidationRule(Validator::length(null, $this->maxLength));
+            $rules[] = new ParameterValidationRule(
+                Validator::length(null, $this->maxLength),
+                sprintf('Ensure length no longer than %s', number_format($this->maxLength)),
+                false
+            );
         }
         if ($this->pattern) {
-            $rules[] = new ParameterValidationRule(Validator::regex($this->pattern));
+            $rules[] = new ParameterValidationRule(
+                Validator::regex($this->pattern),
+                sprintf('Ensure pattern matches: "%s"', $this->pattern),
+                false
+            );
         }
 
         return $rules;
