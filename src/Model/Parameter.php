@@ -614,7 +614,7 @@ abstract class Parameter
         foreach ($steps as $idx => $step) {
             // Log message
             $logMessage = sprintf(
-                "Parameter %s - Running preparation step %s/%s: %s",
+                "Parameter: %s - Running preparation step %s/%s: %s",
                 $myName,
                 $idx + 1,
                 count($steps),
