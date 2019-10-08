@@ -74,9 +74,9 @@ class RespectValidationStep implements PreparationStepInterface
      */
     public function getApiDocumentation(): ?string
     {
-        return implode(PHP_EOL, array_map(function (ParameterValidationRule $rule) {
-            return PHP_EOL . $rule->getDocumentation();
-        }, $this->rules));
+        return implode(PHP_EOL, array_filter(array_map(function (ParameterValidationRule $rule) {
+            return $rule->includeInDocumentation() ? PHP_EOL . $rule->getDescription() : null;
+        }, $this->rules)));
     }
 
     /**
@@ -86,7 +86,7 @@ class RespectValidationStep implements PreparationStepInterface
      */
     public function __toString(): string
     {
-        return 'Runs the following validation checks: ' . PHP_EOL . $this->getApiDocumentation();
+        return 'runs the following validation checks: ' . PHP_EOL . trim($this->getApiDocumentation());
     }
 
     /**

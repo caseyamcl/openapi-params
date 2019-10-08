@@ -38,17 +38,26 @@ class ParameterValidationRule implements ParameterValidationRuleInterface
     /**
      * @var string
      */
-    private $documentation;
+    private $description;
+    /**
+     * @var bool
+     */
+    private $includeDescriptionInApiDocumentation;
 
     /**
      * ParameterValidationRule constructor.
      * @param Validatable $rule
-     * @param string $documentation
+     * @param string $description
+     * @param bool $includeDescriptionInDocumentation
      */
-    public function __construct(Validatable $rule, string $documentation = '')
-    {
+    public function __construct(
+        Validatable $rule,
+        string $description = '',
+        bool $includeDescriptionInDocumentation = true
+    ) {
         $this->rule = $rule;
-        $this->documentation = $documentation;
+        $this->description = $description;
+        $this->includeDescriptionInApiDocumentation = $includeDescriptionInDocumentation;
     }
 
     /**
@@ -66,8 +75,16 @@ class ParameterValidationRule implements ParameterValidationRuleInterface
      *
      * @return string
      */
-    public function getDocumentation(): string
+    public function getDescription(): string
     {
-        return $this->documentation;
+        return $this->description;
+    }
+
+    /**
+     * @return bool
+     */
+    public function includeInDocumentation(): bool
+    {
+        return $this->includeDescriptionInApiDocumentation;
     }
 }
