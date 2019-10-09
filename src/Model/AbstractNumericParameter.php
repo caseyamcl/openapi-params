@@ -183,18 +183,10 @@ abstract class AbstractNumericParameter extends Parameter
 
     protected function getBuiltInValidationRules(): array
     {
-        $rules = [
-            new ParameterValidationRule(
-                Validator::oneOf(Validator::intType(), Validator::floatType()),
-                'value must be an integer or a float',
-                false
-            )
-        ];
-
         if ($this->getMinimum()) {
             $minMessage = sprintf(
                 'value must be greater than%s: %s',
-                $this->exclusiveMinimum ? ' or equal to' : null,
+                $this->exclusiveMinimum ? null : ' or equal to',
                 number_format($this->getMinimum())
             );
 
@@ -208,7 +200,7 @@ abstract class AbstractNumericParameter extends Parameter
         if ($this->getMaximum()) {
             $maxMessage = sprintf(
                 'value must be less than%s: %s',
-                $this->exclusiveMaximum ? ' or equal to' : null,
+                $this->exclusiveMaximum ? null : ' or equal to',
                 number_format($this->getMaximum())
             );
 

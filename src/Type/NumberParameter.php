@@ -22,7 +22,9 @@ use Paramee\Contract\ParamFormatInterface;
 use Paramee\Model\AbstractNumericParameter;
 use Paramee\Format\DoubleFormat;
 use Paramee\Format\FloatFormat;
+use Paramee\Model\ParameterValidationRule;
 use Paramee\PreparationStep\CallbackStep;
+use Respect\Validation\Validator;
 
 /**
  * Class NumberParameter
@@ -86,6 +88,17 @@ final class NumberParameter extends AbstractNumericParameter
                 return (PHP_FLOAT_DIG >= 15) ? (double) $value : (float) $value;
             }, 'type-cast to float or double if integer')
         ];
+    }
+
+    protected function getBuiltInValidationRules(): array
+    {
+        return array_merge(parent::getBuiltInValidationRules(), [
+            new ParameterValidationRule(
+                Validator::oneOf(Validator::intType(), Validator::floatType()),
+                'value must be an integer or a float',
+                false
+            )
+        ]);
     }
 
 
