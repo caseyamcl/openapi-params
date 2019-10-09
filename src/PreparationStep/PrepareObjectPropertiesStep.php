@@ -93,9 +93,9 @@ class PrepareObjectPropertiesStep implements PreparationStepInterface
         // Clone each defined property, setting the name correctly
         $definedProperties = [];
         foreach ($this->parameter->getProperties() as $property) {
-            $definedProperties[$property->__toString()] = $property->withName(implode(
+            $definedProperties[$property->getName()] = $property->withName(implode(
                 '/',
-                [$paramName, $property->__toString()]
+                [$paramName, $property->getName()]
             ));
         }
 

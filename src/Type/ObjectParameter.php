@@ -146,9 +146,9 @@ final class ObjectParameter extends Parameter
      */
     public function addProperty(Parameter $parameter): self
     {
-        Assert::notEmpty($parameter->__toString(), 'cannot add parameter without a name to an object');
+        Assert::notEmpty($parameter->getName(), 'cannot add parameter without a name to an object');
 
-        $this->properties[$parameter->__toString()] = $parameter;
+        $this->properties[$parameter->getName()] = $parameter;
         return $this;
     }
 

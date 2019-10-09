@@ -193,6 +193,14 @@ abstract class Parameter
     /**
      * @return string
      */
+    final public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @return string
+     */
     final public function getTypeName(): string
     {
         return $this->requireConstant('TYPE_NAME');
@@ -605,7 +613,7 @@ abstract class Parameter
      */
     final public function prepare($value, ParameterValues &$allValues = null)
     {
-        $myName = $this->__toString() ?: '(no name)';
+        $myName = $this->getName() ?: '(no name)';
 
         $checkDependencies = (bool) $allValues;
         $allValues = $allValues ?: new ParameterValues([$myName => $value]);
@@ -620,7 +628,7 @@ abstract class Parameter
                 count($steps),
                 trim($step->__toString())
             );
-            $allValues->getContext()->getLogger()->debug($logMessage);
+            $allValues->getContext()->getLogger()->debug($logMessage, ['name' => $this->getName()]);
 
             // Run it
             $value = $step($value, $myName, $allValues);

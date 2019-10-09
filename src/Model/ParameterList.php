@@ -22,6 +22,9 @@ use ArrayObject;
 use Countable;
 use Generator;
 use IteratorAggregate;
+use MJS\TopSort\CircularDependencyException;
+use MJS\TopSort\ElementNotFoundException;
+use MJS\TopSort\Implementations\StringSort;
 use Paramee\Exception\AggregateErrorsException;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Exception\MissingParameterException;
@@ -33,6 +36,7 @@ use Paramee\Type\IntegerParameter;
 use Paramee\Type\NumberParameter;
 use Paramee\Type\ObjectParameter;
 use Paramee\Type\StringParameter;
+use Webmozart\Assert\Assert;
 
 /**
  * Parameter List contains a mutable list of parameters
@@ -65,6 +69,8 @@ class ParameterList implements IteratorAggregate, Countable
      */
     public function __construct(string $name, iterable $items = [], ?ParameterValuesContext $context = null)
     {
+        Assert::allIsInstanceOf($items, Parameter::class);
+
         $this->name = $name;
         $this->items = new ArrayObject();
 
@@ -83,7 +89,7 @@ class ParameterList implements IteratorAggregate, Countable
      */
     public function add(Parameter $param): Parameter
     {
-        $this->items[$param->__toString()] = $param;
+        $this->items[$param->getName()] = $param;
         return $param;
     }
 
@@ -220,13 +226,16 @@ class ParameterList implements IteratorAggregate, Countable
      * Prepare some values
      *
      * @param iterable $values
-     * @param bool $strict  If TRUE, then undefined parameters will create an error, otherwise they will be ignored
+     * @param bool $strict If TRUE, then undefined parameters will create an error, otherwise they will be ignored
      * @return ParameterValues
-     * @throws AggregateErrorsException  If there were 1 or more errors during preparation, this will throw an exception
+     * @throws CircularDependencyException
+     * @throws ElementNotFoundException
      */
     public function prepare(iterable $values, bool $strict = true): ParameterValues
     {
-        $paramValues = new ParameterValues($values, $this->getContext());
+        $paramValues = ($values instanceof ParameterValues)
+            ? $values
+            : new ParameterValues($values, $this->getContext());
 
         // Check for undefined parameters
         if ($strict) {
@@ -237,19 +246,19 @@ class ParameterList implements IteratorAggregate, Countable
         }
 
         // Iterate through items and prepare each of them.
-        foreach ($this->items as $param) {
+        foreach ($this->getOrderedParams() as $param) {
             // Check if parameter is required, and throw exception if it is not in the values
-            if ($param->isRequired() && ! $paramValues->hasValue($param->__toString())) {
-                $exceptions[] = new MissingParameterException($param->__toString());
+            if ($param->isRequired() && ! $paramValues->hasValue($param->getName())) {
+                $exceptions[] = new MissingParameterException($param->getName());
             }
 
             // ..or skip parameters that are optional and missing from the values
-            if (! $paramValues->hasValue($param->__toString())) {
+            if (! $paramValues->hasValue($param->getName())) {
                 continue;
             }
 
             try {
-                $param->prepare($paramValues->get($param->__toString())->getRawValue(), $paramValues);
+                $param->prepare($paramValues->get($param->getName())->getRawValue(), $paramValues);
             } catch (InvalidValueException | MissingParameterException $e) {
                 $exceptions[] = $e;
             }
@@ -300,6 +309,30 @@ class ParameterList implements IteratorAggregate, Countable
         return $apiDocs;
     }
 
+    /**
+     * @param string $name
+     * @return Parameter
+     */
+    public function get(string $name): Parameter
+    {
+        if ($this->has($name)) {
+            return $this->items[$name];
+        } else {
+            throw new \RuntimeException("Parameter not found: " . $name);
+        }
+    }
+
+    /**
+     * Check if a parameter is set
+     *
+     * @param string $name
+     * @return bool
+     */
+    public function has(string $name): bool
+    {
+        return isset($this->items[$name]);
+    }
+
     // --------------------------------------------------------------
     // Methods to implement interfaces
 
@@ -315,6 +348,25 @@ class ParameterList implements IteratorAggregate, Countable
     {
         foreach ($this->items as $name => $value) {
             yield $name => $value;
+        }
+    }
+
+    /**
+     *
+     * @return iterable|Parameter[]
+     * @throws CircularDependencyException
+     * @throws ElementNotFoundException
+     */
+    private function getOrderedParams(): iterable
+    {
+        $sorter = new StringSort();
+
+        foreach ($this->items as $parameter) {
+            $sorter->add($parameter->getName(), $parameter->listDependencies());
+        }
+
+        foreach ($sorter->sort() as $name) {
+            yield $this->get($name);
         }
     }
 }

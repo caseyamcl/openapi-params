@@ -205,8 +205,8 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
     private function resolveValidParameterTypeNames(array $validParams): array
     {
         return array_unique(array_map(function (Parameter $parameter) {
-            return $parameter->__toString()
-                ? sprintf("%s (%s)", $parameter->getTypeName(), $parameter->__toString())
+            return $parameter->getName()
+                ? sprintf("%s (%s)", $parameter->getTypeName(), $parameter->getName())
                 : $parameter->getTypeName();
         }, $validParams));
     }
