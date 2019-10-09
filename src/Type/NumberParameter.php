@@ -31,7 +31,7 @@ use Respect\Validation\Validator;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-final class NumberParameter extends AbstractNumericParameter
+class NumberParameter extends AbstractNumericParameter
 {
     public const TYPE_NAME = 'number';
     public const PHP_DATA_TYPE = null;
@@ -66,7 +66,7 @@ final class NumberParameter extends AbstractNumericParameter
      * @param bool $requireDecimal
      * @return NumberParameter
      */
-    public function setRequireDecimal(bool $requireDecimal): self
+    final public function setRequireDecimal(bool $requireDecimal): self
     {
         $this->requireDecimal = $requireDecimal;
         $this->format = $this->requireDecimal ? $this->buildFormat() : null;
@@ -76,7 +76,7 @@ final class NumberParameter extends AbstractNumericParameter
     /**
      * @return bool
      */
-    public function isRequireDecimal(): bool
+    final public function isRequireDecimal(): bool
     {
         return $this->requireDecimal;
     }

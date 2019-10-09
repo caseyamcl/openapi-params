@@ -6,12 +6,17 @@ This library aims to provide a cross-framework, reusable framework for
 describing and processing parameters compatible with the [OpenApi 3.x](https://swagger.io/specification/)
 standard.
 
+It is useful for people who want to create RESTful APIs that are PHP 
+code-driven (i.e. spec doesn't come from a YAML or JSON file, but is written into the code itself)
+ 
+
 ## Features:
  
  * Provides a low-level API to describe parameters in an OpenApi3-compatible way
  * Validation via the [`respect/validation` library](https://respect-validation.readthedocs.io/en/1.1/)
+ * IDE auto-completion friendly
  * Bottom-up approach
- * PSR-4/PSR-2 compliant
+ * PSR-4/PSR-12 compliant
  * 100% test coverage
  
 ## Quick Usage:

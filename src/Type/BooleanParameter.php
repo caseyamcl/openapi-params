@@ -27,7 +27,7 @@ use Paramee\Model\ParameterValidationRule;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-final class BooleanParameter extends Parameter
+class BooleanParameter extends Parameter
 {
     public const TYPE_NAME = 'boolean';
     public const PHP_DATA_TYPE = 'boolean';

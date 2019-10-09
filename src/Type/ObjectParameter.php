@@ -33,7 +33,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-final class ObjectParameter extends Parameter
+class ObjectParameter extends Parameter
 {
     protected const AUTO = null;
 
@@ -81,7 +81,7 @@ final class ObjectParameter extends Parameter
      * Get the schema name (if set)
      * @return string|null
      */
-    public function getSchemaName(): ?string
+    final public function getSchemaName(): ?string
     {
         return $this->schemaName;
     }
@@ -89,7 +89,7 @@ final class ObjectParameter extends Parameter
     /**
      * @return array|Parameter[]
      */
-    public function getProperties()
+    final public function getProperties()
     {
         return $this->properties;
     }
@@ -100,7 +100,7 @@ final class ObjectParameter extends Parameter
      * @param bool $allow
      * @return self
      */
-    public function setAllowAdditionalProperties(bool $allow): self
+    final public function setAllowAdditionalProperties(bool $allow): self
     {
         $this->allowAdditionalProperties = $allow;
         return $this;
@@ -112,7 +112,7 @@ final class ObjectParameter extends Parameter
      * @param int|null $min
      * @return ObjectParameter
      */
-    public function setMinProperties(?int $min): self
+    final public function setMinProperties(?int $min): self
     {
         if (! is_null($min)) {
             Assert::natural($min);
@@ -128,7 +128,7 @@ final class ObjectParameter extends Parameter
      * @param int|null $max
      * @return $this
      */
-    public function setMaxProperties(?int $max)
+    final public function setMaxProperties(?int $max)
     {
         if (! is_null($max)) {
             Assert::natural($max);
@@ -144,7 +144,7 @@ final class ObjectParameter extends Parameter
      * @param Parameter $parameter
      * @return ObjectParameter
      */
-    public function addProperty(Parameter $parameter): self
+    final public function addProperty(Parameter $parameter): self
     {
         Assert::notEmpty($parameter->getName(), 'cannot add parameter without a name to an object');
 
@@ -156,7 +156,7 @@ final class ObjectParameter extends Parameter
      * @param Parameter ...$parameters
      * @return ObjectParameter
      */
-    public function addProperties(Parameter ...$parameters): self
+    final public function addProperties(Parameter ...$parameters): self
     {
         foreach ($parameters as $param) {
             $this->addProperty($param);

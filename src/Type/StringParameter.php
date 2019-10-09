@@ -76,7 +76,7 @@ class StringParameter extends Parameter
      * @param string $extraChars
      * @return $this
      */
-    public function makeAlphanumeric(string $extraChars = ''): self
+    final public function makeAlphanumeric(string $extraChars = ''): self
     {
         return $this->setFormat(new Format\AlphanumericFormat($extraChars));
     }
@@ -85,7 +85,7 @@ class StringParameter extends Parameter
      * Set format to yes/no (accepts '1', '0', 1, 0, 'true', 'false', 'yes', 'no', 'on', 'off')
      * @return $this
      */
-    public function makeYesNo(): self
+    final public function makeYesNo(): self
     {
         return $this->setFormat(new Format\YesNoFormat());
     }
@@ -95,7 +95,7 @@ class StringParameter extends Parameter
      *
      * @return $this
      */
-    public function makeByte(): self
+    final public function makeByte(): self
     {
         return $this->setFormat(new Format\ByteFormat());
     }
@@ -109,7 +109,7 @@ class StringParameter extends Parameter
      * @param DateTimeInterface|null $latest
      * @return $this
      */
-    public function makeDate(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
+    final public function makeDate(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
     {
         return $this->setFormat(new Format\DateFormat($earliest, $latest));
     }
@@ -121,7 +121,7 @@ class StringParameter extends Parameter
      * @param DateTimeInterface|null $latest
      * @return $this
      */
-    public function makeDateTime(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
+    final public function makeDateTime(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
     {
         return $this->setFormat(new Format\DateTimeFormat($earliest, $latest));
     }
@@ -132,7 +132,7 @@ class StringParameter extends Parameter
      * @param string $separator
      * @return $this
      */
-    public function makeCsv(string $separator = ','): self
+    final public function makeCsv(string $separator = ','): self
     {
         return $this->setFormat(new Format\CsvFormat($separator));
     }
@@ -145,7 +145,7 @@ class StringParameter extends Parameter
      *
      * @return $this
      */
-    public function makePassword(): self
+    final public function makePassword(): self
     {
         return $this->setFormat(new Format\PasswordFormat());
     }
@@ -160,7 +160,7 @@ class StringParameter extends Parameter
      * @param DateTimeInterface|null $latest
      * @return $this
      */
-    public function makeTemporal(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
+    final public function makeTemporal(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
     {
         return $this->setFormat(new Format\TemporalFormat($earliest, $latest));
     }
@@ -170,7 +170,7 @@ class StringParameter extends Parameter
      *
      * @return $this
      */
-    public function makeUuid(): self
+    final public function makeUuid(): self
     {
         return $this->setFormat(new Format\UuidFormat());
     }
@@ -181,7 +181,7 @@ class StringParameter extends Parameter
      * @param ParamFormatInterface|null $format
      * @return self
      */
-    public function setFormat(?ParamFormatInterface $format): self
+    final public function setFormat(?ParamFormatInterface $format): self
     {
         if (! empty($this->format)) {
             trigger_error('Format already set for parameter: ' . $this->getName() ?: '(unnamed parameter)');
@@ -209,7 +209,7 @@ class StringParameter extends Parameter
      * @param bool $sanitize
      * @return self
      */
-    public function setSanitize(bool $sanitize): self
+    final public function setSanitize(bool $sanitize): self
     {
         $this->sanitize = $sanitize;
         return $this;
@@ -221,7 +221,7 @@ class StringParameter extends Parameter
      * @param bool $trim
      * @return StringParameter
      */
-    public function setTrim(bool $trim): self
+    final public function setTrim(bool $trim): self
     {
         $this->trim = $trim;
         return $this;
@@ -233,7 +233,7 @@ class StringParameter extends Parameter
      * @param string|null $pattern  Can contain PHP '/' delimiters or not
      * @return StringParameter
      */
-    public function setPattern(?string $pattern = null): self
+    final public function setPattern(?string $pattern = null): self
     {
         $pattern = ($pattern{0} !== '/') ? '/' . $pattern . '/' : $pattern;
 
@@ -267,7 +267,7 @@ class StringParameter extends Parameter
      * @param int|null $length
      * @return StringParameter
      */
-    public function setMinLength(?int $length): self
+    final public function setMinLength(?int $length): self
     {
         Assert::greaterThanEq($length, 0);
 
@@ -279,7 +279,7 @@ class StringParameter extends Parameter
      * @param int|null $length
      * @return StringParameter
      */
-    public function setMaxLength(?int $length): self
+    final public function setMaxLength(?int $length): self
     {
         Assert::greaterThanEq($length, 0);
 
@@ -294,7 +294,7 @@ class StringParameter extends Parameter
      * @param int|null $max
      * @return StringParameter
      */
-    public function setLength(?int $min = null, ?int $max = null): self
+    final public function setLength(?int $min = null, ?int $max = null): self
     {
         if (! is_null($min)) {
             $this->setMinLength($min);

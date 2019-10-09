@@ -30,7 +30,7 @@ use Paramee\Format\Int64Format;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-final class IntegerParameter extends AbstractNumericParameter
+class IntegerParameter extends AbstractNumericParameter
 {
     public const TYPE_NAME = 'integer';
     public const PHP_DATA_TYPE = 'integer';

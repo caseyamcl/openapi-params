@@ -33,7 +33,7 @@ use stdClass;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-final class ArrayParameter extends Parameter
+class ArrayParameter extends Parameter
 {
     public const TYPE_NAME = 'array';
     public const PHP_DATA_TYPE = 'array';
@@ -92,7 +92,7 @@ final class ArrayParameter extends Parameter
      * @param bool $uniqueItems
      * @return ArrayParameter
      */
-    public function setUniqueItems(bool $uniqueItems): self
+    final public function setUniqueItems(bool $uniqueItems): self
     {
         $this->uniqueItems = $uniqueItems;
         return $this;
@@ -104,7 +104,7 @@ final class ArrayParameter extends Parameter
      * @param int|null $minItems
      * @return ArrayParameter
      */
-    public function setMinItems(?int $minItems): ArrayParameter
+    final public function setMinItems(?int $minItems): ArrayParameter
     {
         $this->minItems = $minItems;
         return $this;
@@ -116,7 +116,7 @@ final class ArrayParameter extends Parameter
      * @param int|null $maxItems
      * @return ArrayParameter
      */
-    public function setMaxItems(?int $maxItems): ArrayParameter
+    final public function setMaxItems(?int $maxItems): ArrayParameter
     {
         $this->maxItems = $maxItems;
         return $this;
@@ -138,7 +138,7 @@ final class ArrayParameter extends Parameter
      * @param PreparationStepInterface $step
      * @return $this
      */
-    public function each(PreparationStepInterface $step): self
+    final public function each(PreparationStepInterface $step): self
     {
         return $this->addPreparationStepForEach($step);
     }
@@ -149,7 +149,7 @@ final class ArrayParameter extends Parameter
      * @param PreparationStepInterface $step
      * @return $this
      */
-    public function addPreparationStepForEach(PreparationStepInterface $step): self
+    final public function addPreparationStepForEach(PreparationStepInterface $step): self
     {
         $this->extraPreparationSteps[] = $step;
         return $this;
@@ -163,7 +163,7 @@ final class ArrayParameter extends Parameter
      * @param string ...$type
      * @return ArrayParameter|self
      */
-    public function addAllowedType(string ...$type): self
+    final public function addAllowedType(string ...$type): self
     {
         foreach ($type as $t) {
             $this->addAllowedParamDefinition(ParamTypes::resolveTypeInstance($t));
@@ -178,7 +178,7 @@ final class ArrayParameter extends Parameter
      * @param Parameter $parameter
      * @return ArrayParameter
      */
-    public function addAllowedParamDefinition(Parameter $parameter): self
+    final public function addAllowedParamDefinition(Parameter $parameter): self
     {
         foreach ($parameter->getPhpDataTypes() as $dataType) {
             $this->allowedTypes[$dataType][] = $parameter;
