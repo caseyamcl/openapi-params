@@ -77,7 +77,7 @@ class EnsureCorrectDataTypeStep implements PreparationStepInterface
      */
     public function __toString(): string
     {
-        return 'ensure correct datatype';
+        return 'ensure correct datatype(s): ' . implode(', ', $this->phpDataTypes);
     }
 
     /**
