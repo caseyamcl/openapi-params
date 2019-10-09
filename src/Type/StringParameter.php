@@ -101,6 +101,16 @@ class StringParameter extends Parameter
     }
 
     /**
+     * Set format to email
+     *
+     * @return $this
+     */
+    final public function makeEmail(): self
+    {
+        return $this->setFormat(new Format\EmailFormat());
+    }
+
+    /**
      * Set format to date
      *
      * Times are ignored; use StringParameter::makeDateTime() if you want to preserve the time

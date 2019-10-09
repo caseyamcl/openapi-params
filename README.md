@@ -114,16 +114,48 @@ the `Paramee\Format` namespace.
 
 In addition, Paramee provides a couple of extra built-in "convenience" formats:
 
-* **AlphanumericFormat** - 
-* **CsvFormat**
-* **TemporalFormat**
-* **UuidFormat**
-* **YesNoFormat** 
+* **AlphanumericFormat** - Accepts and validates alphanumeric values, with optional
+  additional parameters
+* **EmailFormat** - Accepts and validates any email address via the 
+  [`egulias/email-validator` package](https://packagist.org/packages/egulias/email-validator)
+* **CsvFormat** - Accepts and converts to an array any string containing comma-separated
+  values (e.g. 'a,b,c').  In addition,  you can specify custom delimiters (e.g. 'a|b|c')
+* **TemporalFormat** - Accepts and converts to instance of `CarbonImmutable` any
+  string supported by PHP's [`strtotime` function](https://www.php.net/manual/en/function.strtotime.php) 
+* **UuidFormat** - Accepts and validates any valid UUID 
+* **YesNoFormat** - Accepts, validates, and converts to boolean any 
+  "truthy" string, including 'true/false', '1/0', 'yes/no', or 'on/off'
 
 ### Adding custom formats
 
 OpenApi3 doesn't allow you to specify custom data types, but it does allow custom
 formats within data types.  Simply implement the `Contract\PreparationStep` interface.
+
+Or, for convenience, extend the `Model\AbstractParamFormat` class:
+
+```php
+use Paramee\Model\AbstractParamFormat;
+use Paramee\Model\ParameterValidationRule;
+use Paramee\Type\StringParameter;
+
+class IpAddressFormat extends AbstractParamFormat
+{
+    // This is a required constant
+    public const TYPE_CLASS = StringParameter::class;
+    
+    /**
+     * Get built-in validation rules
+     *
+     * These are added to the validation preparation step automatically
+     *
+     * @return array|ParameterValidationRule
+     */
+    public function getValidationRules() : array
+    {
+         // TODO: Implement getValidationRules() method.
+    }
+}
+```
 
 ### Validation
 

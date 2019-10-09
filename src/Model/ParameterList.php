@@ -219,6 +219,12 @@ class ParameterList implements IteratorAggregate, Countable
         return $this->add($param->setFormat(new Format\YesNoFormat()));
     }
 
+    public function addEmailValue(string $name, bool $required = false): StringParameter
+    {
+        $param = new StringParameter($name, $required);
+        return $this->add($param->setFormat(new Format\EmailFormat()));
+    }
+
     // --------------------------------------------------------------
     // Preparation
 

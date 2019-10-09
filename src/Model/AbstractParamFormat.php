@@ -23,6 +23,7 @@ use ReflectionException;
 use Paramee\Contract\ParamFormat;
 use Paramee\Contract\PreparationStep;
 use Paramee\Utility\RequireConstantTrait;
+use RuntimeException;
 
 /**
  * Abstract Parameter Format
@@ -35,8 +36,8 @@ abstract class AbstractParamFormat implements ParamFormat
 {
     use RequireConstantTrait;
 
-    public const TYPE_CLASS = null;
-    public const NAME = null;
+    public const TYPE_CLASS = null; // Required
+    public const NAME = null;       // Required unless the classname ends with 'Format' (e.g. 'EmailFormat.php')
 
     /**
      * Return the type class that this format can be applied to
@@ -49,21 +50,37 @@ abstract class AbstractParamFormat implements ParamFormat
     }
 
     /**
+     * If the name is explicitly specified
+     * @return string
+     * @throws ReflectionException
+     */
+    public function getName(): string
+    {
+        if (static::NAME) {
+            return (string) static::NAME;
+        } elseif ($shortName = (new ReflectionClass($this))->getShortName()) {
+            if (substr($shortName, -6) === 'Format') {
+                return strtolower(substr($shortName, 0, strlen($shortName) - 6));
+            } else {
+                throw new RuntimeException(sprintf(
+                    'Could not automatically derive format name from class: %s',
+                    get_called_class()
+                ));
+            }
+        }
+    }
+
+    /**
+     * Alias for self::getName()
+     *
      * @return string
      */
     public function __toString(): string
     {
-        if (static::NAME) {
-            return (string) static::NAME;
-        } else {
-            try {
-                $shortName = (new ReflectionClass($this))->getShortName();
-                return substr($shortName, -6) === 'Format'
-                    ? strtolower(substr($shortName, 0, strlen($shortName) - 6))
-                    : '';
-            } catch (ReflectionException $e) {
-                return '';
-            }
+        try {
+            return $this->getName();
+        } catch (ReflectionException | RuntimeException $e) {
+            return '';
         }
     }
 
