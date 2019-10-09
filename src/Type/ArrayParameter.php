@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 namespace Paramee\Type;
 
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Respect\Validation\Validator;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValidationRule;
@@ -59,7 +59,7 @@ class ArrayParameter extends Parameter
     private $maxItems = null;
 
     /**
-     * @var array|PreparationStepInterface[]
+     * @var array|PreparationStep[]
      */
     private $extraPreparationSteps = [];
 
@@ -135,10 +135,10 @@ class ArrayParameter extends Parameter
     /**
      * Alias for 'ArrayParameter::addPreparationStepForEach'
      *
-     * @param PreparationStepInterface $step
+     * @param PreparationStep $step
      * @return $this
      */
-    final public function each(PreparationStepInterface $step): self
+    final public function each(PreparationStep $step): self
     {
         return $this->addPreparationStepForEach($step);
     }
@@ -146,10 +146,10 @@ class ArrayParameter extends Parameter
     /**
      * Add a preparation step for each item
      *
-     * @param PreparationStepInterface $step
+     * @param PreparationStep $step
      * @return $this
      */
-    final public function addPreparationStepForEach(PreparationStepInterface $step): self
+    final public function addPreparationStepForEach(PreparationStep $step): self
     {
         $this->extraPreparationSteps[] = $step;
         return $this;

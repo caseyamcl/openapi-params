@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 namespace Paramee\PreparationStep;
 
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\Model\ParameterValues;
 
 /**
@@ -26,14 +26,14 @@ use Paramee\Model\ParameterValues;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class AllowNullPreparationStep implements PreparationStepInterface
+class AllowNullPreparationStep implements PreparationStep
 {
     /**
-     * @var PreparationStepInterface
+     * @var PreparationStep
      */
     private $innerStep;
 
-    public function __construct(PreparationStepInterface $innerStep)
+    public function __construct(PreparationStep $innerStep)
     {
         $this->innerStep = $innerStep;
     }

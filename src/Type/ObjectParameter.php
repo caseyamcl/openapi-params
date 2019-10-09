@@ -20,7 +20,7 @@ namespace Paramee\Type;
 
 use Respect\Validation\Exceptions\ValidationException;
 use Respect\Validation\Validator;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\PreparationStep\ObjectDeserializeStep;
@@ -281,7 +281,7 @@ class ObjectParameter extends Parameter
 
 
     /**
-     * @return array|PreparationStepInterface[]
+     * @return array|PreparationStep[]
      */
     protected function getPostValidationPreparationSteps(): array
     {

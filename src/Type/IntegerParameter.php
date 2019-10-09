@@ -19,7 +19,7 @@ declare(strict_types=1);
 namespace Paramee\Type;
 
 use Respect\Validation\Validator;
-use Paramee\Contract\ParamFormatInterface;
+use Paramee\Contract\ParamFormat;
 use Paramee\Model\AbstractNumericParameter;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\Format\Int32Format;
@@ -42,9 +42,9 @@ class IntegerParameter extends AbstractNumericParameter
     }
 
     /**
-     * @return ParamFormatInterface|null
+     * @return ParamFormat|null
      */
-    protected function buildFormat(): ?ParamFormatInterface
+    protected function buildFormat(): ?ParamFormat
     {
         return PHP_INT_SIZE === 8 ? new Int64Format() : new Int32Format();
     }

@@ -16,7 +16,7 @@
 
 namespace Paramee\Format;
 
-use Paramee\Contract\ParamFormatInterface;
+use Paramee\Contract\ParamFormat;
 use Paramee\Model\Parameter;
 use Paramee\Type\StringParameter;
 
@@ -35,9 +35,9 @@ class DateFormatTest extends DateTimeFormatTest
     }
 
     /**
-     * @return ParamFormatInterface
+     * @return ParamFormat
      */
-    protected function getFormat(): ParamFormatInterface
+    protected function getFormat(): ParamFormat
     {
         return new DateFormat();
     }

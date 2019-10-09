@@ -27,7 +27,7 @@ use Respect\Validation\Validatable;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-interface ParameterValidationRuleInterface
+interface ParamValidationRule
 {
     /**
      * Get validator

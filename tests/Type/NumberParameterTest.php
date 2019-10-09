@@ -17,7 +17,7 @@
 namespace Paramee\Type;
 
 use Paramee\Model\AbstractNumericParameterTest;
-use Paramee\Contract\ParamFormatInterface;
+use Paramee\Contract\ParamFormat;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\PreparationStep\EnsureCorrectDataTypeStep;
@@ -57,7 +57,7 @@ class NumberParameterTest extends AbstractNumericParameterTest
     {
         $obj = $this->getInstance()->setRequireDecimal(true);
         $this->assertTrue($obj->isRequireDecimal());
-        $this->assertInstanceOf(ParamFormatInterface::class, $obj->getFormat());
+        $this->assertInstanceOf(ParamFormat::class, $obj->getFormat());
     }
 
     public function testIsRequireDecimalFalse()

@@ -21,8 +21,8 @@ namespace Paramee\Model;
 use LogicException;
 use Paramee\Behavior\SetValidatorTrait;
 use Respect\Validation\Validatable;
-use Paramee\Contract\ParamFormatInterface;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\ParamFormat;
+use Paramee\Contract\PreparationStep;
 use Paramee\PreparationStep\AllowNullPreparationStep;
 use Paramee\PreparationStep\DependencyCheckStep;
 use Paramee\PreparationStep\EnsureCorrectDataTypeStep;
@@ -96,7 +96,7 @@ abstract class Parameter
     private $readWriteMode = self::READ_WRITE;
 
     /**
-     * @var array|PreparationStepInterface[]
+     * @var array|PreparationStep[]
      */
     private $extraPreparationSteps = [];
 
@@ -106,7 +106,7 @@ abstract class Parameter
     private $validationRules = [];
 
     /**
-     * @var ParamFormatInterface|null
+     * @var ParamFormat|null
      */
     protected $format = null;
 
@@ -207,9 +207,9 @@ abstract class Parameter
     }
 
     /**
-     * @return ParamFormatInterface|null
+     * @return ParamFormat|null
      */
-    final public function getFormat(): ?ParamFormatInterface
+    final public function getFormat(): ?ParamFormat
     {
         return $this->format;
     }
@@ -483,10 +483,10 @@ abstract class Parameter
     /**
      * Add an extra preparation step
      *
-     * @param PreparationStepInterface ...$step
+     * @param PreparationStep ...$step
      * @return self
      */
-    final public function addPreparationStep(PreparationStepInterface ...$step): self
+    final public function addPreparationStep(PreparationStep ...$step): self
     {
         foreach ($step as $extraStep) {
             $this->extraPreparationSteps[] = $extraStep;
@@ -542,7 +542,7 @@ abstract class Parameter
      * List preparation steps in the order they are run
      *
      * @param bool $checkDependencies
-     * @return ParameterPreparationSteps|PreparationStepInterface[]
+     * @return ParameterPreparationSteps|PreparationStep[]
      */
     final public function getPreparationSteps(bool $checkDependencies = true): ParameterPreparationSteps
     {
@@ -595,7 +595,7 @@ abstract class Parameter
 
         // If allow null, then wrap each step with a decorator
         if ($this->nullable) {
-            $steps = array_map(function (PreparationStepInterface $step) {
+            $steps = array_map(function (PreparationStep $step) {
                 return new AllowNullPreparationStep($step);
             }, $steps);
         }
@@ -700,7 +700,7 @@ abstract class Parameter
      *
      * These run after type-check/type-cast but before validation
      *
-     * @return array|PreparationStepInterface[]
+     * @return array|PreparationStep[]
      */
     protected function getPreValidationPreparationSteps(): array
     {

@@ -21,7 +21,7 @@ namespace Paramee\Type;
 use DateTimeInterface;
 use InvalidArgumentException;
 use LogicException;
-use Paramee\Contract\ParamFormatInterface;
+use Paramee\Contract\ParamFormat;
 use Paramee\Format;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValidationRule;
@@ -178,10 +178,10 @@ class StringParameter extends Parameter
     /**
      * Set format
      *
-     * @param ParamFormatInterface|null $format
+     * @param ParamFormat|null $format
      * @return self
      */
-    final public function setFormat(?ParamFormatInterface $format): self
+    final public function setFormat(?ParamFormat $format): self
     {
         if (! empty($this->format)) {
             trigger_error('Format already set for parameter: ' . $this->getName() ?: '(unnamed parameter)');

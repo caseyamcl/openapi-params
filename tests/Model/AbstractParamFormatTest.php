@@ -17,9 +17,9 @@
 namespace Paramee\Model;
 
 use PHPUnit\Framework\TestCase;
-use Paramee\Contract\ParameterValidationRuleInterface;
-use Paramee\Contract\ParamFormatInterface;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\ParamValidationRule;
+use Paramee\Contract\ParamFormat;
+use Paramee\Contract\PreparationStep;
 
 abstract class AbstractParamFormatTest extends TestCase
 {
@@ -35,7 +35,7 @@ abstract class AbstractParamFormatTest extends TestCase
     {
         $this->assertIsArray($this->getFormat()->getPreparationSteps());
         $this->assertContainsOnlyInstancesOf(
-            PreparationStepInterface::class,
+            PreparationStep::class,
             $this->getFormat()->getPreparationSteps()
         );
     }
@@ -49,7 +49,7 @@ abstract class AbstractParamFormatTest extends TestCase
     {
         $this->assertIsArray($this->getFormat()->getValidationRules());
         $this->assertContainsOnlyInstancesOf(
-            ParameterValidationRuleInterface::class,
+            ParamValidationRule::class,
             $this->getFormat()->getValidationRules()
         );
     }
@@ -68,9 +68,9 @@ abstract class AbstractParamFormatTest extends TestCase
     // --------------------------------------------------------------
 
     /**
-     * @return ParamFormatInterface
+     * @return ParamFormat
      */
-    abstract protected function getFormat(): ParamFormatInterface;
+    abstract protected function getFormat(): ParamFormat;
 
     /**
      * @return Parameter

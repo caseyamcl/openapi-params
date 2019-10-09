@@ -19,7 +19,7 @@ declare(strict_types=1);
 namespace Paramee\Format;
 
 use Respect\Validation\Validator;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\Model\AbstractParamFormat;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\PreparationStep\CallbackStep;
@@ -71,7 +71,7 @@ class ByteFormat extends AbstractParamFormat
      *
      * These run after validation but before any custom preparation steps
      *
-     * @return array|PreparationStepInterface[]
+     * @return array|PreparationStep[]
      */
     public function getPreparationSteps(): array
     {

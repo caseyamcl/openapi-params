@@ -27,7 +27,7 @@ use Paramee\Model\ParameterValidationRule;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-interface ParamFormatInterface
+interface ParamFormat
 {
     /**
      * Return the type class that this format can be applied to
@@ -60,7 +60,7 @@ interface ParamFormatInterface
     /**
      * Get preparation steps (always runs after validation)
      *
-     * @return array|PreparationStepInterface[]
+     * @return array|PreparationStep[]
      */
     public function getPreparationSteps(): array;
 }

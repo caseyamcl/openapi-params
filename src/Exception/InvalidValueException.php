@@ -20,7 +20,7 @@ namespace Paramee\Exception;
 
 use Paramee\Behavior\ParameterErrorsTrait;
 use Paramee\Contract\ParameterException;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\Model\ParameterError;
 use RuntimeException;
 use Webmozart\Assert\Assert;
@@ -37,7 +37,7 @@ final class InvalidValueException extends RuntimeException implements ParameterE
     use ParameterErrorsTrait;
 
     /**
-     * @var PreparationStepInterface
+     * @var PreparationStep
      */
     private $step;
 
@@ -49,13 +49,13 @@ final class InvalidValueException extends RuntimeException implements ParameterE
     /**
      * Generate an InvalidValueException from a single error message
      *
-     * @param PreparationStepInterface $step
+     * @param PreparationStep $step
      * @param string $paramName  Full parameter name
      * @param $value
      * @param string $message
      * @return InvalidValueException
      */
-    public static function fromMessage(PreparationStepInterface $step, string $paramName, $value, string $message)
+    public static function fromMessage(PreparationStep $step, string $paramName, $value, string $message)
     {
         return static::fromMessages($step, $paramName, $value, [$message]);
     }
@@ -63,13 +63,13 @@ final class InvalidValueException extends RuntimeException implements ParameterE
     /**
      * Generate an InvalidValueException from multiple error messages
      *
-     * @param PreparationStepInterface $step
+     * @param PreparationStep $step
      * @param string $paramName
      * @param mixed $value
      * @param array|string[] $messages
      * @return InvalidValueException
      */
-    public static function fromMessages(PreparationStepInterface $step, string $paramName, $value, array $messages)
+    public static function fromMessages(PreparationStep $step, string $paramName, $value, array $messages)
     {
         Assert::allString($messages);
 
@@ -83,11 +83,11 @@ final class InvalidValueException extends RuntimeException implements ParameterE
     /**
      * PreparationStepException constructor.
      *
-     * @param PreparationStepInterface $step
+     * @param PreparationStep $step
      * @param mixed $value
      * @param array|ParameterError[] $errors
      */
-    public function __construct(PreparationStepInterface $step, $value, array $errors)
+    public function __construct(PreparationStep $step, $value, array $errors)
     {
         Assert::allIsInstanceOf($errors, ParameterError::class);
 
@@ -104,9 +104,9 @@ final class InvalidValueException extends RuntimeException implements ParameterE
     /**
      * Which step failed?
      *
-     * @return PreparationStepInterface
+     * @return PreparationStep
      */
-    public function getStep(): PreparationStepInterface
+    public function getStep(): PreparationStep
     {
         return $this->step;
     }

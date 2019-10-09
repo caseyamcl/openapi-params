@@ -25,8 +25,8 @@ use DateTimeInterface;
 use Exception;
 use InvalidArgumentException;
 use Respect\Validation\Validator;
-use Paramee\Contract\ParameterValidationRuleInterface;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\ParamValidationRule;
+use Paramee\Contract\PreparationStep;
 use Paramee\Model\AbstractParamFormat;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\PreparationStep\CallbackStep;
@@ -123,7 +123,7 @@ class DateTimeFormat extends AbstractParamFormat
      *
      * These run after validation but before any custom preparation steps
      *
-     * @return array|PreparationStepInterface[]
+     * @return array|PreparationStep[]
      */
     public function getPreparationSteps(): array
     {
@@ -143,9 +143,9 @@ class DateTimeFormat extends AbstractParamFormat
     }
 
     /**
-     * @return ParameterValidationRuleInterface
+     * @return ParamValidationRule
      */
-    protected function getBaseRule(): ParameterValidationRuleInterface
+    protected function getBaseRule(): ParamValidationRule
     {
         return new ParameterValidationRule(
             Validator::callback(function (string $value) {

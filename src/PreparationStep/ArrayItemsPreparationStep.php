@@ -19,7 +19,7 @@ declare(strict_types=1);
 namespace Paramee\PreparationStep;
 
 use RuntimeException;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValues;
@@ -31,7 +31,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ArrayItemsPreparationStep implements PreparationStepInterface
+class ArrayItemsPreparationStep implements PreparationStep
 {
     public const ALL = [];
 
@@ -41,7 +41,7 @@ class ArrayItemsPreparationStep implements PreparationStepInterface
     private $parameterTypeMap;
 
     /**
-     * @var iterable|PreparationStepInterface[]
+     * @var iterable|PreparationStep[]
      */
     private $forEach;
 

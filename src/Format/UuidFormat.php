@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 namespace Paramee\Format;
 
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\Model\AbstractParamFormat;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\Type\StringParameter;
@@ -55,7 +55,7 @@ class UuidFormat extends AbstractParamFormat
      *
      * These run after validation but before any custom preparation steps
      *
-     * @return array|PreparationStepInterface[]
+     * @return array|PreparationStep[]
      */
     public function getPreparationSteps(): array
     {

@@ -20,7 +20,7 @@ namespace Paramee\Format;
 
 use Carbon\CarbonImmutable;
 use DateTimeImmutable;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\PreparationStep\CallbackStep;
 use Paramee\Type\StringParameter;
 
@@ -42,7 +42,7 @@ class DateFormat extends DateTimeFormat
      *
      * These run after validation but before any custom preparation steps
      *
-     * @return array|PreparationStepInterface[]
+     * @return array|PreparationStep[]
      */
     public function getPreparationSteps(): array
     {

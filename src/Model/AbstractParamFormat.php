@@ -20,8 +20,8 @@ namespace Paramee\Model;
 
 use ReflectionClass;
 use ReflectionException;
-use Paramee\Contract\ParamFormatInterface;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\ParamFormat;
+use Paramee\Contract\PreparationStep;
 use Paramee\Utility\RequireConstantTrait;
 
 /**
@@ -31,7 +31,7 @@ use Paramee\Utility\RequireConstantTrait;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-abstract class AbstractParamFormat implements ParamFormatInterface
+abstract class AbstractParamFormat implements ParamFormat
 {
     use RequireConstantTrait;
 
@@ -88,7 +88,7 @@ abstract class AbstractParamFormat implements ParamFormatInterface
      *
      * These run after validation but before any custom preparation steps
      *
-     * @return array|PreparationStepInterface[]
+     * @return array|PreparationStep[]
      */
     public function getPreparationSteps(): array
     {

@@ -20,7 +20,7 @@ namespace Paramee\Format;
 
 use Respect\Validation\Exceptions\ComponentException;
 use Respect\Validation\Rules\Callback;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\Model\AbstractParamFormat;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\PreparationStep\CallbackStep;
@@ -70,7 +70,7 @@ class YesNoFormat extends AbstractParamFormat
      *
      * These run after validation but before any custom preparation steps
      *
-     * @return array|PreparationStepInterface[]
+     * @return array|PreparationStep[]
      */
     public function getPreparationSteps(): array
     {

@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 namespace Paramee\PreparationStep;
 
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValues;
@@ -33,7 +33,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class PrepareObjectPropertiesStep implements PreparationStepInterface
+class PrepareObjectPropertiesStep implements PreparationStep
 {
     /**
      * @var ObjectParameter

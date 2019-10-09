@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 namespace Paramee\Type;
 
-use Paramee\Contract\ParamFormatInterface;
+use Paramee\Contract\ParamFormat;
 use Paramee\Model\AbstractNumericParameter;
 use Paramee\Format\DoubleFormat;
 use Paramee\Format\FloatFormat;
@@ -55,9 +55,9 @@ class NumberParameter extends AbstractNumericParameter
     }
 
     /**
-     * @return ParamFormatInterface
+     * @return ParamFormat
      */
-    protected function buildFormat(): ?ParamFormatInterface
+    protected function buildFormat(): ?ParamFormat
     {
         return (PHP_FLOAT_DIG >= 15) ? new DoubleFormat() : new FloatFormat();
     }

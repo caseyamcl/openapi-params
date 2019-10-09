@@ -19,7 +19,7 @@ declare(strict_types=1);
 namespace Paramee\PreparationStep;
 
 use InvalidArgumentException;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Model\ParameterValues;
 
@@ -28,7 +28,7 @@ use Paramee\Model\ParameterValues;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ObjectDeserializeStep implements PreparationStepInterface
+class ObjectDeserializeStep implements PreparationStep
 {
 
     /**

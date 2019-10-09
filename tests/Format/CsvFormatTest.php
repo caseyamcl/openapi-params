@@ -17,7 +17,7 @@
 namespace Paramee\Format;
 
 use Paramee\Model\AbstractParamFormatTest;
-use Paramee\Contract\ParamFormatInterface;
+use Paramee\Contract\ParamFormat;
 use Paramee\Model\Parameter;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\Type\StringParameter;
@@ -90,9 +90,9 @@ class CsvFormatTest extends AbstractParamFormatTest
     }
 
     /**
-     * @return ParamFormatInterface
+     * @return ParamFormat
      */
-    protected function getFormat(): ParamFormatInterface
+    protected function getFormat(): ParamFormat
     {
         return new CsvFormat();
     }

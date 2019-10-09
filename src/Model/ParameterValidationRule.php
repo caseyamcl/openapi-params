@@ -18,8 +18,8 @@ declare(strict_types=1);
 
 namespace Paramee\Model;
 
+use Paramee\Contract\ParamValidationRule;
 use Respect\Validation\Validatable;
-use Paramee\Contract\ParameterValidationRuleInterface;
 
 /**
  * Parameter Validation Rule
@@ -28,7 +28,7 @@ use Paramee\Contract\ParameterValidationRuleInterface;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ParameterValidationRule implements ParameterValidationRuleInterface
+class ParameterValidationRule implements ParamValidationRule
 {
     /**
      * @var Validatable

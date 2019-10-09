@@ -20,7 +20,7 @@ namespace Paramee\PreparationStep;
 
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Validator;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\Model\ParameterValues;
@@ -33,7 +33,7 @@ use Paramee\Model\ParameterValues;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class RespectValidationStep implements PreparationStepInterface
+class RespectValidationStep implements PreparationStep
 {
     /**
      * @var array|ParameterValidationRule[]

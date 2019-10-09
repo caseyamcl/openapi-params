@@ -27,7 +27,7 @@ use Paramee\Model\ParameterValues;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-interface PreparationStepInterface
+interface PreparationStep
 {
     /**
      * Get API Documentation for this step

@@ -16,7 +16,7 @@
 
 namespace Paramee\Format;
 
-use Paramee\Contract\ParamFormatInterface;
+use Paramee\Contract\ParamFormat;
 use Paramee\Model\AbstractParamFormatTest;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
@@ -52,9 +52,9 @@ class AlphanumericFormatTest extends AbstractParamFormatTest
     }
 
     /**
-     * @return ParamFormatInterface
+     * @return ParamFormat
      */
-    protected function getFormat(): ParamFormatInterface
+    protected function getFormat(): ParamFormat
     {
         return new AlphanumericFormat();
     }

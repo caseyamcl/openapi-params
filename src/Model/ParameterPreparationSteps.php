@@ -21,7 +21,7 @@ namespace Paramee\Model;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 
 /**
  * Parameter Preparation Steps
@@ -33,13 +33,13 @@ use Paramee\Contract\PreparationStepInterface;
 class ParameterPreparationSteps implements IteratorAggregate, Countable
 {
     /**
-     * @var PreparationStepInterface[]
+     * @var PreparationStep[]
      */
     private $steps = [];
 
     /**
      * ParameterPreparationStepChain constructor.
-     * @param iterable|PreparationStepInterface[] $steps
+     * @param iterable|PreparationStep[] $steps
      */
     public function __construct(iterable $steps = [])
     {
@@ -49,7 +49,7 @@ class ParameterPreparationSteps implements IteratorAggregate, Countable
     }
 
     /**
-     * @return iterable|PreparationStepInterface[]
+     * @return iterable|PreparationStep[]
      */
     public function listSteps(): iterable
     {
@@ -67,10 +67,10 @@ class ParameterPreparationSteps implements IteratorAggregate, Countable
     /**
      * Append a step to the end of the preparation step stack and get new copy of this object
      *
-     * @param PreparationStepInterface $step
+     * @param PreparationStep $step
      * @return ParameterPreparationSteps
      */
-    public function withStep(PreparationStepInterface $step): ParameterPreparationSteps
+    public function withStep(PreparationStep $step): ParameterPreparationSteps
     {
         $that = clone $this;
         $that->add($step);
@@ -80,17 +80,17 @@ class ParameterPreparationSteps implements IteratorAggregate, Countable
     /**
      * Push a preparation step onto the end of the stack
      *
-     * @param PreparationStepInterface $step
+     * @param PreparationStep $step
      * @return ParameterPreparationSteps
      */
-    private function add(PreparationStepInterface $step): self
+    private function add(PreparationStep $step): self
     {
         $this->steps[] = $step;
         return $this;
     }
 
     /**
-     * @return ArrayIterator|PreparationStepInterface[]
+     * @return ArrayIterator|PreparationStep[]
      */
     public function getIterator()
     {

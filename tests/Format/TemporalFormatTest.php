@@ -18,7 +18,7 @@ namespace Paramee\Format;
 
 use Carbon\CarbonImmutable;
 use Paramee\Model\AbstractParamFormatTest;
-use Paramee\Contract\ParamFormatInterface;
+use Paramee\Contract\ParamFormat;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Model\Parameter;
 use Paramee\Type\StringParameter;
@@ -64,9 +64,9 @@ class TemporalFormatTest extends AbstractParamFormatTest
     }
 
     /**
-     * @return ParamFormatInterface
+     * @return ParamFormat
      */
-    protected function getFormat(): ParamFormatInterface
+    protected function getFormat(): ParamFormat
     {
         return new TemporalFormat();
     }

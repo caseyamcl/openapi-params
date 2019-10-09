@@ -19,7 +19,7 @@ declare(strict_types=1);
 namespace Format;
 
 use Paramee\Model\AbstractParamFormatTest;
-use Paramee\Contract\ParamFormatInterface;
+use Paramee\Contract\ParamFormat;
 use Paramee\Model\AbstractParamFormat;
 use Paramee\Model\Parameter;
 use Paramee\Type\StringParameter;
@@ -32,9 +32,9 @@ class NonExistentFormatTest extends AbstractParamFormatTest
     }
 
     /**
-     * @return ParamFormatInterface
+     * @return ParamFormat
      */
-    protected function getFormat(): ParamFormatInterface
+    protected function getFormat(): ParamFormat
     {
         return new class extends AbstractParamFormat {
             public const TYPE_CLASS = StringParameter::class;

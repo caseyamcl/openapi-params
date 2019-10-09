@@ -21,8 +21,8 @@ namespace Paramee\Format;
 use Paramee\Behavior\SetValidatorTrait;
 use Respect\Validation\Validatable;
 use Respect\Validation\Validator;
-use Paramee\Contract\ParameterValidationRuleInterface;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\ParamValidationRule;
+use Paramee\Contract\PreparationStep;
 use Paramee\Model\AbstractParamFormat;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\PreparationStep\CallbackStep;
@@ -49,7 +49,7 @@ class CsvFormat extends AbstractParamFormat
     private $separator = [','];
 
     /**
-     * @var ParameterValidationRuleInterface
+     * @var ParamValidationRule
      */
     private $validatorForEach;
 
@@ -111,9 +111,9 @@ class CsvFormat extends AbstractParamFormat
     /**
      * Validate each item in the CSV list during validation
      *
-     * @param ParameterValidationRuleInterface $rule
+     * @param ParamValidationRule $rule
      */
-    public function setValidatorForEach(ParameterValidationRuleInterface $rule)
+    public function setValidatorForEach(ParamValidationRule $rule)
     {
         $this->validatorForEach = $rule;
     }
@@ -123,7 +123,7 @@ class CsvFormat extends AbstractParamFormat
      *
      * These run after validation but before any custom preparation steps
      *
-     * @return array|PreparationStepInterface[]
+     * @return array|PreparationStep[]
      */
     public function getPreparationSteps(): array
     {

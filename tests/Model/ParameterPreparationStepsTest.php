@@ -16,7 +16,7 @@
 
 namespace Paramee\Model;
 
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\PreparationStep\CallbackStep;
 use Paramee\PreparationStep\EnumCheckStep;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +26,7 @@ class ParameterPreparationStepsTest extends TestCase
 
     public function testListSteps()
     {
-        $this->assertContainsOnlyInstancesOf(PreparationStepInterface::class, $this->getInstance()->listSteps());
+        $this->assertContainsOnlyInstancesOf(PreparationStep::class, $this->getInstance()->listSteps());
     }
 
     public function testListNotes()
@@ -38,7 +38,7 @@ class ParameterPreparationStepsTest extends TestCase
 
     public function testGetIterator()
     {
-        $this->assertContainsOnlyInstancesOf(PreparationStepInterface::class, $this->getInstance()->getIterator());
+        $this->assertContainsOnlyInstancesOf(PreparationStep::class, $this->getInstance()->getIterator());
     }
 
     public function testCount()

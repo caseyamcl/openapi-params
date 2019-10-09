@@ -19,7 +19,7 @@ declare(strict_types=1);
 namespace Paramee\PreparationStep;
 
 use InvalidArgumentException;
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\Exception\InvalidValueException;
 use Paramee\Model\ParameterValues;
 
@@ -28,7 +28,7 @@ use Paramee\Model\ParameterValues;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class DependencyCheckStep implements PreparationStepInterface
+class DependencyCheckStep implements PreparationStep
 {
     public const MUST_EXIST = true;
     public const MUST_NOT_EXIST = false;

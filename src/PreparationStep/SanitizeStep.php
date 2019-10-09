@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 namespace Paramee\PreparationStep;
 
-use Paramee\Contract\PreparationStepInterface;
+use Paramee\Contract\PreparationStep;
 use Paramee\Model\ParameterValues;
 
 /**
@@ -29,7 +29,7 @@ use Paramee\Model\ParameterValues;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class SanitizeStep implements PreparationStepInterface
+class SanitizeStep implements PreparationStep
 {
 
     /**

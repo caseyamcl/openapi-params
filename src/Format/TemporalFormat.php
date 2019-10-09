@@ -23,7 +23,7 @@ use DateTimeImmutable;
 use Exception;
 use InvalidArgumentException;
 use Respect\Validation\Validator;
-use Paramee\Contract\ParameterValidationRuleInterface;
+use Paramee\Contract\ParamValidationRule;
 use Paramee\Model\ParameterValidationRule;
 use Paramee\PreparationStep\CallbackStep;
 use Paramee\Type\StringParameter;
@@ -56,9 +56,9 @@ class TemporalFormat extends DateTimeFormat
     }
 
     /**
-     * @return ParameterValidationRuleInterface
+     * @return ParamValidationRule
      */
-    protected function getBaseRule(): ParameterValidationRuleInterface
+    protected function getBaseRule(): ParamValidationRule
     {
         return new ParameterValidationRule(
             Validator::callback(function (string $value) {
