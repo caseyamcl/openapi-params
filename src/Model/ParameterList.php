@@ -225,11 +225,10 @@ class ParameterList implements IteratorAggregate, Countable
     /**
      * Prepare some values
      *
+     * @noinspection PhpDocMissingThrowsInspection
      * @param iterable $values
      * @param bool $strict If TRUE, then undefined parameters will create an error, otherwise they will be ignored
      * @return ParameterValues
-     * @throws CircularDependencyException
-     * @throws ElementNotFoundException
      */
     public function prepare(iterable $values, bool $strict = true): ParameterValues
     {
@@ -246,6 +245,7 @@ class ParameterList implements IteratorAggregate, Countable
         }
 
         // Iterate through items and prepare each of them.
+        /** @noinspection PhpUnhandledExceptionInspection */
         foreach ($this->getOrderedParams() as $param) {
             // Check if parameter is required, and throw exception if it is not in the values
             if ($param->isRequired() && ! $paramValues->hasValue($param->getName())) {

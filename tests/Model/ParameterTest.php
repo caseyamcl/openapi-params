@@ -80,11 +80,4 @@ class ParameterTest extends TestCase
         $allValues = new ParameterValues(['test' => 'xyz', 'test1' => 15, 'test2' => false]);
         $params->prepare($allValues);
     }
-
-    // TODO: Test parameter dependencies here.
-    // Possibly implement markj/topsort library
-    // Then:
-    // - Add sorting logic (possibly via a method call)
-    // - Update tests
-    // - Return the ParameterList class to immutable state
 }
