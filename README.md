@@ -72,6 +72,17 @@ var_dump($queryParams->getApiDocumentation());
 
 ### Concepts
 
+The concepts and abstractions in this library are based largely off of the
+[OpenApi v3](https://swagger.io/specification/) specification.  There are
+a few definitions:
+
+* **Parameter** - A defined ...
+* **Format** - A defined...
+* **Preparation Step** - (see below)
+* **Deserializer** - ...
+* **Parameter Validation Rule** - A combination of a [Respect Validation Rule]((https://respect-validation.readthedocs.io/en/1.1/))
+  and a description of what the rule does. 
+
 Each parameter runs through a series of "preparation steps" which run in
 serial, one after the other.  If everything succeeds, then the prepared
 value is returned. This allows you to transform the value into whatever 
