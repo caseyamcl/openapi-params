@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
+ *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -16,18 +16,18 @@
 
 declare(strict_types=1);
 
-namespace Paramee\Type;
+namespace OpenApiParams\Type;
 
 use DateTimeInterface;
 use InvalidArgumentException;
 use LogicException;
-use Paramee\Contract\ParamFormat;
-use Paramee\Format;
-use Paramee\Model\Parameter;
-use Paramee\Model\ParameterValidationRule;
-use Paramee\PreparationStep\CallbackStep;
-use Paramee\PreparationStep\SanitizeStep;
-use Paramee\Utility\FilterNull;
+use OpenApiParams\Contract\ParamFormat;
+use OpenApiParams\Format;
+use OpenApiParams\Model\Parameter;
+use OpenApiParams\Model\ParameterValidationRule;
+use OpenApiParams\PreparationStep\CallbackStep;
+use OpenApiParams\PreparationStep\SanitizeStep;
+use OpenApiParams\Utility\FilterNull;
 use Respect\Validation\Validator;
 use Throwable;
 use Webmozart\Assert\Assert;

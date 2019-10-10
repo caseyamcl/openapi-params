@@ -5,7 +5,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,10 +14,10 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\ParamContext;
+namespace OpenApiParams\ParamContext;
 
-use Paramee\Model\ParameterValuesContext;
-use Paramee\Model\ParameterValuesContextTest;
+use OpenApiParams\Model\ParameterValuesContext;
+use OpenApiParams\Model\ParameterValuesContextTest;
 use Psr\Log\LoggerInterface;
 
 class ParamPathContextTest extends ParameterValuesContextTest

@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @package caseyamcl/paramee
+ *  @package caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,18 +14,18 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Type;
+namespace OpenApiParams\Type;
 
 use InvalidArgumentException;
-use Paramee\AbstractParameterTest;
-use Paramee\Exception\InvalidValueException;
-use Paramee\Model\Parameter;
-use Paramee\Model\ParameterValues;
-use Paramee\Model\ParameterValuesContext;
-use Paramee\ParamDeserializer\StandardDeserializer;
-use Paramee\PreparationStep\ArrayItemsPreparationStep;
-use Paramee\PreparationStep\CallbackStep;
-use Paramee\PreparationStep\RespectValidationStep;
+use OpenApiParams\AbstractParameterTest;
+use OpenApiParams\Exception\InvalidValueException;
+use OpenApiParams\Model\Parameter;
+use OpenApiParams\Model\ParameterValues;
+use OpenApiParams\Model\ParameterValuesContext;
+use OpenApiParams\ParamDeserializer\StandardDeserializer;
+use OpenApiParams\PreparationStep\ArrayItemsPreparationStep;
+use OpenApiParams\PreparationStep\CallbackStep;
+use OpenApiParams\PreparationStep\RespectValidationStep;
 use stdClass;
 
 class ArrayParameterTest extends AbstractParameterTest

@@ -1,5 +1,5 @@
 {
-  "name": "caseyamcl/paramee",
+  "name": "caseyamcl/openapi-params",
   "description": "Parameter processing library that is compatible with the OpenApi 3.0 specification",
   "keywords": ["openapi", "open-api", "open api", "swagger", "parameter", "processing"],
   "homepage": "https://github.com/caseyamcl/paramee",
@@ -28,12 +28,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Paramee\\": "src"
+      "OpenApiParams\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Paramee\\": "tests"
+      "OpenApiParams\\": "tests"
     }
   },
   "scripts": {

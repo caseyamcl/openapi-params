@@ -14,7 +14,7 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Validation\Rules;
+namespace OpenApiParams\Validation\Rules;
 
 use Respect\Validation\Rules\OneOf;
 use Respect\Validation\Validator;

@@ -5,7 +5,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,14 +14,14 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Format;
+namespace OpenApiParams\Format;
 
 use Carbon\CarbonImmutable;
-use Paramee\Model\AbstractParamFormatTest;
-use Paramee\Contract\ParamFormat;
-use Paramee\Exception\InvalidValueException;
-use Paramee\Model\Parameter;
-use Paramee\Type\StringParameter;
+use OpenApiParams\Model\AbstractParamFormatTest;
+use OpenApiParams\Contract\ParamFormat;
+use OpenApiParams\Exception\InvalidValueException;
+use OpenApiParams\Model\Parameter;
+use OpenApiParams\Type\StringParameter;
 
 class TemporalFormatTest extends AbstractParamFormatTest
 {

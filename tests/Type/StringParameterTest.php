@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @package caseyamcl/paramee
+ *  @package caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,16 +14,16 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Type;
+namespace OpenApiParams\Type;
 
 use InvalidArgumentException;
 use LogicException;
-use Paramee\AbstractParameterTest;
-use Paramee\Exception\InvalidValueException;
-use Paramee\Format;
-use Paramee\Format\Int32Format;
-use Paramee\Format\PasswordFormat;
-use Paramee\Model\Parameter;
+use OpenApiParams\AbstractParameterTest;
+use OpenApiParams\Exception\InvalidValueException;
+use OpenApiParams\Format;
+use OpenApiParams\Format\Int32Format;
+use OpenApiParams\Format\PasswordFormat;
+use OpenApiParams\Model\Parameter;
 use PHPUnit\Framework\Error\Notice;
 
 /**

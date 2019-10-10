@@ -5,7 +5,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
+ * @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -16,11 +16,11 @@
 
 declare(strict_types=1);
 
-namespace Paramee\Exception;
+namespace OpenApiParams\Exception;
 
-use Paramee\Behavior\ParameterErrorsTrait;
-use Paramee\Contract\ParameterException;
-use Paramee\Model\ParameterError;
+use OpenApiParams\Behavior\ParameterErrorsTrait;
+use OpenApiParams\Contract\ParameterException;
+use OpenApiParams\Model\ParameterError;
 use RuntimeException;
 use Throwable;
 

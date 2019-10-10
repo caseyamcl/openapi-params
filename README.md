@@ -24,11 +24,11 @@ code-driven (i.e. spec doesn't come from a YAML or JSON file, but is written int
 
 ```php
 
-use Paramee\Paramee;
-use Paramee\PreparationStep\CallbackStep;
+use OpenApiParams\OpenApiParams;
+use OpenApiParams\PreparationStep\CallbackStep;
 
 // Create an empty parameter list
-$queryParams = Paramee::queryParams();
+$queryParams = OpenApiParams::queryParams();
 
 // Add a string
 $queryParams->addAlphaNumeric('test1', '_')
@@ -134,9 +134,9 @@ formats within data types.  Simply implement the `Contract\PreparationStep` inte
 Or, for convenience, extend the `Model\AbstractParamFormat` class:
 
 ```php
-use Paramee\Model\AbstractParamFormat;
-use Paramee\Model\ParameterValidationRule;
-use Paramee\Type\StringParameter;
+use OpenApiParams\Model\AbstractParamFormat;
+use OpenApiParams\Model\ParameterValidationRule;
+use OpenApiParams\Type\StringParameter;
 
 class IpAddressFormat extends AbstractParamFormat
 {

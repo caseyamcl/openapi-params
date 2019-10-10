@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @package caseyamcl/paramee
+ *  @package caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,11 +14,11 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Exception;
+namespace OpenApiParams\Exception;
 
 use PHPUnit\Framework\TestCase;
-use Paramee\Model\ParameterError;
-use Paramee\PreparationStep\CallbackStep;
+use OpenApiParams\Model\ParameterError;
+use OpenApiParams\PreparationStep\CallbackStep;
 
 class InvalidParameterExceptionTest extends TestCase
 {

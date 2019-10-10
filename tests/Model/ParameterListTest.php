@@ -5,7 +5,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,16 +14,16 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Model;
+namespace OpenApiParams\Model;
 
 use ArrayObject;
-use Paramee\Exception\AggregateErrorsException;
-use Paramee\Contract\ParameterException;
-use Paramee\ParamContext\ParamQueryContext;
-use Paramee\Type\ArrayParameter;
-use Paramee\Type\BooleanParameter;
-use Paramee\Type\IntegerParameter;
-use Paramee\Type\StringParameter;
+use OpenApiParams\Exception\AggregateErrorsException;
+use OpenApiParams\Contract\ParameterException;
+use OpenApiParams\ParamContext\ParamQueryContext;
+use OpenApiParams\Type\ArrayParameter;
+use OpenApiParams\Type\BooleanParameter;
+use OpenApiParams\Type\IntegerParameter;
+use OpenApiParams\Type\StringParameter;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 

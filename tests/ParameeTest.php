@@ -5,7 +5,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,14 +14,14 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee;
+namespace OpenApiParams;
 
-use Paramee\Model\ParameterList;
-use Paramee\Model\ParameterValuesContext;
-use Paramee\ParamContext\ParamBodyContext;
-use Paramee\ParamContext\ParamHeaderContext;
-use Paramee\ParamContext\ParamPathContext;
-use Paramee\ParamContext\ParamQueryContext;
+use OpenApiParams\Model\ParameterList;
+use OpenApiParams\Model\ParameterValuesContext;
+use OpenApiParams\ParamContext\ParamBodyContext;
+use OpenApiParams\ParamContext\ParamHeaderContext;
+use OpenApiParams\ParamContext\ParamPathContext;
+use OpenApiParams\ParamContext\ParamQueryContext;
 use PHPUnit\Framework\TestCase;
 
 class ParameeTest extends TestCase
@@ -43,10 +43,10 @@ class ParameeTest extends TestCase
     public function dataValuesProvider()
     {
         return [
-            [[Paramee::class, 'queryParams'], ParamQueryContext::class],
-            [[Paramee::class, 'headerParams'], ParamHeaderContext::class],
-            [[Paramee::class, 'bodyParams'], ParamBodyContext::class],
-            [[Paramee::class, 'pathParams'], ParamPathContext::class]
+            [[OpenApiParams::class, 'queryParams'], ParamQueryContext::class],
+            [[OpenApiParams::class, 'headerParams'], ParamHeaderContext::class],
+            [[OpenApiParams::class, 'bodyParams'], ParamBodyContext::class],
+            [[OpenApiParams::class, 'pathParams'], ParamPathContext::class]
         ];
     }
 }

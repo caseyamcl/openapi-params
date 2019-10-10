@@ -5,7 +5,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -16,11 +16,11 @@
 
 declare(strict_types=1);
 
-namespace Paramee\Format;
+namespace OpenApiParams\Format;
 
-use Paramee\Model\AbstractParamFormat;
-use Paramee\Model\ParameterValidationRule;
-use Paramee\Type\StringParameter;
+use OpenApiParams\Model\AbstractParamFormat;
+use OpenApiParams\Model\ParameterValidationRule;
+use OpenApiParams\Type\StringParameter;
 use Respect\Validation\Validator;
 
 class EmailFormat extends AbstractParamFormat

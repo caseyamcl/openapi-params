@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @package caseyamcl/paramee
+ *  @package caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,17 +14,17 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee;
+namespace OpenApiParams;
 
 use InvalidArgumentException;
 use LogicException;
-use Paramee\Model\ParameterValidationRule;
+use OpenApiParams\Model\ParameterValidationRule;
 use PHPUnit\Framework\TestCase;
-use Paramee\Exception\InvalidValueException;
-use Paramee\Model\Parameter;
-use Paramee\Model\ParameterValues;
-use Paramee\PreparationStep\AllowNullPreparationStep;
-use Paramee\PreparationStep\EnsureCorrectDataTypeStep;
+use OpenApiParams\Exception\InvalidValueException;
+use OpenApiParams\Model\Parameter;
+use OpenApiParams\Model\ParameterValues;
+use OpenApiParams\PreparationStep\AllowNullPreparationStep;
+use OpenApiParams\PreparationStep\EnsureCorrectDataTypeStep;
 use Respect\Validation\Rules\AlwaysValid;
 use Respect\Validation\Validatable;
 

@@ -14,7 +14,7 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Validation\Exceptions;
+namespace OpenApiParams\Validation\Exceptions;
 
 use Respect\Validation\Exceptions\ValidationException;
 

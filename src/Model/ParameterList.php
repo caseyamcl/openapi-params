@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
+ *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -16,7 +16,7 @@
 
 declare(strict_types=1);
 
-namespace Paramee\Model;
+namespace OpenApiParams\Model;
 
 use ArrayObject;
 use Countable;
@@ -25,11 +25,11 @@ use IteratorAggregate;
 use MJS\TopSort\CircularDependencyException;
 use MJS\TopSort\ElementNotFoundException;
 use MJS\TopSort\Implementations\StringSort;
-use Paramee\Behavior\ConvenienceMethodsTrait;
-use Paramee\Exception\AggregateErrorsException;
-use Paramee\Exception\InvalidValueException;
-use Paramee\Exception\MissingParameterException;
-use Paramee\Exception\UndefinedParametersException;
+use OpenApiParams\Behavior\ConvenienceMethodsTrait;
+use OpenApiParams\Exception\AggregateErrorsException;
+use OpenApiParams\Exception\InvalidValueException;
+use OpenApiParams\Exception\MissingParameterException;
+use OpenApiParams\Exception\UndefinedParametersException;
 use RuntimeException;
 use Webmozart\Assert\Assert;
 

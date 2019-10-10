@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
+ *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -16,14 +16,14 @@
 
 declare(strict_types=1);
 
-namespace Paramee\PreparationStep;
+namespace OpenApiParams\PreparationStep;
 
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Validator;
-use Paramee\Contract\PreparationStep;
-use Paramee\Exception\InvalidValueException;
-use Paramee\Model\ParameterValidationRule;
-use Paramee\Model\ParameterValues;
+use OpenApiParams\Contract\PreparationStep;
+use OpenApiParams\Exception\InvalidValueException;
+use OpenApiParams\Model\ParameterValidationRule;
+use OpenApiParams\Model\ParameterValues;
 
 /**
  * Respect Validation Step

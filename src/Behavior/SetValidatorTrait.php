@@ -5,7 +5,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
+ * @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,10 +14,10 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Behavior;
+namespace OpenApiParams\Behavior;
 
 use InvalidArgumentException;
-use Paramee\Model\ParameterValidationRule;
+use OpenApiParams\Model\ParameterValidationRule;
 use Respect\Validation\Validatable;
 use Respect\Validation\Validator;
 

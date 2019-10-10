@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
+ *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -16,10 +16,10 @@
 
 declare(strict_types=1);
 
-namespace Paramee\ParamContext;
+namespace OpenApiParams\ParamContext;
 
-use Paramee\Contract\ParameterDeserializer;
-use Paramee\Model\ParameterValuesContext;
+use OpenApiParams\Contract\ParameterDeserializer;
+use OpenApiParams\Model\ParameterValuesContext;
 use Psr\Log\LoggerInterface;
 
 /**

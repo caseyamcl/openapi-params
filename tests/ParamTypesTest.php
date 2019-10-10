@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @package caseyamcl/paramee
+ *  @package caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -16,7 +16,7 @@
 
 declare(strict_types=1);
 
-namespace Paramee;
+namespace OpenApiParams;
 
 use PHPUnit\Framework\TestCase;
 use RuntimeException;

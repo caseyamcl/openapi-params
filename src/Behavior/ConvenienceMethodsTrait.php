@@ -4,7 +4,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -13,17 +13,17 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Behavior;
+namespace OpenApiParams\Behavior;
 
-use Paramee\Model\Parameter;
-use Paramee\Model\ParameterList;
-use Paramee\Type\ArrayParameter;
-use Paramee\Type\BooleanParameter;
-use Paramee\Type\IntegerParameter;
-use Paramee\Type\NumberParameter;
-use Paramee\Type\ObjectParameter;
-use Paramee\Type\StringParameter;
-use Paramee\Format;
+use OpenApiParams\Model\Parameter;
+use OpenApiParams\Model\ParameterList;
+use OpenApiParams\Type\ArrayParameter;
+use OpenApiParams\Type\BooleanParameter;
+use OpenApiParams\Type\IntegerParameter;
+use OpenApiParams\Type\NumberParameter;
+use OpenApiParams\Type\ObjectParameter;
+use OpenApiParams\Type\StringParameter;
+use OpenApiParams\Format;
 
 /**
  * Trait ConvenienceMethodsTrait

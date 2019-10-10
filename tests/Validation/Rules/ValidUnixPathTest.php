@@ -5,7 +5,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,9 +14,9 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Validation\Rules;
+namespace OpenApiParams\Validation\Rules;
 
-use Paramee\Validation\Exceptions\ValidUnixPathException;
+use OpenApiParams\Validation\Exceptions\ValidUnixPathException;
 use PHPUnit\Framework\TestCase;
 use Respect\Validation\Exceptions\ComponentException;
 use Respect\Validation\Validator;

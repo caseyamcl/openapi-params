@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @package caseyamcl/paramee
+ *  @package caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,12 +14,12 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\PreparationStep;
+namespace OpenApiParams\PreparationStep;
 
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
-use Paramee\Exception\InvalidValueException;
-use Paramee\Model\ParameterValues;
+use OpenApiParams\Exception\InvalidValueException;
+use OpenApiParams\Model\ParameterValues;
 
 class CallbackStepTest extends TestCase
 {

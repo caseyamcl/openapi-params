@@ -5,7 +5,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,10 +14,10 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Exception;
+namespace OpenApiParams\Exception;
 
-use Paramee\Contract\ParameterException;
-use Paramee\Model\ParameterError;
+use OpenApiParams\Contract\ParameterException;
+use OpenApiParams\Model\ParameterError;
 use PHPUnit\Framework\TestCase;
 
 class AggregateErrorsExceptionTest extends TestCase

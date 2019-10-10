@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
+ *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -16,14 +16,14 @@
 
 declare(strict_types=1);
 
-namespace Paramee\Type;
+namespace OpenApiParams\Type;
 
-use Paramee\Contract\ParamFormat;
-use Paramee\Model\AbstractNumericParameter;
-use Paramee\Format\DoubleFormat;
-use Paramee\Format\FloatFormat;
-use Paramee\Model\ParameterValidationRule;
-use Paramee\PreparationStep\CallbackStep;
+use OpenApiParams\Contract\ParamFormat;
+use OpenApiParams\Model\AbstractNumericParameter;
+use OpenApiParams\Format\DoubleFormat;
+use OpenApiParams\Format\FloatFormat;
+use OpenApiParams\Model\ParameterValidationRule;
+use OpenApiParams\PreparationStep\CallbackStep;
 use Respect\Validation\Validator;
 
 /**

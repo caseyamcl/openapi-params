@@ -5,7 +5,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,11 +14,11 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Model;
+namespace OpenApiParams\Model;
 
-use Paramee\Contract\PreparationStep;
-use Paramee\PreparationStep\CallbackStep;
-use Paramee\PreparationStep\EnumCheckStep;
+use OpenApiParams\Contract\PreparationStep;
+use OpenApiParams\PreparationStep\CallbackStep;
+use OpenApiParams\PreparationStep\EnumCheckStep;
 use PHPUnit\Framework\TestCase;
 
 class ParameterPreparationStepsTest extends TestCase

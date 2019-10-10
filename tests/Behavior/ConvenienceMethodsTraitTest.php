@@ -4,7 +4,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/paramee
- * @package caseyamcl/paramee
+ * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -13,13 +13,13 @@
  *  ------------------------------------------------------------------
  */
 
-namespace Paramee\Behavior;
+namespace OpenApiParams\Behavior;
 
 use DateTime;
-use Paramee\Model\ParameterList;
-use Paramee\Model\ParameterValues;
-use Paramee\ParamContext\ParamQueryContext;
-use Paramee\PreparationStep\CallbackStep;
+use OpenApiParams\Model\ParameterList;
+use OpenApiParams\Model\ParameterValues;
+use OpenApiParams\ParamContext\ParamQueryContext;
+use OpenApiParams\PreparationStep\CallbackStep;
 use PHPUnit\Framework\TestCase;
 
 class ConvenienceMethodsTraitTest extends TestCase

@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
+ *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -16,16 +16,16 @@
 
 declare(strict_types=1);
 
-namespace Paramee;
+namespace OpenApiParams;
 
 use RuntimeException;
-use Paramee\Model\Parameter;
-use Paramee\Type\ArrayParameter;
-use Paramee\Type\BooleanParameter;
-use Paramee\Type\IntegerParameter;
-use Paramee\Type\NumberParameter;
-use Paramee\Type\ObjectParameter;
-use Paramee\Type\StringParameter;
+use OpenApiParams\Model\Parameter;
+use OpenApiParams\Type\ArrayParameter;
+use OpenApiParams\Type\BooleanParameter;
+use OpenApiParams\Type\IntegerParameter;
+use OpenApiParams\Type\NumberParameter;
+use OpenApiParams\Type\ObjectParameter;
+use OpenApiParams\Type\StringParameter;
 use Webmozart\Assert\Assert;
 
 /**

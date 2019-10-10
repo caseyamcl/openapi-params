@@ -5,7 +5,7 @@
  *
  *  @license http://opensource.org/licenses/MIT
  *  @link https://github.com/caseyamcl/paramee
- *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/paramee
+ *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/openapi-params
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -16,20 +16,20 @@
 
 declare(strict_types=1);
 
-namespace Paramee\Model;
+namespace OpenApiParams\Model;
 
 use LogicException;
-use Paramee\Behavior\SetValidatorTrait;
+use OpenApiParams\Behavior\SetValidatorTrait;
 use Respect\Validation\Validatable;
-use Paramee\Contract\ParamFormat;
-use Paramee\Contract\PreparationStep;
-use Paramee\PreparationStep\AllowNullPreparationStep;
-use Paramee\PreparationStep\DependencyCheckStep;
-use Paramee\PreparationStep\EnsureCorrectDataTypeStep;
-use Paramee\PreparationStep\EnumCheckStep;
-use Paramee\PreparationStep\RespectValidationStep;
-use Paramee\Utility\FilterNull;
-use Paramee\Utility\RequireConstantTrait;
+use OpenApiParams\Contract\ParamFormat;
+use OpenApiParams\Contract\PreparationStep;
+use OpenApiParams\PreparationStep\AllowNullPreparationStep;
+use OpenApiParams\PreparationStep\DependencyCheckStep;
+use OpenApiParams\PreparationStep\EnsureCorrectDataTypeStep;
+use OpenApiParams\PreparationStep\EnumCheckStep;
+use OpenApiParams\PreparationStep\RespectValidationStep;
+use OpenApiParams\Utility\FilterNull;
+use OpenApiParams\Utility\RequireConstantTrait;
 
 /**
  * Abstract Parameter
