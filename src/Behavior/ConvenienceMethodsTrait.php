@@ -39,7 +39,7 @@ trait ConvenienceMethodsTrait
      * @param bool $required
      * @return StringParameter
      */
-    public function addStringValue(string $name, bool $required = false): StringParameter
+    public function addString(string $name, bool $required = false): StringParameter
     {
         return $this->addValue(new StringParameter($name, $required));
     }
@@ -51,7 +51,7 @@ trait ConvenienceMethodsTrait
      * @param bool $required
      * @return ArrayParameter
      */
-    public function addArrayValue(string $name, bool $required = false): ArrayParameter
+    public function addArray(string $name, bool $required = false): ArrayParameter
     {
         return $this->addValue(new ArrayParameter($name, $required));
     }
@@ -63,7 +63,7 @@ trait ConvenienceMethodsTrait
      * @param bool $required
      * @return BooleanParameter
      */
-    public function addBooleanValue(string $name, bool $required = false): BooleanParameter
+    public function addBoolean(string $name, bool $required = false): BooleanParameter
     {
         return $this->addValue(new BooleanParameter($name, $required));
     }
@@ -99,66 +99,66 @@ trait ConvenienceMethodsTrait
      * @param bool $required
      * @return ObjectParameter
      */
-    public function addObjectValue(string $name, bool $required = false): ObjectParameter
+    public function addObject(string $name, bool $required = false): ObjectParameter
     {
         return $this->addValue(new ObjectParameter($name, $required));
     }
 
-    public function addAlphaNumericValue(string $name, bool $required = false, string $extraChars = ''): StringParameter
+    public function addAlphaNumeric(string $name, string $extraChars = '', bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->addValue($param->setFormat(new Format\AlphanumericFormat($extraChars)));
     }
 
-    public function addBinaryValue(string $name, bool $required = false): StringParameter
+    public function addBinary(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->addValue($param->setFormat(new Format\BinaryFormat()));
     }
 
-    public function addByteValue(string $name, bool $required = false): StringParameter
+    public function addByte(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->addValue($param->setFormat(new Format\ByteFormat()));
     }
 
-    public function addCsvValue(string $name, bool $required = false, string $separator = ','): StringParameter
+    public function addCsv(string $name, bool $required = false, string $separator = ','): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->addValue($param->setFormat(new Format\CsvFormat($separator)));
     }
 
-    public function addDateValue(string $name, bool $required = false): StringParameter
+    public function addDate(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->addValue($param->setFormat(new Format\DateFormat()));
     }
 
-    public function addDateTimeValue(string $name, bool $required = false): StringParameter
+    public function addDateTime(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->addValue($param->setFormat(new Format\DateTimeFormat()));
     }
 
-    public function addPasswordValue(string $name, bool $required = false): StringParameter
+    public function addPassword(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->addValue($param->setFormat(new Format\PasswordFormat()));
     }
 
-    public function addUuidValue(string $name, bool $required = false): StringParameter
+    public function addUuid(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->addValue($param->setFormat(new Format\UuidFormat()));
     }
 
-    public function addYesNoValue(string $name, bool $required = false): StringParameter
+    public function addYesNo(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->addValue($param->setFormat(new Format\YesNoFormat()));
     }
 
-    public function addEmailValue(string $name, bool $required = false): StringParameter
+    public function addEmail(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
         return $this->addValue($param->setFormat(new Format\EmailFormat()));

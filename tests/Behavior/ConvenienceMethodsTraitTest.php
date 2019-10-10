@@ -28,7 +28,7 @@ class ConvenienceMethodsTraitTest extends TestCase
     public function testAddCsvValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addCsvValue('test');
+        $obj->addCsv('test');
         $prepared = $obj->prepare(['test' => 'a,b,c']);
         $this->assertEquals(['a', 'b', 'c'], $prepared->getPreparedValue('test'));
     }
@@ -44,7 +44,7 @@ class ConvenienceMethodsTraitTest extends TestCase
     public function testAddUuidValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addUuidValue('test');
+        $obj->addUuid('test');
         $prepared = $obj->prepare(['test' => 'e0959969-28d9-4572-9bf6-f970e4e9696e']);
         $this->assertSame('e0959969-28d9-4572-9bf6-f970e4e9696e', $prepared->getPreparedValue('test'));
     }
@@ -60,7 +60,7 @@ class ConvenienceMethodsTraitTest extends TestCase
     public function testAddYesNoValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addYesNoValue('test');
+        $obj->addYesNo('test');
         $prepared = $obj->prepare(['test' => 'on']);
         $this->assertSame(true, $prepared->getPreparedValue('test'));
     }
@@ -68,7 +68,7 @@ class ConvenienceMethodsTraitTest extends TestCase
     public function testAddDateValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addDateValue('test');
+        $obj->addDate('test');
         $prepared = $obj->prepare(['test' => '2019-05-12']);
         $this->assertSame('2019-05-12', $prepared->getPreparedValue('test')->format('Y-m-d'));
     }
@@ -76,7 +76,7 @@ class ConvenienceMethodsTraitTest extends TestCase
     public function testAddBinaryValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addBinaryValue('test');
+        $obj->addBinary('test');
         $prepared = $obj->prepare(['test' => '011011']);
         $this->assertSame('011011', $prepared->getPreparedValue('test'));
     }
@@ -84,7 +84,7 @@ class ConvenienceMethodsTraitTest extends TestCase
     public function testAddDateTimeValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addDateTimeValue('test');
+        $obj->addDateTime('test');
         $prepared = $obj->prepare(['test' => '2017-07-21T17:32:28Z']);
         $this->assertSame(
             '2017-07-21T17:32:28+00:00',
@@ -96,7 +96,7 @@ class ConvenienceMethodsTraitTest extends TestCase
     public function testAddBooleanValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addBooleanValue('test');
+        $obj->addBoolean('test');
         $prepared = $obj->prepare(['test' => true]);
         $this->assertSame(true, $prepared->getPreparedValue('test'));
     }
@@ -104,7 +104,7 @@ class ConvenienceMethodsTraitTest extends TestCase
     public function testAddByteValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addByteValue('test');
+        $obj->addByte('test');
         $prepared = $obj->prepare(['test' => base64_encode('test')]);
         $this->assertSame('test', $prepared->getPreparedValue('test'));
     }
@@ -112,7 +112,7 @@ class ConvenienceMethodsTraitTest extends TestCase
     public function testAddAlphaNumericValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addAlphaNumericValue('test');
+        $obj->addAlphaNumeric('test');
         $prepared = $obj->prepare(['test' => 'abc123']);
         $this->assertSame('abc123', $prepared->getPreparedValue('test'));
     }
@@ -120,7 +120,7 @@ class ConvenienceMethodsTraitTest extends TestCase
     public function testAddArrayValue(): void
     {
         $obj = new ParameterList('test');
-        $param = $obj->addArrayValue('test');
+        $param = $obj->addArray('test');
         $param->setUniqueItems(true);
         $allValues = new ParameterValues(['test' => 'a=apple,b=banana'], new ParamQueryContext());
 
@@ -136,7 +136,7 @@ class ConvenienceMethodsTraitTest extends TestCase
 
         $allValues = new ParameterValues(['test' => 'a=apple,b=banana'], new ParamQueryContext());
 
-        $param = $obj->addObjectValue('test');
+        $param = $obj->addObject('test');
         $this->assertEquals(
             (object) ['a' => 'apple', 'b' => 'banana'],
             $param->prepare('a=apple,b=banana', $allValues)
@@ -146,21 +146,21 @@ class ConvenienceMethodsTraitTest extends TestCase
     public function testAddPasswordValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addPasswordValue('test');
+        $obj->addPassword('test');
         $this->assertSame('test', $obj->prepare(['test' => 'test'])->getPreparedValue('test'));
     }
 
     public function testAddStringValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addStringValue('test');
+        $obj->addString('test');
         $this->assertSame('test', $obj->prepare(['test' => 'test'])->getPreparedValue('test'));
     }
 
     public function testAddEmailValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addEmailValue('test');
+        $obj->addEmail('test');
         $this->assertSame(
             'test@example.org',
             $obj->prepare(['test' => 'test@example.org'])->getPreparedValue('test')

@@ -38,7 +38,7 @@ class ParameterListTest extends TestCase
     public function testGetReturnsParameterWhenItExists(): void
     {
         $obj = new ParameterList('test');
-        $param = $obj->addStringValue('test');
+        $param = $obj->addString('test');
         $this->assertInstanceOf(StringParameter::class, $param);
     }
 
@@ -158,13 +158,13 @@ class ParameterListTest extends TestCase
     public function testGetApiDocumentationReturnsExpectedValuesWhenParametersAreAdded(): void
     {
         $obj = new ParameterList('test');
-        $obj->addStringValue('test1')
+        $obj->addString('test1')
             ->makeRequired()
             ->setMinLength(5)
             ->setMaxLength(10)
             ->setDescription('here');
 
-        $obj->addArrayValue('test2')
+        $obj->addArray('test2')
             ->makeOptional()
             ->addAllowedParamDefinition(StringParameter::create()->makeOptional()->setDeprecated(true))
             ->addAllowedParamDefinition(IntegerParameter::create()->max(5));

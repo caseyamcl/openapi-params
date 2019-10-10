@@ -31,7 +31,7 @@ use Paramee\PreparationStep\CallbackStep;
 $queryParams = Paramee::queryParams();
 
 // Add a string
-$queryParams->addAlphaNumericValue('test1', '_')
+$queryParams->addAlphaNumeric('test1', '_')
     ->makeRequired()
     ->setDescription('Test parameter')
     ->addPreparationStep(new CallbackStep('strtoupper', 'convert string to uppercase'))
@@ -54,7 +54,7 @@ $queryParams->addNumber('test3')
     ->setRequireDecimal(true);
 
 // Add a 'yes/no' string
-$queryParams->addYesNoValue('test4')
+$queryParams->addYesNo('test4')
     ->setDescription('Boolean parameter');
 
 // Prepared is an instance of Paramee\Model\ParameterValues
