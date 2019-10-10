@@ -45,7 +45,12 @@ abstract class AbstractParameterTest extends TestCase
 
     public function testStringReturnsName(): void
     {
-        $this->assertNotEmpty($this->getInstance()->__toString());
+        $this->assertSame($this->getInstance()->__toString(), $this->getInstance()->getName());
+    }
+
+    public function testGetName(): void
+    {
+        $this->assertNotEmpty($this->getInstance()->getName());
     }
 
     /**

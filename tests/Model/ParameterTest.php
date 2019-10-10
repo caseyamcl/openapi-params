@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Paramee Library
  *
@@ -40,7 +41,6 @@ class ParameterTest extends TestCase
         $this->assertStringContainsString('ensure correct datatype', $logger->records[0]['message']);
         $this->assertStringContainsString('trims whitespace', $logger->records[1]['message']);
         $this->assertStringContainsString('runs the following validation', $logger->records[2]['message']);
-
     }
 
     /**

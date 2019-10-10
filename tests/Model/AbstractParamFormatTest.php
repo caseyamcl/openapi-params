@@ -23,11 +23,13 @@ use Paramee\Contract\PreparationStep;
 
 abstract class AbstractParamFormatTest extends TestCase
 {
-    public function testToString()
+    public function testGetName()
     {
         $constantName = sprintf("%s::NAME", get_class($this->getFormat()));
         if (defined($constantName)) {
-            $this->assertEquals(constant($constantName), (string) $this->getFormat());
+            $this->assertEquals(constant($constantName), $this->getFormat()->getName());
+        } else {
+            $this->markTestSkipped('No name constant was determined');
         }
     }
 

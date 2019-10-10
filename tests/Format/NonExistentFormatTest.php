@@ -23,15 +23,25 @@ use Paramee\Contract\ParamFormat;
 use Paramee\Model\AbstractParamFormat;
 use Paramee\Model\Parameter;
 use Paramee\Type\StringParameter;
+use RuntimeException;
 
 class NonExistentFormatTest extends AbstractParamFormatTest
 {
+    public function testGetName()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Could not automatically derive format name from class');
+        $this->getFormat()->getName();
+    }
+
     public function testToStringThrowsExceptionOnInabilityToDetermineFormatName()
     {
         $this->assertEmpty($this->getParameterWithFormat()->getFormat()->__toString());
     }
 
     /**
+     * Returns anonymous class that extends AbstractParamFormat, but does not explicitly include a name
+     *
      * @return ParamFormat
      */
     protected function getFormat(): ParamFormat

@@ -180,7 +180,10 @@ class ObjectParameter extends Parameter
                 Validator::callback(function ($obj) {
                     return count((array) $obj) >= $this->minProperties;
                 }),
-                sprintf('number of properties in object must be greater than or equal to %s', number_format($this->minProperties)),
+                sprintf(
+                    'number of properties in object must be greater than or equal to %s',
+                    number_format($this->minProperties)
+                ),
                 false
             );
         }
@@ -191,7 +194,10 @@ class ObjectParameter extends Parameter
                 Validator::callback(function ($obj) {
                     return count((array) $obj) <= $this->maxProperties;
                 }),
-                sprintf('number of properties in object must be less than or equal to %s', number_format($this->maxProperties)),
+                sprintf(
+                    'number of properties in object must be less than or equal to %s',
+                    number_format($this->maxProperties)
+                ),
                 false
             );
         }
