@@ -726,8 +726,5 @@ abstract class Parameter
      *
      * @return array|ParameterValidationRule[]
      */
-    protected function getBuiltInValidationRules(): array
-    {
-        return [];
-    }
+    abstract protected function getBuiltInValidationRules(): array;
 }

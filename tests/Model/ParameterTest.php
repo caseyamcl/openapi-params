@@ -80,4 +80,18 @@ class ParameterTest extends TestCase
         $allValues = new ParameterValues(['test' => 'xyz', 'test1' => 15, 'test2' => false]);
         $params->prepare($allValues);
     }
+
+    public function testGetDocumentationReturnsExpectedArray(): void
+    {
+        $param = StringParameter::create('xyz')
+            ->setMaxLength(10)
+            ->setMinLength(3)
+            ->setPattern('/[abc]/')
+            ->setDefaultValue('abc');
+
+        $this->assertEquals(
+            ['type' => 'string', 'pattern' => '/[abc]/', 'minLength' => 3, 'maxLength' => 10, 'default' => 'abc'],
+            $param->getDocumentation()
+        );
+    }
 }

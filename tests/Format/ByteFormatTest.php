@@ -30,19 +30,27 @@ use Paramee\Type\StringParameter;
  */
 class ByteFormatTest extends AbstractParamFormatTest
 {
-    public function testValidValueIsPrepared()
+    public function testValidValueIsPrepared(): void
     {
         $param = $this->getParameterWithFormat();
         $prepared = $param->prepare('dGVzdA=='); // value is 'test'
         $this->assertSame('test', $prepared);
     }
 
-    public function testNonBase64EncodedStringThrowsException()
+    public function testNonBase64EncodedStringThrowsException(): void
     {
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('invalid data');
         $param = $this->getParameterWithFormat();
         $param->prepare('@@@@');
+    }
+
+    public function testNonBase64EncodedStringWithValidCharactersThrowsException(): void
+    {
+        $this->expectException(InvalidValueException::class);
+        $this->expectExceptionMessage('invalid data');
+        $param = $this->getParameterWithFormat();
+        $param->prepare('a');
     }
 
     /**
