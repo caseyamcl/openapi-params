@@ -152,7 +152,8 @@ class StringParameterTest extends AbstractParameterTest
             ['makeCsv',          Format\CsvFormat::class],
             ['makePassword',     Format\PasswordFormat::class],
             ['makeTemporal',     Format\TemporalFormat::class],
-            ['makeUuid',         Format\UuidFormat::class]
+            ['makeUuid',         Format\UuidFormat::class],
+            ['makeEmail',        Format\EmailFormat::class]
         ];
     }
 
