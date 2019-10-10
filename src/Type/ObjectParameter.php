@@ -234,10 +234,12 @@ class ObjectParameter extends Parameter
                 return count($diff) == 0;
             });
 
-            $rules[] = new ParameterValidationRule(Validator::callback($rule)->setTemplate(sprintf(
+            $invalidMsg = sprintf(
                 'value can only contain properties: %s',
-                implode(', ', array_keys($this->properties))
-            )));
+                implode(', ', array_keys($this->properties)
+            ));
+
+            $rules[] = new ParameterValidationRule(Validator::callback($rule)->setTemplate($invalidMsg), $invalidMsg);
         }
 
         return $rules ?? [];

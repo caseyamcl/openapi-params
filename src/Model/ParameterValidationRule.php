@@ -52,7 +52,7 @@ final class ParameterValidationRule implements ParamValidationRule
      */
     public function __construct(
         Validatable $rule,
-        string $description = '',
+        string $description,
         bool $includeDescriptionInDocumentation = true
     ) {
         $this->rule = $rule;

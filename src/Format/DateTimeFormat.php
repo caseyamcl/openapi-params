@@ -154,7 +154,8 @@ class DateTimeFormat extends AbstractParamFormat
                 } catch (InvalidArgumentException $e) {
                     return false;
                 }
-            })
+            }),
+            sprintf('value must be valid RFC3339 date/time (example: %s)', static::DATE_FORMAT_EXAMPLE)
         );
     }
 

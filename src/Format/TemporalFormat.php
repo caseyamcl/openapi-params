@@ -67,7 +67,8 @@ class TemporalFormat extends DateTimeFormat
                 } catch (Exception | InvalidArgumentException $e) {
                     return false;
                 }
-            })
+            }),
+            sprintf('value must be valid RFC3339 date/time (example: %s)', static::DATE_FORMAT_EXAMPLE)
         );
     }
 }
