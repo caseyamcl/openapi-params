@@ -59,7 +59,7 @@ class UnpackCSV
      *
      * @param string $value
      * @param array $separators
-     * @return array|\string[]
+     * @return array|string[]
      */
     public function __invoke(string $value, $separators = null)
     {

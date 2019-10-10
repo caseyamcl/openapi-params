@@ -36,6 +36,7 @@ use Paramee\Type\IntegerParameter;
 use Paramee\Type\NumberParameter;
 use Paramee\Type\ObjectParameter;
 use Paramee\Type\StringParameter;
+use RuntimeException;
 use Webmozart\Assert\Assert;
 
 /**
@@ -324,7 +325,7 @@ class ParameterList implements IteratorAggregate, Countable
         if ($this->has($name)) {
             return $this->items[$name];
         } else {
-            throw new \RuntimeException("Parameter not found: " . $name);
+            throw new RuntimeException("Parameter not found: " . $name);
         }
     }
 

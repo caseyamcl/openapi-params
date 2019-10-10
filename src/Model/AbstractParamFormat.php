@@ -52,7 +52,7 @@ abstract class AbstractParamFormat implements ParamFormat
     /**
      * If the name is explicitly specified
      * @return string
-     * @throws ReflectionException
+     * @throws ReflectionException|RuntimeException
      */
     public function getName(): string
     {
@@ -61,13 +61,14 @@ abstract class AbstractParamFormat implements ParamFormat
         } elseif ($shortName = (new ReflectionClass($this))->getShortName()) {
             if (substr($shortName, -6) === 'Format') {
                 return strtolower(substr($shortName, 0, strlen($shortName) - 6));
-            } else {
-                throw new RuntimeException(sprintf(
-                    'Could not automatically derive format name from class: %s',
-                    get_called_class()
-                ));
             }
         }
+
+        // If made it here...
+        throw new RuntimeException(sprintf(
+            'Could not automatically derive format name from class: %s',
+            get_called_class()
+        ));
     }
 
     /**

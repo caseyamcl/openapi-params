@@ -43,7 +43,7 @@ class TemporalFormat extends DateTimeFormat
         return [
             new CallbackStep(function (string $value): DateTimeImmutable {
                 return CarbonImmutable::parse($value);
-            }, 'parse date string to Chronos instance')
+            }, 'parse date string to CarbonImmutable instance')
         ];
     }
 

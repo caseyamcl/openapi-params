@@ -33,6 +33,7 @@ final class ParamBodyContext extends ParameterValuesContext
      * ParamBodyContext constructor.
      *
      * @param ParameterDeserializer|null $deserializer
+     * @param LoggerInterface|null $logger
      */
     public function __construct(?ParameterDeserializer $deserializer = null, ?LoggerInterface $logger = null)
     {

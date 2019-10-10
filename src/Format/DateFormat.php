@@ -20,6 +20,7 @@ namespace Paramee\Format;
 
 use Carbon\CarbonImmutable;
 use DateTimeImmutable;
+use Exception;
 use Paramee\Contract\PreparationStep;
 use Paramee\PreparationStep\CallbackStep;
 use Paramee\Type\StringParameter;
@@ -58,7 +59,7 @@ class DateFormat extends DateTimeFormat
      *
      * @param string $value
      * @return CarbonImmutable|null
-     * @throws \Exception
+     * @throws Exception
      */
     public function buildDate(string $value): ?CarbonImmutable
     {

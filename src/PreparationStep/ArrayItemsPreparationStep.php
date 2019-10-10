@@ -112,7 +112,7 @@ class ArrayItemsPreparationStep implements PreparationStep
      * Prepare each item in the array
      *
      * @param mixed $value      The value
-     * @param string $itemName  Pointer to index (e.g. 'myparam/5' or 'myparam/6', etc..)
+     * @param string $itemName  Pointer to index (e.g. '[array_name]/5' or '[array_name]/6', etc..)
      * @param array|Parameter[] $paramTypeMapping
      * @return mixed
      */
