@@ -104,10 +104,10 @@ class ParameterListTest extends TestCase
     }
 
 
-    public function testAddBoolean(): void
+    public function testAddBooleanValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addBoolean('test');
+        $obj->addBooleanValue('test');
         $prepared = $obj->prepare(['test' => true]);
         $this->assertSame(true, $prepared->getPreparedValue('test'));
     }
@@ -128,10 +128,10 @@ class ParameterListTest extends TestCase
         $this->assertSame('abc123', $prepared->getPreparedValue('test'));
     }
 
-    public function testAddArray(): void
+    public function testAddArrayValue(): void
     {
         $obj = new ParameterList('test');
-        $param = $obj->addArray('test');
+        $param = $obj->addArrayValue('test');
         $param->setUniqueItems(true);
         $allValues = new ParameterValues(['test' => 'a=apple,b=banana'], new ParamQueryContext());
 
@@ -141,13 +141,13 @@ class ParameterListTest extends TestCase
         $this->assertSame(['A', 'B', 'C'], $param->prepare('a,b,c', $allValues));
     }
 
-    public function testAddObject(): void
+    public function testAddObjectValue(): void
     {
         $obj = new ParameterList('test', []);
 
         $allValues = new ParameterValues(['test' => 'a=apple,b=banana'], new ParamQueryContext());
 
-        $param = $obj->addObject('test');
+        $param = $obj->addObjectValue('test');
         $this->assertEquals(
             (object) ['a' => 'apple', 'b' => 'banana'],
             $param->prepare('a=apple,b=banana', $allValues)
@@ -161,11 +161,36 @@ class ParameterListTest extends TestCase
         $this->assertSame('test', $obj->prepare(['test' => 'test'])->getPreparedValue('test'));
     }
 
-    public function testAddString(): void
+    public function testAddStringValue(): void
     {
         $obj = new ParameterList('test');
-        $obj->addString('test');
+        $obj->addStringValue('test');
         $this->assertSame('test', $obj->prepare(['test' => 'test'])->getPreparedValue('test'));
+    }
+
+    public function testAddEmailValue(): void
+    {
+        $obj = new ParameterList('test');
+        $obj->addEmailValue('test');
+        $this->assertSame(
+            'test@example.org',
+            $obj->prepare(['test' => 'test@example.org'])->getPreparedValue('test')
+        );
+    }
+
+    public function testGetReturnsParameterWhenItExists(): void
+    {
+        $obj = new ParameterList('test');
+        $param = $obj->addStringValue('test');
+        $this->assertInstanceOf(StringParameter::class, $param);
+    }
+
+    public function testGetThrowsRuntimeExceptionWhenParamDoesNotExist(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        $this->expectExceptionMessage('Parameter not found');
+        $obj = new ParameterList('test');
+        $obj->get('nonexistent');
     }
 
     public function testGetName(): void
@@ -276,13 +301,13 @@ class ParameterListTest extends TestCase
     public function testGetApiDocumentationReturnsExpectedValuesWhenParametersAreAdded(): void
     {
         $obj = new ParameterList('test');
-        $obj->addString('test1')
+        $obj->addStringValue('test1')
             ->makeRequired()
             ->setMinLength(5)
             ->setMaxLength(10)
             ->setDescription('here');
 
-        $obj->addArray('test2')
+        $obj->addArrayValue('test2')
             ->makeOptional()
             ->addAllowedParamDefinition(StringParameter::create()->makeOptional()->setDeprecated(true))
             ->addAllowedParamDefinition(IntegerParameter::create()->max(5));

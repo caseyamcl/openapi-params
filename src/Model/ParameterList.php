@@ -101,7 +101,7 @@ class ParameterList implements IteratorAggregate, Countable
      * @param bool $required
      * @return StringParameter
      */
-    public function addString(string $name, bool $required = false): StringParameter
+    public function addStringValue(string $name, bool $required = false): StringParameter
     {
         return $this->add(new StringParameter($name, $required));
     }
@@ -113,7 +113,7 @@ class ParameterList implements IteratorAggregate, Countable
      * @param bool $required
      * @return ArrayParameter
      */
-    public function addArray(string $name, bool $required = false): ArrayParameter
+    public function addArrayValue(string $name, bool $required = false): ArrayParameter
     {
         return $this->add(new ArrayParameter($name, $required));
     }
@@ -125,7 +125,7 @@ class ParameterList implements IteratorAggregate, Countable
      * @param bool $required
      * @return BooleanParameter
      */
-    public function addBoolean(string $name, bool $required = false): BooleanParameter
+    public function addBooleanValue(string $name, bool $required = false): BooleanParameter
     {
         return $this->add(new BooleanParameter($name, $required));
     }
@@ -161,7 +161,7 @@ class ParameterList implements IteratorAggregate, Countable
      * @param bool $required
      * @return ObjectParameter
      */
-    public function addObject(string $name, bool $required = false): ObjectParameter
+    public function addObjectValue(string $name, bool $required = false): ObjectParameter
     {
         return $this->add(new ObjectParameter($name, $required));
     }

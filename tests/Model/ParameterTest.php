@@ -51,7 +51,7 @@ class ParameterTest extends TestCase
         $params = new ParameterList('params');
         $params->addAlphaNumericValue('test')->addDependsOn('test1');
         $params->addInteger('test1')->addDependsOn('test2');
-        $params->addBoolean('test2');
+        $params->addBooleanValue('test2');
 
         $logger = new TestLogger();
         $allValues = new ParameterValues(
@@ -75,7 +75,7 @@ class ParameterTest extends TestCase
         $params = new ParameterList('params');
         $params->addAlphaNumericValue('test')->addDependsOn('test1');
         $params->addInteger('test1')->addDependsOn('test2');
-        $params->addBoolean('test2')->addDependsOn('test');
+        $params->addBooleanValue('test2')->addDependsOn('test');
 
         $allValues = new ParameterValues(['test' => 'xyz', 'test1' => 15, 'test2' => false]);
         $params->prepare($allValues);
