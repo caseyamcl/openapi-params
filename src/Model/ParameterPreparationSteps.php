@@ -30,7 +30,7 @@ use Paramee\Contract\PreparationStep;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ParameterPreparationSteps implements IteratorAggregate, Countable
+final class ParameterPreparationSteps implements IteratorAggregate, Countable
 {
     /**
      * @var PreparationStep[]

@@ -27,7 +27,7 @@ use RuntimeException;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ParameterValue
+final class ParameterValue
 {
     /**
      * @var string

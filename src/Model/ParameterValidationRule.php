@@ -28,7 +28,7 @@ use Respect\Validation\Validatable;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ParameterValidationRule implements ParamValidationRule
+final class ParameterValidationRule implements ParamValidationRule
 {
     /**
      * @var Validatable

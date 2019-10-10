@@ -31,7 +31,7 @@ use Traversable;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ParameterValues implements Countable, IteratorAggregate
+final class ParameterValues implements Countable, IteratorAggregate
 {
     /**
      * @var array
