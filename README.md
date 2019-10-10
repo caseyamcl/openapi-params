@@ -1,4 +1,4 @@
-# Paramee
+# OpenApi-Params
 
 An OpenApi-compatible parameter processing library
 
@@ -57,7 +57,7 @@ $queryParams->addNumber('test3')
 $queryParams->addYesNo('test4')
     ->setDescription('Boolean parameter');
 
-// Prepared is an instance of Paramee\Model\ParameterValues
+// Prepared is an instance of OpenApi-Params\Model\ParameterValues
 $prepared = $queryParams->prepare([
     'test1' => 'ABC_123',
     'test2' => -9,
@@ -99,20 +99,20 @@ serial, one after the other.  If everything succeeds, then the prepared
 value is returned. This allows you to transform the value into whatever 
 the consuming library needs (an entity object, for example).
 
-If a step produces an exception, Paramee bails, and subsequent steps are
+If a step produces an exception, OpenApi-Params bails, and subsequent steps are
 not run.
 
 ### Using a logger to debug
 
-Paramee supports the use of a PSR-3-compatible logger to 
+OpenApi-Params supports the use of a PSR-3-compatible logger to 
 
 ### Parameter Types and Formats
 
-Paramee supports all of the built-in [OpenApi v3 parameter types](https://swagger.io/docs/specification/data-models/data-types/)
-and formats.  Types are in the `Paramee\Type` namespace, and formats are in
-the `Paramee\Format` namespace.
+OpenApi-Params supports all of the built-in [OpenApi v3 parameter types](https://swagger.io/docs/specification/data-models/data-types/)
+and formats.  Types are in the `OpenApi-Params\Type` namespace, and formats are in
+the `OpenApi-Params\Format` namespace.
 
-In addition, Paramee provides a couple of extra built-in "convenience" formats:
+In addition, OpenApi-Params provides a couple of extra built-in "convenience" formats:
 
 * **AlphanumericFormat** - Accepts and validates alphanumeric values, with optional
   additional parameters
@@ -169,7 +169,7 @@ _todo: this_
 
 ### Other built-in steps
 
-Built-in preparation steps are in the `Paramee\PreparationStep` namespace:
+Built-in preparation steps are in the `OpenApi-Params\PreparationStep` namespace:
 
 | Step Class                         | What it does                                                      |
 | ---------------------------------- | ----------------------------------------------------------------- |
@@ -187,11 +187,11 @@ Built-in preparation steps are in the `Paramee\PreparationStep` namespace:
 
 ## Handling Errors
 
-Paramee was designed around the assumption that errors would be most
+OpenApi-Params was designed around the assumption that errors would be most
 commonly turned into HTTP messages.
 
 _todo.. document in-depth_
 
 ## Debugging
 
-Paramee 
+OpenApi-Params 

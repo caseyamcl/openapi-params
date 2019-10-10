@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Paramee Library
+ * OpenApi-Params Library
  *
  * @license http://opensource.org/licenses/MIT
- * @link https://github.com/caseyamcl/paramee
+ * @link https://github.com/caseyamcl/openapi-params
  * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
@@ -24,7 +24,7 @@ use OpenApiParams\ParamContext\ParamPathContext;
 use OpenApiParams\ParamContext\ParamQueryContext;
 use PHPUnit\Framework\TestCase;
 
-class ParameeTest extends TestCase
+class OpenApiParamsTest extends TestCase
 {
     /**
      * @dataProvider dataValuesProvider

@@ -1,11 +1,11 @@
 <?php
 
 /**
- * Paramee Library
+ * OpenApi-Params Library
  *
  * @license http://opensource.org/licenses/MIT
- * @link https://github.com/caseyamcl/paramee
- * @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/openapi-params
+ * @link https://github.com/caseyamcl/openapi-params
+ *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -22,7 +22,7 @@ use Webmozart\Assert\Assert;
 
 /**
  * Class RequireConstantTrait
- * @author Casey McLaughlin <caseyamcl@gmail.com> Paramee\Utility
+ * @author Casey McLaughlin <caseyamcl@gmail.com> OpenApi-Params\Utility
  */
 trait RequireConstantTrait
 {

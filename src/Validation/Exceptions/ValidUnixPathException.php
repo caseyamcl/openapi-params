@@ -1,11 +1,11 @@
 <?php
 
 /**
- *  Paramee Library
+ *  OpenApi-Params Library
  *
  *  @license http://opensource.org/licenses/MIT
- *  @link https://github.com/caseyamcl/Paramee
- *  @author Casey McLaughlin <caseyamcl@gmail.com> caseyamcl/Paramee
+ *  @link https://github.com/caseyamcl/openapi-params
+ *
  *  @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md

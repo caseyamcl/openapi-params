@@ -1,10 +1,10 @@
 <?php
 
 /**
- * Paramee Library
+ * OpenApi-Params Library
  *
  * @license http://opensource.org/licenses/MIT
- * @link https://github.com/caseyamcl/paramee
+ * @link https://github.com/caseyamcl/openapi-params
  * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
@@ -26,7 +26,7 @@ use OpenApiParams\Type\StringParameter;
  * Byte Format is defined in the OpenApi Docs as a base64-encoded value
  * See: https://swagger.io/docs/specification/data-models/data-types/#string
  *
- * @package Paramee\Format
+ * @package OpenApi-Params\Format
  */
 class ByteFormatTest extends AbstractParamFormatTest
 {
