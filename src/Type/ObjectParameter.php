@@ -236,8 +236,8 @@ class ObjectParameter extends Parameter
 
             $invalidMsg = sprintf(
                 'value can only contain properties: %s',
-                implode(', ', array_keys($this->properties)
-            ));
+                implode(', ', array_keys($this->properties))
+            );
 
             $rules[] = new ParameterValidationRule(Validator::callback($rule)->setTemplate($invalidMsg), $invalidMsg);
         }
