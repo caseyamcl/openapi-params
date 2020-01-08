@@ -124,12 +124,17 @@ class ParameterList implements IteratorAggregate, Countable
             }
 
             // ..or skip parameters that are optional and missing from the values
-            if (! $paramValues->hasValue($param->getName())) {
+            if ($paramValues->hasValue($param->getName())) {
+                $paramValue = $paramValues->get($param->getName())->getRawValue();
+            } elseif ($param->hasDefault()) {
+                $paramValue = $param->getDefault();
+                $paramValues = $paramValues->withRawValue($param->getName(), $param->getDefault());
+            } else {
                 continue;
             }
 
             try {
-                $param->prepare($paramValues->get($param->getName())->getRawValue(), $paramValues);
+                $param->prepare($paramValue, $paramValues);
             } catch (InvalidValueException | MissingParameterException $e) {
                 $exceptions[] = $e;
             }

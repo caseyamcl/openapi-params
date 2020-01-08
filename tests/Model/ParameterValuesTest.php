@@ -143,6 +143,32 @@ class ParameterValuesTest extends TestCase
         $obj->get('FIZZ');
     }
 
+    public function testWithRawValueThrowsExceptionWhenAttemptingToSetParameterWithNoName()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Cannot add a raw value for parameter with no name');
+
+        $obj = new ParameterValues([
+            'foo' => 'bar',
+            'baz' => new ParameterValue('biz', 123)
+        ]);
+
+        $obj->withRawValue('', 123);
+    }
+
+    public function testWithRawValueThrowsExceptionWhenAttemptingToSetAlreadyExistingParameter()
+    {
+        $this->expectException(RuntimeException::class);
+        $this->expectExceptionMessage('Cannot add a raw value for already existing parameter:');
+
+        $obj = new ParameterValues([
+            'foo' => 'bar',
+            'baz' => new ParameterValue('biz', 123)
+        ]);
+
+        $obj->withRawValue('foo', 123);
+    }
+
     public function testWithPreparedValueThrowsExceptionWhenAttemptingToSetParameterWithNoName()
     {
         $this->expectException(RuntimeException::class);

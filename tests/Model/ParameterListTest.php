@@ -149,6 +149,22 @@ class ParameterListTest extends TestCase
         $this->fail('Should not have made it here');
     }
 
+    public function testPrepareIncludesParametersThatAreNotIncludedInValuesButHaveDefaultValues()
+    {
+        $params = [
+            (new IntegerParameter('test'))->setDefaultValue(1),
+            (new StringParameter('test2'))->setDefaultValue('foobar'),
+            (new BooleanParameter('test3'))->makeRequired()
+        ];
+
+        $obj = new ParameterList('test', $params);
+        $prepared = $obj->prepare(['test3' => false]);
+
+        $this->assertSame(1, $prepared->getPreparedValue('test'));
+        $this->assertSame('foobar', $prepared->getPreparedValue('test2'));
+        $this->assertSame(false, $prepared->getPreparedValue('test3'));
+    }
+
     public function testGetApiDocumentationReturnsEmptyArrayWhenNoParametersAreAdded(): void
     {
         $obj = new ParameterList('test');

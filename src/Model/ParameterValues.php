@@ -162,7 +162,29 @@ final class ParameterValues implements Countable, IteratorAggregate
     }
 
     /**
-     * Set a value to prepared
+     * Get a copy of this object with added raw value
+     *
+     * @param string $name
+     * @param mixed $rawValue
+     * @return ParameterValues
+     */
+    public function withRawValue(string $name, $rawValue): ParameterValues
+    {
+        if ($name === '') {
+            throw new RuntimeException('Cannot add a raw value for parameter with no name');
+        } elseif (array_key_exists($name, $this->values)) {
+            throw new RuntimeException('Cannot add a raw value for already existing parameter: ' . $name);
+        }
+
+        $that = clone $this;
+        $that->values[$name] = new ParameterValue($name, $rawValue);
+        return $that;
+    }
+
+    /**
+     * Get a copy of this object with value set to prepared
+     *
+     * NOTE: This method can only be run once per parameter
      *
      * @param string $name
      * @param mixed $value
