@@ -87,7 +87,7 @@ abstract class AbstractParamFormat implements ParamFormat
 
     public function getDocumentation(): ?string
     {
-        // most formats don't add anything the description
+        // most formats don't add anything to the description
         return null;
     }
 
