@@ -120,7 +120,7 @@ a few definitions:
         * Body parameters are not deserialized
     * You can define a custom deserializer if the default one doesn't suit your needs
 * **Parameter Validation Rule**
-    * A combination of a [Respect Validation Rule]((https://respect-validation.readthedocs.io/en/1.1/)) and a description of what the rule does.
+    * A combination of a [Respect Validation Rule](https://respect-validation.readthedocs.io/en/1.1/) and a description of what the rule does.
 
 ## Parameter Types and Formats
 
@@ -227,7 +227,7 @@ Built-in preparation steps are in the `OpenApi-Params\PreparationStep` namespace
 | `ArrayDeserializeStep`             | Deserialize an array if there is a deserializer in the context    |
 | `ArrayItemsPreparationStep`        | Prepares individual items in an array parameter                   |
 | `CallbackStep`                     | Calls a custom callback (see above)                               |
-| `DependencyCheckStep`              | If there are [#](parameter dependencies), this step checks them   |
+| `DependencyCheckStep`              | If there are parameter dependencies, this step checks them   |
 | `EnsureCorrectDataTypeStep`        | Checks if the data matches the expected type, and if typecasting is allowed, attempts to typecast the value |
 | `EnumCheckStep`                    | Checks value against a list of allowed values (if specified)      |
 | `ObjectDeserializeStep`            | Deserialize an object if there is a deserializer in the context   |
