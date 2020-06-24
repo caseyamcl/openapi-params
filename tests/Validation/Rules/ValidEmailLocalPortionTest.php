@@ -16,10 +16,10 @@
 
 namespace OpenApiParams\Validation\Rules;
 
+use OpenApiParams\Validation\AbstractValidatorRuleTest;
 use OpenApiParams\Validation\Exceptions\ValidEmailLocalPortionException;
-use PHPUnit\Framework\TestCase;
 
-class ValidEmailLocalPortionTest extends TestCase
+class ValidEmailLocalPortionTest extends AbstractValidatorRuleTest
 {
     public function testInvalidLocalPartThrowsException()
     {
@@ -29,6 +29,6 @@ class ValidEmailLocalPortionTest extends TestCase
 
     public function testValidLocalPartSucceeds()
     {
-        $this->assertTrue((new ValidEmailLocalPortion())->assert('john.doe'));
+        $this->assertTrue((new ValidEmailLocalPortion())->validate('john.doe'));
     }
 }

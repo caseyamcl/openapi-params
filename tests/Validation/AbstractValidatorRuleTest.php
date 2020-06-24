@@ -16,23 +16,25 @@
 
 declare(strict_types=1);
 
-namespace OpenApiParams\Validation\Exceptions;
+namespace OpenApiParams\Validation;
 
-use Respect\Validation\Exceptions\NestedValidationException;
+use OpenApiParams\Behavior\ValidatorFactoryTrait;
+use OpenApiParams\Validation\Rules\ValidUnixPath;
+use PHPUnit\Framework\TestCase;
 
 /**
- * Class ValidDomainNameException
+ * Class AbstractValidatorRuleTest
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ValidDomainNameException extends NestedValidationException
+abstract class AbstractValidatorRuleTest extends TestCase
 {
-    public static $defaultTemplates = [
-        self::MODE_DEFAULT => [
-            self::STANDARD => '{{name}} must be a valid domain name'
-        ],
-        self::MODE_NEGATIVE => [
-            self::MODE_NEGATIVE => '{{name}} must not be a valid domain name'
-        ]
-    ];
+    use ValidatorFactoryTrait;
+
+    protected function setUp(): void
+    {
+        $this->ensureExceptionNamespaceForObject(new ValidUnixPath());
+        parent::setUp();
+    }
+
 }

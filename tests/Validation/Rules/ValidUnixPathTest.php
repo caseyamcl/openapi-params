@@ -16,19 +16,17 @@
 
 namespace OpenApiParams\Validation\Rules;
 
+use OpenApiParams\Validation\AbstractValidatorRuleTest;
 use OpenApiParams\Validation\Exceptions\ValidUnixPathException;
-use PHPUnit\Framework\TestCase;
-use Respect\Validation\Exceptions\ComponentException;
-use Respect\Validation\Validator;
 
-class ValidUnixPathTest extends TestCase
+class ValidUnixPathTest extends AbstractValidatorRuleTest
 {
     /**
      * @dataProvider validUnixPathProvider
      */
     public function testValidateSucceedsWithValidValue(string $unixPath): void
     {
-        $this->assertTrue((new ValidUnixPath())->assert($unixPath));
+        $this->assertTrue((new ValidUnixPath())->validate($unixPath));
     }
 
     public function validUnixPathProvider(): array
@@ -42,7 +40,7 @@ class ValidUnixPathTest extends TestCase
 
     public function testValidateSucceedsWithRelativePathValue()
     {
-        $this->assertTrue((new ValidUnixPath(true))->assert('test/test'));
+        $this->assertTrue((new ValidUnixPath(true))->validate('test/test'));
     }
 
     public function testValidateFailsWithRelativePathValue()
@@ -53,19 +51,18 @@ class ValidUnixPathTest extends TestCase
 
     /**
      * @dataProvider invalidUnixPathProvider
-     * @throws ComponentException
+     * @param string $unixPath
      */
     public function testValidateFailsWithInvalidValue(string $unixPath): void
     {
         $this->expectException(ValidUnixPathException::class);
-        Validator::buildRule(new ValidUnixPath())->assert($unixPath);
+        (new ValidUnixPath(true))->assert($unixPath);
     }
 
     public function invalidUnixPathProvider(): array
     {
         return [
             ['@'],
-            ['test/test'],
             ['123\/test']
         ];
     }

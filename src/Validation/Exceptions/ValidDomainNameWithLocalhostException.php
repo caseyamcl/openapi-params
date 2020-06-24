@@ -1,12 +1,12 @@
 <?php
 
 /**
- *  OpenApi-Params Library
+ * OpenApi-Params Library
  *
- *  @license http://opensource.org/licenses/MIT
- *  @link https://github.com/caseyamcl/openapi-params
+ * @license http://opensource.org/licenses/MIT
+ * @link https://github.com/caseyamcl/openapi-params
  *
- *  @author Casey McLaughlin <caseyamcl@gmail.com>
+ * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
  *  file that was distributed with this source code.
@@ -14,23 +14,25 @@
  *  ------------------------------------------------------------------
  */
 
+declare(strict_types=1);
+
 namespace OpenApiParams\Validation\Exceptions;
 
 use Respect\Validation\Exceptions\ValidationException;
 
 /**
- * Class ValidUuidException
+ * Class ValidDomainNameException
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ValidUuidException extends ValidationException
+class ValidDomainNameWithLocalhostException extends ValidationException
 {
-    public static $defaultTemplates = [
+    protected $defaultTemplates = [
         self::MODE_DEFAULT => [
-            self::STANDARD => '{{name}} must be a valid UUID'
+            self::STANDARD => '{{name}} must be a valid domain name'
         ],
         self::MODE_NEGATIVE => [
-            self::MODE_NEGATIVE => '{{name}} must not be a UUID'
+            self::MODE_NEGATIVE => '{{name}} must not be a valid domain name'
         ]
     ];
 }

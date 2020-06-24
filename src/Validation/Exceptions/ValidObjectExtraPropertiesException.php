@@ -21,18 +21,18 @@ namespace OpenApiParams\Validation\Exceptions;
 use Respect\Validation\Exceptions\ValidationException;
 
 /**
- * Class ValidEmailLocalPortionException
+ * Class ValidExtraPropertiesException
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ValidEmailLocalPortionException extends ValidationException
+class ValidObjectExtraPropertiesException extends ValidationException
 {
     protected $defaultTemplates = [
         self::MODE_DEFAULT => [
-            self::STANDARD => '{{name}} must be a valid local portion of email'
+            self::STANDARD => 'invalid properties in {{name}}: {{invalidProperties}}; allowed properties: {{allowed}}'
         ],
         self::MODE_NEGATIVE => [
-            self::MODE_NEGATIVE => '{{name}} must not be a local portion of email'
+            self::MODE_NEGATIVE => '{{name}} must not contain properties: {{allowed}}'
         ]
     ];
 }

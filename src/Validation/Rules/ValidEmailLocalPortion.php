@@ -16,23 +16,21 @@
 
 namespace OpenApiParams\Validation\Rules;
 
+use Respect\Validation\Rules\AbstractRule;
 use Respect\Validation\Rules\Email;
 
 /**
  * Class ValidEmailLocal
  *
+ * Attempts to check if a string is a valid email local part (everything before the '@')
  * See: https://en.wikipedia.org/wiki/Email_address#Local-part
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ValidEmailLocalPortion extends Email
+class ValidEmailLocalPortion extends AbstractRule
 {
-    /**
-     * @param string $input
-     * @return bool
-     */
-    public function validate($input)
+    public function validate($input): bool
     {
-        return parent::validate($input . '@example.org');
+        return (new Email())->validate($input . '@example.org');
     }
 }

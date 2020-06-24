@@ -22,7 +22,7 @@ use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Model\AbstractParamFormat;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\Type\StringParameter;
-use OpenApiParams\Validation\Rules\ValidUuid;
+use Respect\Validation\Rules\Uuid;
 
 /**
  * Class UuidFormat
@@ -44,7 +44,7 @@ class UuidFormat extends AbstractParamFormat
     {
         return [
             new ParameterValidationRule(
-                new ValidUuid(),
+                new Uuid(),
                 'value must be a valid UUID'
             )
         ];

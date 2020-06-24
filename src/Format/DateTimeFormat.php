@@ -45,15 +45,9 @@ class DateTimeFormat extends AbstractParamFormat
     public const VALID_FORMATS = [DateTime::RFC3339, DateTime::RFC3339_EXTENDED];
     public const DATE_FORMAT_EXAMPLE = '2017-07-21T17:32:28Z';
 
-    /**
-     * @var CarbonImmutable|null
-     */
-    private $earliestDate;
+    private ?CarbonImmutable $earliestDate;
 
-    /**
-     * @var CarbonImmutable|null
-     */
-    private $latestDate;
+    private ?CarbonImmutable $latestDate;
 
     /**
      * DateTimeFormat constructor.

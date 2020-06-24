@@ -28,62 +28,32 @@ use Respect\Validation\Validator;
  */
 abstract class AbstractNumericParameter extends Parameter
 {
-    /**
-     * @var float|null
-     */
-    private $minimum = null;
+    private ?float $minimum = null;
 
-    /**
-     * @var float|null
-     */
-    private $maximum = null;
+    private ?float $maximum = null;
 
-    /**
-     * @var bool
-     */
-    private $exclusiveMinimum = false;
+    private bool $exclusiveMinimum = false;
 
-    /**
-     * @var bool
-     */
-    private $exclusiveMaximum = false;
+    private bool $exclusiveMaximum = false;
 
-    /**
-     * @var float|null
-     */
-    private $multipleOf = null;
+    private ?float $multipleOf = null;
 
-
-    /**
-     * @return float|null
-     */
     public function getMinimum(): ?float
     {
         return $this->minimum;
     }
 
-    /**
-     * @param float|null $minimum
-     * @return static|AbstractNumericParameter
-     */
     public function setMinimum(?float $minimum): self
     {
         $this->minimum = $minimum;
         return $this;
     }
 
-    /**
-     * @return float|null
-     */
     public function getMaximum(): ?float
     {
         return $this->maximum;
     }
 
-    /**
-     * @param float|null $maximum
-     * @return static|AbstractNumericParameter
-     */
     public function setMaximum(?float $maximum): self
     {
         $this->maximum = $maximum;
@@ -94,7 +64,7 @@ abstract class AbstractNumericParameter extends Parameter
      * Alias for setMinimum()
      *
      * @param float|null $min
-     * @return float|AbstractNumericParameter|float|int|null
+     * @return float|AbstractNumericParameter|int|null
      */
     public function min(?float $min = null)
     {
@@ -105,16 +75,13 @@ abstract class AbstractNumericParameter extends Parameter
      * Alias for setMaximum()
      *
      * @param float|null $max
-     * @return float|AbstractNumericParameter|float|int|null
+     * @return float|AbstractNumericParameter|int|null
      */
     public function max(?float $max = null)
     {
         return $this->setMaximum($max);
     }
 
-    /**
-     * @return bool
-     */
     public function isExclusiveMinimum(): bool
     {
         return $this->exclusiveMinimum;
@@ -183,29 +150,31 @@ abstract class AbstractNumericParameter extends Parameter
 
     protected function getBuiltInValidationRules(): array
     {
-        if ($this->getMinimum()) {
+        if ($this->getMinimum() !== null) {
             $minMessage = sprintf(
                 'value must be greater than%s: %s',
                 $this->exclusiveMinimum ? null : ' or equal to',
                 number_format($this->getMinimum())
             );
 
+            $min = $this->getMinimum();
             $rules[] = new ParameterValidationRule(
-                Validator::min($this->getMinimum(), ! $this->exclusiveMinimum),
+                $this->exclusiveMinimum ? Validator::greaterThan($min) : Validator::min($min),
                 $minMessage,
                 false
             );
         }
 
-        if ($this->getMaximum()) {
+        if ($this->getMaximum() !== null) {
             $maxMessage = sprintf(
                 'value must be less than%s: %s',
                 $this->exclusiveMaximum ? null : ' or equal to',
                 number_format($this->getMaximum())
             );
 
+            $max = $this->getMaximum();
             $rules[] = new ParameterValidationRule(
-                Validator::max($this->getMaximum(), ! $this->exclusiveMaximum),
+                $this->exclusiveMaximum ? Validator::lessThan($max) : Validator::max($max),
                 $maxMessage,
                 false
             );

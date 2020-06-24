@@ -18,6 +18,7 @@ declare(strict_types=1);
 
 namespace OpenApiParams\PreparationStep;
 
+use OpenApiParams\Behavior\ValidatorFactoryTrait;
 use Respect\Validation\Exceptions\NestedValidationException;
 use Respect\Validation\Validator;
 use OpenApiParams\Contract\PreparationStep;
@@ -35,6 +36,8 @@ use OpenApiParams\Model\ParameterValues;
  */
 class RespectValidationStep implements PreparationStep
 {
+    use ValidatorFactoryTrait;
+
     /**
      * @var array|ParameterValidationRule[]
      */
@@ -60,6 +63,7 @@ class RespectValidationStep implements PreparationStep
 
     private function addRule(ParameterValidationRule $rule)
     {
+        $this->ensureExceptionNamespaceForObject($rule->getValidator());
         $this->rules[] = $rule;
         $this->validator->addRule($rule->getValidator());
     }

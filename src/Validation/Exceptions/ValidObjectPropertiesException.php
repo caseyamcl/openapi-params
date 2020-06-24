@@ -5,7 +5,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/openapi-params
- *
+ * @package caseyamcl/openapi-params
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -21,18 +21,18 @@ namespace OpenApiParams\Validation\Exceptions;
 use Respect\Validation\Exceptions\ValidationException;
 
 /**
- * Class ValidEmailLocalPortionException
+ * Class ValidObjectPropertiesException
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ValidEmailLocalPortionException extends ValidationException
+class ValidObjectPropertiesException extends ValidationException
 {
     protected $defaultTemplates = [
         self::MODE_DEFAULT => [
-            self::STANDARD => '{{name}} must be a valid local portion of email'
+            self::STANDARD => '{{name}} is missing required properties: {{missingProperties}}'
         ],
         self::MODE_NEGATIVE => [
-            self::MODE_NEGATIVE => '{{name}} must not be a local portion of email'
+            self::MODE_NEGATIVE => '{{name}} must not contain properties: {{missingProperties}}'
         ]
     ];
 }

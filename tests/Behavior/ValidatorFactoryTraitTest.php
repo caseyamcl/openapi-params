@@ -5,7 +5,7 @@
  *
  * @license http://opensource.org/licenses/MIT
  * @link https://github.com/caseyamcl/openapi-params
- * @package caseyamcl/openapi-params
+ *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  *
  *  For the full copyright and license information, please view the LICENSE.md
@@ -14,26 +14,23 @@
  *  ------------------------------------------------------------------
  */
 
-namespace OpenApiParams\Validation\Rules;
+declare(strict_types=1);
 
-use OpenApiParams\Behavior\ValidatorFactoryTrait;
-use OpenApiParams\Validation\AbstractValidatorRuleTest;
+namespace OpenApiParams\Behavior;
+
 use OpenApiParams\Validation\Exceptions\ValidDomainNameWithLocalhostException;
+use OpenApiParams\Validation\Rules\ValidDomainNameWithLocalhost;
+use PHPUnit\Framework\TestCase;
 
-class ValidDomainNameTest extends AbstractValidatorRuleTest
+class ValidatorFactoryTraitTest extends TestCase
 {
     use ValidatorFactoryTrait;
 
-    public function testLocalhostThrowsExceptionUnlessEnabledInConstructor()
+    public function testEnsureNamespaceInFactory(): void
     {
+        $this->expectException(ValidDomainNameWithLocalhostException::class);
         $this->ensureExceptionNamespaceForObject(new ValidDomainNameWithLocalhost());
 
-        $this->expectException(ValidDomainNameWithLocalhostException::class);
         (new ValidDomainNameWithLocalhost(false))->assert('localhost');
-    }
-
-    public function testLocalhostWorksWhenExplicitlyEnabledInConstructor()
-    {
-        $this->assertTrue((new ValidDomainNameWithLocalhost(true))->validate('localhost'));
     }
 }

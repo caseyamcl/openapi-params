@@ -18,7 +18,8 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Type;
 
-use Respect\Validation\Exceptions\ValidationException;
+use OpenApiParams\Validation\Rules\ValidObjectExtraProperties;
+use OpenApiParams\Validation\Rules\ValidObjectProperties;
 use Respect\Validation\Validator;
 use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Model\Parameter;
@@ -41,29 +42,20 @@ class ObjectParameter extends Parameter
     public const PHP_DATA_TYPE = 'object';
 
     /**
-     * @var array|Parameter[]
+     * @var Parameter[]
      */
-    private $properties = [];
+    private array $properties = [];
 
     /**
-     * @var bool|null  If AUTO (null), then if properties defined, FALSE, else TRUE
+     * If AUTO (null), then if properties defined, FALSE, else TRUE
      */
-    private $allowAdditionalProperties = self::AUTO;
+    private ?bool $allowAdditionalProperties = self::AUTO;
 
-    /**
-     * @var int|null
-     */
-    private $minProperties = null;
+    private ?int $minProperties = null;
 
-    /**
-     * @var int|null
-     */
-    private $maxProperties = null;
+    private ?int $maxProperties = null;
 
-    /**
-     * @var string
-     */
-    private $schemaName = null;
+    private ?string $schemaName = null;
 
     /**
      * Set a schema name in-case we want to re-use this parameter and reference it in multiple locations
@@ -95,12 +87,15 @@ class ObjectParameter extends Parameter
     }
 
     /**
-     * Set whether or not this parameter should allow additional, arbitrary properties (default is false)
+     * Set whether or not this parameter should allow additional, arbitrary properties (default is auto-detect)
+     *
+     * Auto-detect means that if no properties are explicitly defined, assume that this object allows additional
+     * properties
      *
      * @param bool $allow
      * @return self
      */
-    final public function setAllowAdditionalProperties(bool $allow): self
+    final public function setAllowAdditionalProperties(?bool $allow): self
     {
         $this->allowAdditionalProperties = $allow;
         return $this;
@@ -175,71 +170,49 @@ class ObjectParameter extends Parameter
     protected function getBuiltInValidationRules(): array
     {
         // Minimum number of properties?
-        if ($this->minProperties) {
+        if ($this->minProperties !== null) {
+            $minNum = number_format($this->minProperties);
             $rules[] = new ParameterValidationRule(
                 Validator::callback(function ($obj) {
                     return count((array) $obj) >= $this->minProperties;
-                }),
-                sprintf(
-                    'number of properties in object must be greater than or equal to %s',
-                    number_format($this->minProperties)
-                ),
+                })->setTemplate("number of properties in {{name}} must be greater than or equal to $minNum"),
+                "number of properties in object must be greater than or equal to $minNum",
                 false
             );
         }
 
         // Maximum number of properties?
-        if ($this->maxProperties) {
+        if ($this->maxProperties !== null) {
+            $maxNum = number_format($this->maxProperties);
             $rules[] = new ParameterValidationRule(
                 Validator::callback(function ($obj) {
                     return count((array) $obj) <= $this->maxProperties;
-                }),
-                sprintf(
-                    'number of properties in object must be less than or equal to %s',
-                    number_format($this->maxProperties)
-                ),
+                })->setTemplate("number of properties in {{name}} must be less than or equal to $maxNum"),
+                "number of properties in object must be less than or equal to $maxNum",
                 false
             );
         }
 
-        // Required parameters
+        // Required Properties?
+        $required = array_filter(array_keys($this->properties), function (string $name) {
+            return $this->properties[$name]->isRequired();
+        });
         $rules[] = new ParameterValidationRule(
-            Validator::callback(function ($obj) {
-                $required = array_filter(array_keys($this->properties), function (string $name) {
-                    return $this->properties[$name]->isRequired();
-                });
-
-                $diff = array_diff($required, array_keys((array) $obj));
-                if (empty($diff)) {
-                    return true;
-                } else {
-                    throw new ValidationException(sprintf(
-                        'missing required properties: %s',
-                        implode(', ', $diff)
-                    ));
-                }
-            }),
-            sprintf('object must contain properties: %s', implode(', ', array_keys($this->properties))),
+            (new Validator())->addRule(new ValidObjectProperties($required)),
+            sprintf('object must contain properties: %s', implode(', ', $required)),
             false
         );
 
-        // Extra undefined parameters
+        // Extra additional, arbitrary properties?
         $allowAdditional = (is_bool($this->allowAdditionalProperties))
             ? $this->allowAdditionalProperties
             : empty($this->properties);
-
         if (! $allowAdditional) {
-            $rule = Validator::callback(function ($obj) {
-                $diff = array_diff(array_keys((array) $obj), array_keys($this->properties));
-                return count($diff) == 0;
-            });
-
-            $invalidMsg = sprintf(
-                'value can only contain properties: %s',
-                implode(', ', array_keys($this->properties))
+            $allowed = array_keys($this->properties);
+            $rules[] = new ParameterValidationRule(
+                (new Validator())->addRule(new ValidObjectExtraProperties($allowed)),
+                sprintf('value can only contain properties: %s', implode(', ', $allowed))
             );
-
-            $rules[] = new ParameterValidationRule(Validator::callback($rule)->setTemplate($invalidMsg), $invalidMsg);
         }
 
         return $rules ?? [];

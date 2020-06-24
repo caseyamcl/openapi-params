@@ -44,25 +44,8 @@ class ByteFormat extends AbstractParamFormat
      */
     public function getValidationRules(): array
     {
-        // Validate that the string is base64 encoded.  This may be an expensive operation.
-        $callback = function (string $value): bool {
-            // Check if there are valid base64 characters
-            if (!preg_match('/^[a-zA-Z0-9\/\r\n+]*={0,2}$/', $value)) {
-                return false;
-            }
-
-            // Decode the string in strict mode and check the results
-            if (! $decoded = base64_decode($value, true)) {
-                return false;
-            }
-
-            // Encode the string again
-            return base64_encode($decoded) == $value;
-        };
-
-
         return [
-            new ParameterValidationRule(Validator::callback($callback), 'value must be base64-encoded')
+            new ParameterValidationRule(Validator::base64(), 'value must be base64-encoded')
         ];
     }
 

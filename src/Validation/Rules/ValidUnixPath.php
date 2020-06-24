@@ -16,23 +16,27 @@
 
 namespace OpenApiParams\Validation\Rules;
 
-use Respect\Validation\Rules\Regex;
+use Respect\Validation\Rules\AbstractRule;
+use Respect\Validation\Validator;
 
 /**
  * Class ValidUnixPath
  *
+ * Attempts to check if a string is a valid UNIX/POSIX path
+ *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ValidUnixPath extends Regex
+class ValidUnixPath extends AbstractRule
 {
-    /**
-     * ValidUnixPath constructor.
-     * @param bool $allowRelativePaths
-     */
+    private bool $allowRelativePaths;
+
     public function __construct(bool $allowRelativePaths = false)
     {
-        ($allowRelativePaths)
-            ? parent::__construct('/^[\w\s\/]+$/')
-            : parent::__construct('/^\/([\w\s\/]+)$/');
+        $this->allowRelativePaths = $allowRelativePaths;
+    }
+
+    public function validate($input): bool
+    {
+        return Validator::regex(($this->allowRelativePaths) ? '/^[\w\s\/]+$/' : '/^\/([\w\s\/]+)$/')->validate($input);
     }
 }

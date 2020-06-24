@@ -25,7 +25,7 @@ use Respect\Validation\Exceptions\ValidationException;
  */
 class ValidUnixPathException extends ValidationException
 {
-    public static $defaultTemplates = [
+    protected $defaultTemplates = [
         self::MODE_DEFAULT => [
             self::STANDARD => '{{name}} must be a valid UNIX path'
         ],

@@ -13,10 +13,10 @@
   ],
   "license": "MIT",
   "require": {
-    "php": ">=7.2",
+    "php": ">=7.4",
 
     "marcj/topsort": "^1.1",
-    "respect/validation": "^1.1",
+    "respect/validation": "^2.0",
     "egulias/email-validator": "^2.1",
     "webmozart/assert": "^1.4",
     "nesbot/carbon": "^2.23",

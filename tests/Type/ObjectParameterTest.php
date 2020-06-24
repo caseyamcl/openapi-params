@@ -17,9 +17,11 @@
 namespace OpenApiParams\Type;
 
 use OpenApiParams\AbstractParameterTest;
+use OpenApiParams\Behavior\ValidatorFactoryTrait;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\PreparationStep\RespectValidationStep;
+use OpenApiParams\Validation\Rules\ValidObjectExtraProperties;
 
 /**
  * Class ObjectParameterTest
@@ -28,6 +30,13 @@ use OpenApiParams\PreparationStep\RespectValidationStep;
  */
 class ObjectParameterTest extends AbstractParameterTest
 {
+    use ValidatorFactoryTrait;
+
+    protected function setUp(): void
+    {
+        $this->ensureExceptionNamespaceForObject(new ValidObjectExtraProperties([]));
+    }
+
     public function testSetSchemaName()
     {
         $param = $this->getInstance()->setSchemaName('Something');
@@ -43,7 +52,7 @@ class ObjectParameterTest extends AbstractParameterTest
     public function testObjectWithExplicitPropertiesDefinedDoesNotAllowArbitraryParametersByDefault()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('value can only contain properties: name');
+        $this->expectExceptionMessage('allowed properties: "name"');
 
         $param = $this->getInstance()->addProperty(StringParameter::create('name'));
         $param->prepare((object) ['arbitrary' => 'item']);
@@ -157,7 +166,7 @@ class ObjectParameterTest extends AbstractParameterTest
     public function testRequiredPropertiesThrowExceptionWhenValueNotPresent()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('missing required properties: firstName, age');
+        $this->expectExceptionMessage('missing required properties: "firstName, age"');
 
         $param = $this->getInstance('test')->addProperties(
             StringParameter::create('firstName')->makeRequired(true),
