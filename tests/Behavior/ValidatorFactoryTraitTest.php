@@ -29,7 +29,7 @@ class ValidatorFactoryTraitTest extends TestCase
     public function testEnsureNamespaceInFactory(): void
     {
         $this->expectException(ValidDomainNameWithLocalhostException::class);
-        $this->ensureExceptionNamespaceForObject(new ValidDomainNameWithLocalhost());
+        $this->ensureExceptionNamespaceForRule(new ValidDomainNameWithLocalhost());
 
         (new ValidDomainNameWithLocalhost(false))->assert('localhost');
     }

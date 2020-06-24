@@ -50,7 +50,7 @@ trait ValidatorFactoryTrait
      * @return bool  TRUE if the namespace already
      * @throws ReflectionException
      */
-    protected function ensureExceptionNamespaceForObject(Validatable $rule): bool
+    protected function ensureExceptionNamespaceForRule(Validatable $rule): bool
     {
         // Setup some variables
         $reflectionRuleObj = new ReflectionObject($rule);

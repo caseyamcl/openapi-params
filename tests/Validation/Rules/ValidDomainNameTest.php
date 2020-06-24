@@ -26,7 +26,7 @@ class ValidDomainNameTest extends AbstractValidatorRuleTest
 
     public function testLocalhostThrowsExceptionUnlessEnabledInConstructor()
     {
-        $this->ensureExceptionNamespaceForObject(new ValidDomainNameWithLocalhost());
+        $this->ensureExceptionNamespaceForRule(new ValidDomainNameWithLocalhost());
 
         $this->expectException(ValidDomainNameWithLocalhostException::class);
         (new ValidDomainNameWithLocalhost(false))->assert('localhost');

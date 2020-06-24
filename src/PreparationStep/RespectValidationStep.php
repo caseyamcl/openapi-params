@@ -63,7 +63,7 @@ class RespectValidationStep implements PreparationStep
 
     private function addRule(ParameterValidationRule $rule)
     {
-        $this->ensureExceptionNamespaceForObject($rule->getValidator());
+        $this->ensureExceptionNamespaceForRule($rule->getValidator());
         $this->rules[] = $rule;
         $this->validator->addRule($rule->getValidator());
     }

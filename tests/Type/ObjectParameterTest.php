@@ -34,7 +34,7 @@ class ObjectParameterTest extends AbstractParameterTest
 
     protected function setUp(): void
     {
-        $this->ensureExceptionNamespaceForObject(new ValidObjectExtraProperties([]));
+        $this->ensureExceptionNamespaceForRule(new ValidObjectExtraProperties([]));
     }
 
     public function testSetSchemaName()
