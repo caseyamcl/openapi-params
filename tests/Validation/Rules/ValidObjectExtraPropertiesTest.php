@@ -34,4 +34,10 @@ class ValidObjectExtraPropertiesTest extends AbstractValidatorRuleTest
 
         (new ValidObjectExtraProperties(['a']))->assert($obj);
     }
+
+    public function testNonArrayOrObjectValuesReturnFalse()
+    {
+        $val = 1;
+        $this->assertFalse((new ValidObjectExtraProperties([]))->validate($val));
+    }
 }
