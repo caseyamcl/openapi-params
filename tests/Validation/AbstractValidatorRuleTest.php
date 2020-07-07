@@ -36,5 +36,4 @@ abstract class AbstractValidatorRuleTest extends TestCase
         $this->ensureNamespacesRegistered(new ValidUnixPath());
         parent::setUp();
     }
-
 }
