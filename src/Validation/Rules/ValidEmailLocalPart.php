@@ -27,8 +27,13 @@ use Respect\Validation\Rules\Email;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ValidEmailLocalPortion extends AbstractRule
+class ValidEmailLocalPart extends AbstractRule
 {
+    public function getName(): ?string
+    {
+        return 'emailLocalPart';
+    }
+
     public function validate($input): bool
     {
         return (new Email())->validate($input . '@example.org');

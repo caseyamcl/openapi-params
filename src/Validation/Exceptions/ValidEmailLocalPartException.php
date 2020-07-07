@@ -25,7 +25,7 @@ use Respect\Validation\Exceptions\ValidationException;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ValidEmailLocalPortionException extends ValidationException
+class ValidEmailLocalPartException extends ValidationException
 {
     protected $defaultTemplates = [
         self::MODE_DEFAULT => [

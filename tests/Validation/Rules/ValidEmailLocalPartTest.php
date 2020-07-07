@@ -17,18 +17,18 @@
 namespace OpenApiParams\Validation\Rules;
 
 use OpenApiParams\Validation\AbstractValidatorRuleTest;
-use OpenApiParams\Validation\Exceptions\ValidEmailLocalPortionException;
+use OpenApiParams\Validation\Exceptions\ValidEmailLocalPartException;
 
-class ValidEmailLocalPortionTest extends AbstractValidatorRuleTest
+class ValidEmailLocalPartTest extends AbstractValidatorRuleTest
 {
     public function testInvalidLocalPartThrowsException()
     {
-        $this->expectException(ValidEmailLocalPortionException::class);
-        (new ValidEmailLocalPortion())->assert('john..doe');
+        $this->expectException(ValidEmailLocalPartException::class);
+        (new ValidEmailLocalPart())->assert('john..doe');
     }
 
     public function testValidLocalPartSucceeds()
     {
-        $this->assertTrue((new ValidEmailLocalPortion())->validate('john.doe'));
+        $this->assertTrue((new ValidEmailLocalPart())->validate('john.doe'));
     }
 }
