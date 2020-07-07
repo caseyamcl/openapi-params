@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 use OpenApiParams\Model\ParameterError;
 use OpenApiParams\PreparationStep\CallbackStep;
 
-class InvalidParameterExceptionTest extends TestCase
+class InvalidValueExceptionTest extends TestCase
 {
     public function testFromMessages()
     {
