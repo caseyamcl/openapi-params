@@ -20,6 +20,7 @@ namespace OpenApiParams\Model;
 
 use LogicException;
 use OpenApiParams\Behavior\SetValidatorTrait;
+use OpenApiParams\Utility\Initializer;
 use Respect\Validation\Validatable;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Contract\PreparationStep;
@@ -151,6 +152,7 @@ abstract class Parameter
      */
     public function __construct(string $name = '', bool $required = false)
     {
+        Initializer::initialize();
         $this->name = $name;
         $required ? $this->makeRequired() : $this->makeOptional();
     }
@@ -329,7 +331,7 @@ abstract class Parameter
 
     /**
      * @param bool $nullable
-     * @return self|Parameter
+     * @return self
      */
     final public function setNullable(bool $nullable): self
     {
@@ -339,7 +341,7 @@ abstract class Parameter
 
     /**
      * @param array|null $enum
-     * @return self|Parameter
+     * @return self
      */
     final public function setEnum(?array $enum): self
     {
@@ -349,7 +351,7 @@ abstract class Parameter
 
     /**
      * @param array|mixed[] $examples
-     * @return self|Parameter
+     * @return self
      */
     final public function setExamples($examples): self
     {
@@ -359,7 +361,7 @@ abstract class Parameter
 
     /**
      * @param bool $deprecated
-     * @return self|Parameter
+     * @return self
      */
     final public function setDeprecated(bool $deprecated): self
     {
@@ -399,7 +401,7 @@ abstract class Parameter
      * NOTE: If there is a default value and required is TRUE, this will throw an exception
      *
      * @param bool $isRequired
-     * @return self|Parameter
+     * @return self
      */
     final public function makeRequired(bool $isRequired = true): self
     {
@@ -432,7 +434,7 @@ abstract class Parameter
      * NULL is the only allowable value if this parameter is required
      *
      * @param mixed $default
-     * @return self|Parameter
+     * @return self
      */
     final public function setDefaultValue($default): self
     {
