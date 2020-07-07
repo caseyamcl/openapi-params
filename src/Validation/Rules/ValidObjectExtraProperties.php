@@ -27,14 +27,19 @@ use Respect\Validation\Rules\AbstractRule;
  */
 class ValidObjectExtraProperties extends AbstractRule
 {
-    private array $allowedProperties;
-    private string $allowed;
-    protected string $invalidProperties = '';
+    private $allowedProperties;
+    private $allowed;
+    protected $invalidProperties = '';
 
     public function __construct(array $allowedProperties)
     {
         $this->allowedProperties = $allowedProperties;
         $this->allowed = implode(', ', $allowedProperties);
+    }
+
+    public function getName(): ?string
+    {
+        return 'objectExtraProps';
     }
 
     public function validate($input): bool

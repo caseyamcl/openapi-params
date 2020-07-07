@@ -27,12 +27,17 @@ use Respect\Validation\Rules\AbstractRule;
  */
 class ValidObjectProperties extends AbstractRule
 {
-    private array $requiredProperties;
-    protected string $missingProperties = '';
+    private $requiredProperties;
+    protected $missingProperties = '';
 
     public function __construct(array $requiredProps)
     {
         $this->requiredProperties = $requiredProps;
+    }
+
+    public function getName(): ?string
+    {
+        return 'objectProps';
     }
 
     public function validate($input): bool

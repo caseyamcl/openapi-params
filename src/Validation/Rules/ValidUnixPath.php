@@ -28,11 +28,16 @@ use Respect\Validation\Validator;
  */
 class ValidUnixPath extends AbstractRule
 {
-    private bool $allowRelativePaths;
+    private $allowRelativePaths;
 
     public function __construct(bool $allowRelativePaths = false)
     {
         $this->allowRelativePaths = $allowRelativePaths;
+    }
+
+    public function getName(): ?string
+    {
+        return 'unixPath';
     }
 
     public function validate($input): bool
