@@ -36,7 +36,7 @@ final class InvalidValueException extends RuntimeException implements ParameterE
 {
     use ParameterErrorsTrait;
 
-    private PreparationStep $step;
+    private $step;
 
     /**
      * @var mixed
