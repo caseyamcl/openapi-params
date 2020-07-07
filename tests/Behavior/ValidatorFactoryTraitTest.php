@@ -18,19 +18,35 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Behavior;
 
-use OpenApiParams\Validation\Exceptions\ValidDomainNameWithLocalhostException;
-use OpenApiParams\Validation\Rules\ValidDomainNameWithLocalhost;
+use OpenApiParams\Validation\Exceptions\ValidEmailLocalPartException;
+use OpenApiParams\Validation\Rules\ValidEmailLocalPart;
 use PHPUnit\Framework\TestCase;
+use Respect\Validation\Exceptions\ValidatorException;
+use Respect\Validation\Validator;
 
 class ValidatorFactoryTraitTest extends TestCase
 {
     use ValidatorFactoryTrait;
 
-    public function testEnsureNamespaceInFactory(): void
+    public function testEnsureNamespaceInFactoryRegistersRuleNamespace(): void
     {
-        $this->expectException(ValidDomainNameWithLocalhostException::class);
-        $this->ensureExceptionNamespaceForRule(new ValidDomainNameWithLocalhost());
+        $this->ensureNamespacesRegistered(new ValidEmailLocalPart());
 
-        (new ValidDomainNameWithLocalhost(false))->assert('localhost');
+        $msgs = [];
+        try {
+            (Validator::validEmailLocalPart())->assert('test..test');
+        } catch (ValidatorException $e) {
+            $msgs = $e->getMessages();
+        }
+
+        $this->assertArrayHasKey('emailLocalPart', $msgs);
+    }
+
+    public function testEnsureNamespaceInFactoryRegistersExceptionNamespace(): void
+    {
+        $this->expectException(ValidEmailLocalPartException::class);
+        $this->ensureNamespacesRegistered(new ValidEmailLocalPart());
+
+        (new ValidEmailLocalPart())->assert('test..test');
     }
 }
