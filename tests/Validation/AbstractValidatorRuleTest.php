@@ -33,7 +33,7 @@ abstract class AbstractValidatorRuleTest extends TestCase
 
     protected function setUp(): void
     {
-        $this->ensureExceptionNamespaceForRule(new ValidUnixPath());
+        $this->ensureNamespacesRegistered(new ValidUnixPath());
         parent::setUp();
     }
 
