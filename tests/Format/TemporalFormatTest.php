@@ -48,8 +48,7 @@ class TemporalFormatTest extends AbstractParamFormatTest
     {
         return [
             ['foo'],
-            ['bar'],
-            ['1234.23']
+            ['bar']
         ];
     }
 
