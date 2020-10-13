@@ -17,11 +17,9 @@
 namespace OpenApiParams\Type;
 
 use OpenApiParams\AbstractParameterTest;
-use OpenApiParams\Behavior\ValidatorFactoryTrait;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\PreparationStep\RespectValidationStep;
-use OpenApiParams\Validation\Rules\ValidObjectExtraProperties;
 
 /**
  * Class ObjectParameterTest
@@ -30,13 +28,6 @@ use OpenApiParams\Validation\Rules\ValidObjectExtraProperties;
  */
 class ObjectParameterTest extends AbstractParameterTest
 {
-    use ValidatorFactoryTrait;
-
-    protected function setUp(): void
-    {
-        $this->ensureNamespacesRegistered(new ValidObjectExtraProperties([]));
-    }
-
     public function testSetSchemaName()
     {
         $param = $this->getInstance()->setSchemaName('Something');

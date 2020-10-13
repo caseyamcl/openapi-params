@@ -24,7 +24,6 @@ use OpenApiParams\Format;
 use OpenApiParams\Format\Int32Format;
 use OpenApiParams\Format\PasswordFormat;
 use OpenApiParams\Model\Parameter;
-use PHPUnit\Framework\Error\Notice;
 
 /**
  * Class StringParameterTest
@@ -121,8 +120,8 @@ class StringParameterTest extends AbstractParameterTest
 
     public function testSetFormatGeneratesNoticeWhenFormatAlreadySet()
     {
-        $this->expectException(Notice::class);
-        $this->expectExceptionMessage('Format already set for parameter');
+        $this->expectNotice();
+        $this->expectNoticeMessage('Format already set for parameter');
 
         $obj = $this->getInstance();
         $obj->setFormat(new Format\AlphanumericFormat());

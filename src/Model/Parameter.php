@@ -20,7 +20,6 @@ namespace OpenApiParams\Model;
 
 use LogicException;
 use OpenApiParams\Behavior\SetValidatorTrait;
-use OpenApiParams\Utility\Initializer;
 use Respect\Validation\Validatable;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Contract\PreparationStep;
@@ -152,7 +151,6 @@ abstract class Parameter
      */
     public function __construct(string $name = '', bool $required = false)
     {
-        Initializer::initialize();
         $this->name = $name;
         $required ? $this->makeRequired() : $this->makeOptional();
     }

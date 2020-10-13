@@ -18,8 +18,6 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Validation;
 
-use OpenApiParams\Behavior\ValidatorFactoryTrait;
-use OpenApiParams\Validation\Rules\ValidUnixPath;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -29,11 +27,5 @@ use PHPUnit\Framework\TestCase;
  */
 abstract class AbstractValidatorRuleTest extends TestCase
 {
-    use ValidatorFactoryTrait;
-
-    protected function setUp(): void
-    {
-        $this->ensureNamespacesRegistered(new ValidUnixPath());
-        parent::setUp();
-    }
+    // pass..
 }

@@ -18,7 +18,6 @@ declare(strict_types=1);
 
 namespace OpenApiParams\PreparationStep;
 
-use OpenApiParams\Behavior\ValidatorFactoryTrait;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\Model\ParameterValues;
@@ -29,8 +28,6 @@ use Respect\Validation\Validator;
 
 class RespectValidationStepTest extends TestCase
 {
-    use ValidatorFactoryTrait;
-
     public function testRespectValidationStepBasicFunctionality(): void
     {
         $rule = new ParameterValidationRule(new Ip(), 'is valid IP');
@@ -63,22 +60,6 @@ class RespectValidationStepTest extends TestCase
         );
         $step = new RespectValidationStep([$rule]);
         $pv = new ParameterValues(['test' => 'my..email']);
-        $step->__invoke('my..email', 'test', $pv);
-    }
-
-    public function testBuiltInRulesAndCustomRule(): void
-    {
-        $this->ensureNamespacesRegistered(new ValidEmailLocalPart());
-        $this->expectException(InvalidValueException::class);
-
-        $rule = new ParameterValidationRule(
-            Validator::anyOf(Validator::validEmailLocalPart(), Validator::email()),
-            'is valid email or email local part'
-        );
-
-        $step = new RespectValidationStep([$rule]);
-        $pv = new ParameterValues(['test' => 'my..email']);
-
         $step->__invoke('my..email', 'test', $pv);
     }
 }
