@@ -24,7 +24,7 @@ use OpenApiParams\ParamContext\ParamPathContext;
 use OpenApiParams\ParamContext\ParamQueryContext;
 use PHPUnit\Framework\TestCase;
 
-class OpenApiParamsTest extends TestCase
+class ParameeTest extends TestCase
 {
     /**
      * @dataProvider dataValuesProvider
