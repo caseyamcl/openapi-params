@@ -14,6 +14,8 @@
  *  ------------------------------------------------------------------
  */
 
+declare(strict_types=1);
+
 namespace OpenApiParams\Validation\Rules;
 
 use Respect\Validation\Rules\AbstractRule;
