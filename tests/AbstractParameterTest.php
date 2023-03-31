@@ -192,13 +192,6 @@ abstract class AbstractParameterTest extends TestCase
         $this->assertTrue(true, 'test passed');
     }
 
-    public function testAddValidationRuleThrowsInvalidArgumentExceptionWhenInvalidDataPassed()
-    {
-        $this->expectException(InvalidArgumentException::class);
-        $param = $this->getInstance();
-        $param->addValidation('foo');
-    }
-
     public function testSetExamples()
     {
         $param = $this->getInstance();

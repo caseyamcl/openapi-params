@@ -14,6 +14,8 @@
  *  ------------------------------------------------------------------
  */
 
+declare(strict_types=1);
+
 namespace OpenApiParams\Behavior;
 
 use InvalidArgumentException;
@@ -28,26 +30,12 @@ use Respect\Validation\Validator;
  */
 trait SetValidatorTrait
 {
-    /**
-     * @param $rule
-     * @param string $documentation
-     * @return ParameterValidationRule
-     */
-    protected function buildValidationRule($rule, string $documentation = ''): ParameterValidationRule
+    protected function buildValidationRule(ParameterValidationRule|Validatable|callable $rule, string $documentation = ''): ParameterValidationRule
     {
-        if ($rule instanceof ParameterValidationRule) {
-            return $rule;
-        } elseif ($rule instanceof Validatable) {
-            return new ParameterValidationRule($rule, $documentation);
-        } elseif (is_callable($rule)) {
-            return new ParameterValidationRule(Validator::callback($rule), $documentation);
-        } else {
-            throw new InvalidArgumentException(sprintf(
-                '%s::addValidation() expects callable or instance of one of the following: %s, %s',
-                get_called_class(),
-                ParameterValidationRule::class,
-                Validatable::class
-            ));
-        }
+        return match (true) {
+            $rule instanceof ParameterValidationRule => $rule,
+            $rule instanceof Validatable => new ParameterValidationRule($rule, $documentation),
+            is_callable($rule) => new ParameterValidationRule(Validator::callback($rule), $documentation)
+        };
     }
 }

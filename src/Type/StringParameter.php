@@ -245,7 +245,7 @@ class StringParameter extends Parameter
      */
     final public function setPattern(?string $pattern = null): self
     {
-        $pattern = ($pattern{0} !== '/') ? '/' . $pattern . '/' : $pattern;
+        $pattern = ($pattern[0] !== '/') ? '/' . $pattern . '/' : $pattern;
 
         // Test regex to ensure it is valid.
         try {

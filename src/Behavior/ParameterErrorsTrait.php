@@ -28,7 +28,7 @@ trait ParameterErrorsTrait
     /**
      * @var array|ParameterError[]
      */
-    private $errors = [];
+    private array $errors = [];
 
     /**
      * @param ParameterError $error
