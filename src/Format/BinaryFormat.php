@@ -37,7 +37,7 @@ class BinaryFormat extends AbstractParamFormat
      *
      * These are added to the validation preparation step automatically
      *
-     * @return array|ParameterValidationRule[]
+     * @return array<int,ParameterValidationRule>
      */
     public function getValidationRules(): array
     {

@@ -97,7 +97,7 @@ abstract class AbstractParamFormat implements ParamFormat
      *
      * These are added to the validation preparation step automatically
      *
-     * @return array|ParameterValidationRule[]
+     * @return array<int,ParameterValidationRule>
      */
     abstract public function getValidationRules(): array;
 
@@ -106,7 +106,7 @@ abstract class AbstractParamFormat implements ParamFormat
      *
      * These run after validation but before any custom preparation steps
      *
-     * @return array|PreparationStep[]
+     * @return array<int,PreparationStep>
      */
     public function getPreparationSteps(): array
     {

@@ -13,10 +13,10 @@ by the code itself).
 ## Features:
  
  * Provides a low-level API to describe parameters in an OpenApi3-compatible way
- * Validation via the [`respect/validation` library](https://respect-validation.readthedocs.io/en/1.1/)
+ * Validation via the [`respect/validation` library](https://respect-validation.readthedocs.io/en/latest/)
  * IDE auto-completion friendly
  * Support for parameter dependencies
- * Bottom-up approach
+ * Bottom-up, code-based approach
  * PSR-4/PSR-12 compliant
  * As close to 100% test coverage as is practically achievable
  
@@ -88,7 +88,7 @@ The concepts and abstractions in this library are based off of the
 a few definitions:
 
 * **Parameter**
-    * This is a strictly-defined, basic primative data type [OpenApi parameter](https://swagger.io/docs/specification/basic-structure/#parameters).
+    * This is a strictly-defined, basic primitive data type [OpenApi parameter](https://swagger.io/docs/specification/basic-structure/#parameters).
     * A parameter value can appear in the query string, body, cookie, header, or path.
     * In this library, parameter types are represented by classes in the `Type` namespace, and they are fixed (you cannot create custom types):
         * String
@@ -98,13 +98,13 @@ a few definitions:
         * Number (float or double)
         * Integer (int32 or int64)
 * **Parameter Value**
-    * This library makes a distinction between parameters (i.e. definitions) and parameter values.
+    * This library makes a distinction between parameters (definitions) and parameter values.
     * You define parameter definitions, and then you pass the definitions a series of values, and the library
       then checks the values against the definition rules.
 * **Format**
-    * An [OpenApi format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#data-types).
+    * An [OpenApi format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#data-types).
     * In this library, formats are represented by classes in the `Format` namespace, and they are customizable (you can create your own formats).
-    * This library includes all of the built-in formats defined by the [OpenApi specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.2.md#data-types),
+    * This library includes all the built-in formats defined by the [OpenApi specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#data-types),
      as well as a [few others](#parameter-types-and-formats).
 * **Preparation Step**
     * A class that transforms a value in some way (see details below)
@@ -120,13 +120,12 @@ a few definitions:
         * Body parameters are not deserialized
     * You can define a custom deserializer if the default one doesn't suit your needs
 * **Parameter Validation Rule**
-    * A combination of a [Respect Validation Rule](https://respect-validation.readthedocs.io/en/1.1/) and a description of what the rule does.
+    * A combination of a [Respect Validation Rule](https://respect-validation.readthedocs.io/en/latest/) and a description of what the rule does.
 
 ## Parameter Types and Formats
 
-OpenApi-Params supports all of the built-in [OpenApi v3 parameter types](https://swagger.io/docs/specification/data-models/data-types/)
-and formats.  Types are in the `OpenApi-Params\Type` namespace, and formats are in
-the `OpenApi-Params\Format` namespace.
+OpenApi-Params supports all the built-in [OpenApi v3 parameter types](https://swagger.io/docs/specification/data-models/data-types/)
+and formats.  Types are in the `OpenApi-Params\Type` namespace, and formats are in the `OpenApi-Params\Format` namespace.
 
 In addition, OpenApi-Params provides a couple of extra built-in "convenience" formats:
 
@@ -138,14 +137,14 @@ In addition, OpenApi-Params provides a couple of extra built-in "convenience" fo
   values (e.g. 'a,b,c').  In addition,  you can specify custom delimiters (e.g. 'a|b|c')
 * **TemporalFormat** - Accepts and converts to instance of `CarbonImmutable` any
   string supported by PHP's [`strtotime` function](https://www.php.net/manual/en/function.strtotime.php) 
-* **UuidFormat** - Accepts and validates any valid UUID 
+* **UuidFormat** - Accepts and validates any valid UUID
 * **YesNoFormat** - Accepts, validates, and converts to boolean any 
   "truthy" string, including 'true/false', '1/0', 'yes/no', or 'on/off'
 
 ### Adding custom formats
 
-OpenApi3 doesn't allow you to specify custom data types, but it does allow custom
-formats for data types.  Simply implement the `Contract\PreparationStep` interface.
+OpenApi3 doesn't allow you to specify custom data types, but it does allow custom formats for data types.
+Simply implement the `Contract\ParamFormat` interface.
 
 Or, for convenience, extend the `Model\AbstractParamFormat` class:
 

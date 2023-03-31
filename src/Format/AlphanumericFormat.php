@@ -33,10 +33,7 @@ class AlphanumericFormat extends AbstractParamFormat
     public const NAME = 'alphanumeric';
     public const TYPE_CLASS = StringParameter::class;
 
-    /**
-     * @var string
-     */
-    private $extraChars = '';
+    private string $extraChars = '';
 
     /**
      * AlphanumericFormat constructor.

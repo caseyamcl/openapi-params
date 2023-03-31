@@ -35,7 +35,7 @@ interface PreparationStep
      * If this step defines a rule that is important to be included in the API description, then include
      * it here.  e.g. "value must be ..."
      *
-     * @return string|null
+     * If no documentation is required for this rule, return NULL
      */
     public function getApiDocumentation(): ?string;
 
@@ -51,7 +51,7 @@ interface PreparationStep
      *
      * @param mixed $value The current value to be processed
      * @param string $paramName
-     * @param ParameterValues $allValues All of the values
+     * @param ParameterValues $allValues All the values
      * @return mixed
      */
     public function __invoke($value, string $paramName, ParameterValues $allValues);

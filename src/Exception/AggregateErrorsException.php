@@ -39,9 +39,9 @@ class AggregateErrorsException extends RuntimeException implements IteratorAggre
     use ParameterErrorsTrait;
 
     /**
-     * @var array|ParameterException[]
+     * @var array<int,ParameterException>
      */
-    private $exceptions;
+    private array $exceptions;
 
     /**
      * AggregateParameterErrorsException constructor.
@@ -75,7 +75,7 @@ class AggregateErrorsException extends RuntimeException implements IteratorAggre
     /**
      * Retrieve a new ArrayIterator of the exceptions
      *
-     * @return ArrayIterator|ParameterException[]
+     * @return ArrayIterator<int,ParameterException>
      */
     public function getIterator(): ArrayIterator
     {
@@ -83,7 +83,7 @@ class AggregateErrorsException extends RuntimeException implements IteratorAggre
     }
 
     /**
-     * @return array|ParameterError[]
+     * @return array<int,ParameterError[]>
      */
     public function getErrors(): array
     {

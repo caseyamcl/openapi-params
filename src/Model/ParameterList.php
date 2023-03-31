@@ -42,26 +42,19 @@ class ParameterList implements IteratorAggregate, Countable
 {
     use ConvenienceMethodsTrait;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
+    private ?ParameterValuesContext $context;
 
     /**
-     * @var ArrayObject|Parameter[]
+     * @var ArrayObject<int,Parameter>
      */
-    private $items;
-
-    /**
-     * @var ParameterValuesContext|null
-     */
-    private $context;
+    private ArrayObject $items;
 
     /**
      * ParameterList constructor.
      *
      * @param string $name
-     * @param iterable|Parameter[] $items
+     * @param iterable<int,Parameter> $items
      * @param ParameterValuesContext|null $context
      */
     public function __construct(string $name, iterable $items = [], ?ParameterValuesContext $context = null)
@@ -123,7 +116,7 @@ class ParameterList implements IteratorAggregate, Countable
                 $exceptions[] = new MissingParameterException($param->getName());
             }
 
-            // ..or skip parameters that are optional and missing from the values
+            // ...or skip parameters that are optional and missing from the values
             if ($paramValues->hasValue($param->getName())) {
                 $paramValue = $paramValues->get($param->getName())->getRawValue();
             } elseif ($param->hasDefault()) {
