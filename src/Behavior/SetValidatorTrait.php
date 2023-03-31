@@ -30,7 +30,10 @@ use Respect\Validation\Validator;
  */
 trait SetValidatorTrait
 {
-    protected function buildValidationRule(ParameterValidationRule|Validatable|callable $rule, string $documentation = ''): ParameterValidationRule
+    /**
+     * Build an openapi-params validation rule from an existing rule, respect/validation rule, or callback
+     */
+    protected function buildValidationRule($rule, string $documentation = ''): ParameterValidationRule
     {
         return match (true) {
             $rule instanceof ParameterValidationRule => $rule,

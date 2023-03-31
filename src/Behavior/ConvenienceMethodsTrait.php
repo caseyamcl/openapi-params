@@ -14,6 +14,8 @@
  *  ------------------------------------------------------------------
  */
 
+declare(strict_types=1);
+
 namespace OpenApiParams\Behavior;
 
 use OpenApiParams\Model\Parameter;

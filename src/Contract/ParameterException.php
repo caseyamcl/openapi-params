@@ -14,6 +14,8 @@
  *  ------------------------------------------------------------------
  */
 
+declare(strict_types=1);
+
 namespace OpenApiParams\Contract;
 
 use OpenApiParams\Model\ParameterError;

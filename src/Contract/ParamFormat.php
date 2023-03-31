@@ -31,15 +31,11 @@ interface ParamFormat
 {
     /**
      * Return the type class that this format can be applied to
-     *
-     * @return string
      */
     public function appliesToType(): string;
 
     /**
      * Get the name of the format
-     *
-     * @return string
      */
     public function __toString(): string;
 
@@ -53,14 +49,14 @@ interface ParamFormat
     /**
      * Get validation rules for this type (always validates against raw value)
      *
-     * @return array|ParameterValidationRule[]
+     * @return array<int,ParameterValidationRule>
      */
     public function getValidationRules(): array;
 
     /**
      * Get preparation steps (always runs after validation)
      *
-     * @return array|PreparationStep[]
+     * @return array<int,PreparationStep>
      */
     public function getPreparationSteps(): array;
 }

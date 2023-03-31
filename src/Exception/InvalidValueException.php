@@ -36,7 +36,7 @@ final class InvalidValueException extends RuntimeException implements ParameterE
 {
     use ParameterErrorsTrait;
 
-    private $step;
+    private PreparationStep $step;
 
     /**
      * @var mixed
@@ -52,9 +52,9 @@ final class InvalidValueException extends RuntimeException implements ParameterE
      * @param string $message
      * @return InvalidValueException
      */
-    public static function fromMessage(PreparationStep $step, string $paramName, $value, string $message)
+    public static function fromMessage(PreparationStep $step, string $paramName, $value, string $message): self
     {
-        return static::fromMessages($step, $paramName, $value, [$message]);
+        return InvalidValueException::fromMessages($step, $paramName, $value, [$message]);
     }
 
     /**
@@ -66,7 +66,7 @@ final class InvalidValueException extends RuntimeException implements ParameterE
      * @param array|string[] $messages
      * @return InvalidValueException
      */
-    public static function fromMessages(PreparationStep $step, string $paramName, $value, array $messages)
+    public static function fromMessages(PreparationStep $step, string $paramName, $value, array $messages): self
     {
         Assert::allString($messages);
 
@@ -74,7 +74,7 @@ final class InvalidValueException extends RuntimeException implements ParameterE
             return new ParameterError($message, $paramName);
         }, $messages);
 
-        return new static($step, $value, $errors);
+        return new InvalidValueException($step, $value, $errors);
     }
 
     /**
@@ -88,7 +88,7 @@ final class InvalidValueException extends RuntimeException implements ParameterE
     {
         Assert::allIsInstanceOf($errors, ParameterError::class);
 
-        $message = sprintf('Parameter preparation step failed (invalid data): ' . get_class($step));
+        $message = 'Parameter preparation step failed (invalid data): ' . get_class($step);
         $message .= '; ' . implode(PHP_EOL, $errors);
 
         parent::__construct($message, 422);
@@ -100,8 +100,6 @@ final class InvalidValueException extends RuntimeException implements ParameterE
 
     /**
      * Which step failed?
-     *
-     * @return PreparationStep
      */
     public function getStep(): PreparationStep
     {

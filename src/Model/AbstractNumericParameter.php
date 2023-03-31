@@ -64,9 +64,9 @@ abstract class AbstractNumericParameter extends Parameter
      * Alias for setMinimum()
      *
      * @param float|null $min
-     * @return float|AbstractNumericParameter|int|null
+     * @return AbstractNumericParameter
      */
-    public function min(?float $min = null)
+    public function min(?float $min = null): self
     {
         return $this->setMinimum($min);
     }
@@ -75,9 +75,9 @@ abstract class AbstractNumericParameter extends Parameter
      * Alias for setMaximum()
      *
      * @param float|null $max
-     * @return float|AbstractNumericParameter|int|null
+     * @return AbstractNumericParameter
      */
-    public function max(?float $max = null)
+    public function max(?float $max = null): self
     {
         return $this->setMaximum($max);
     }
