@@ -23,7 +23,7 @@ namespace OpenApiParams\Utility;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class UnpackCSV
+final class UnpackCSV
 {
     /**
      * @var array<int,string>

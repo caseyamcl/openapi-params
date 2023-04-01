@@ -38,19 +38,6 @@ class NumberParameter extends AbstractNumericParameter
 
     private bool $requireDecimal = false;
 
-    /**
-     * NumberParameter constructor.
-     *
-     * @param string $name
-     * @param bool $required
-     * @param bool $requireDecimal  If TRUE, require that the number be either a 'float' or 'double' format
-     */
-    public function __construct(string $name, bool $required = false, bool $requireDecimal = false)
-    {
-        parent::__construct($name, $required);
-        $this->setRequireDecimal($requireDecimal);
-    }
-
     protected function buildFormat(): ParamFormat
     {
         return (PHP_FLOAT_DIG >= 15) ? new DoubleFormat() : new FloatFormat();

@@ -169,6 +169,8 @@ class ObjectParameter extends Parameter
      */
     protected function getBuiltInValidationRules(): array
     {
+        $rules = [];
+
         // Minimum number of properties?
         if ($this->minProperties !== null) {
             $minNum = number_format($this->minProperties);
@@ -215,7 +217,7 @@ class ObjectParameter extends Parameter
             );
         }
 
-        return $rules ?? [];
+        return $rules;
     }
 
     /**

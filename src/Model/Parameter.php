@@ -99,10 +99,11 @@ abstract class Parameter
      * @param string $name Parameter name
      * @param bool $required Is this a required parameter
      */
-    public function __construct(string $name = '', bool $required = false)
+    final public function __construct(string $name = '', bool $required = false)
     {
         $this->name = $name;
         $required ? $this->makeRequired() : $this->makeOptional();
+        $this->init();
     }
 
     /**
@@ -590,6 +591,11 @@ abstract class Parameter
     protected function getPostValidationPreparationSteps(): array
     {
         return [];
+    }
+
+    protected function init(): void
+    {
+        // default no-op
     }
 
     /**

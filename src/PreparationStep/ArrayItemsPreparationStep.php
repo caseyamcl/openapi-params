@@ -90,6 +90,8 @@ class ArrayItemsPreparationStep implements PreparationStep
     {
         Assert::isArray($value);
 
+        $exceptions = [];
+
         foreach ($value as $idx => $item) {
             try {
                 $itemName = implode('/', [$paramName, (string) $idx]);
@@ -99,8 +101,8 @@ class ArrayItemsPreparationStep implements PreparationStep
             }
         }
 
-        if (! empty($exceptions ?? [])) {
-            throw $this->generateException($exceptions ?? [], $value);
+        if (! empty($exceptions)) {
+            throw $this->generateException($exceptions, $value);
         }
 
         return $value;
@@ -220,6 +222,6 @@ class ArrayItemsPreparationStep implements PreparationStep
             $out = array_merge($out, $params);
         }
 
-        return $out ?? [];
+        return $out;
     }
 }

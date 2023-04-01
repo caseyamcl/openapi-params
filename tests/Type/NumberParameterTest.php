@@ -114,7 +114,7 @@ class NumberParameterTest extends AbstractNumericParameterTestBase
      */
     protected function getInstance(string $name = 'test'): Parameter
     {
-        return new NumberParameter($name, false, true);
+        return new NumberParameter($name);
     }
 
     /**

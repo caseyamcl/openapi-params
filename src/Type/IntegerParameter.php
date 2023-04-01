@@ -35,12 +35,6 @@ class IntegerParameter extends AbstractNumericParameter
     public const TYPE_NAME = 'integer';
     public const PHP_DATA_TYPE = 'integer';
 
-    public function __construct(string $name = '', bool $required = false)
-    {
-        parent::__construct($name, $required);
-        $this->format = $this->buildFormat(); // integer types will always have a format
-    }
-
     /**
      * @return ParamFormat
      */
@@ -55,5 +49,10 @@ class IntegerParameter extends AbstractNumericParameter
             parent::getBuiltInValidationRules(),
             [new ParameterValidationRule(Validator::intType(), 'value must be an integer', false)]
         );
+    }
+
+    protected function init(): void
+    {
+        $this->format = $this->buildFormat(); // integer types will always have a format
     }
 }
