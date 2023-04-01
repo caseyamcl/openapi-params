@@ -8,4 +8,5 @@ composer.lock
 
 # Testing
 build/
+.phpunit.cache/
 .phpunit.result.cache
