@@ -31,6 +31,7 @@ class NonExistentFormatTest extends AbstractParamFormatTestBase
     {
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Could not automatically derive format name from class');
+        /* @phpstan-ignore-next-line (it's the point of this test) */
         $this->getFormat()->getName();
     }
 

@@ -117,7 +117,7 @@ abstract class AbstractNumericParameterTestBase extends AbstractParameterTestBas
 
     /**
      * @param int $value
-     * @return double|float|int
+     * @return float|int
      */
-    abstract protected function cast(int $value);
+    abstract protected function cast(int $value): float|int;
 }

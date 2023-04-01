@@ -119,9 +119,9 @@ class NumberParameterTest extends AbstractNumericParameterTestBase
 
     /**
      * @param int $value
-     * @return double|float
+     * @return float
      */
-    protected function cast(int $value)
+    protected function cast(int $value): float
     {
         return (PHP_FLOAT_DIG >= 15) ? doubleval($value) : floatval($value);
     }

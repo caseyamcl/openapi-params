@@ -56,7 +56,7 @@ class AggregateErrorsException extends RuntimeException implements IteratorAggre
         Assert::allIsInstanceOf($this->exceptions, ParameterException::class);
 
         $message = count($exceptions) === 1
-            ? 'There was 1 validation error: ' . current($this->exceptions)->getMessage()
+            ? 'There was 1 validation error: ' . current($this->exceptions)->getMessage() /** @phpstan-ignore-line */
             : sprintf("There were %s validation errors", number_format(count($exceptions)));
 
         parent::__construct($message, $code, $previous);

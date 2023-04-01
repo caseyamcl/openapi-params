@@ -151,7 +151,7 @@ class DateTimeFormat extends AbstractParamFormat
      * Build a Carbon object from a date string or throw exception
      *
      * @param string $value
-     * @return DateTimeImmutable|null
+     * @return CarbonImmutable|null
      * @throws Exception
      */
     public function buildDate(string $value): ?CarbonImmutable

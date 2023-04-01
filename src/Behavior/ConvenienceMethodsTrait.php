@@ -169,9 +169,6 @@ trait ConvenienceMethodsTrait
 
     /**
      * Add a value to the parameter list
-     *
-     * @param Parameter $param
-     * @return Parameter
      */
     protected function addValue(Parameter $param): Parameter
     {

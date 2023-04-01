@@ -27,7 +27,7 @@ abstract class AbstractParamFormatTestBase extends TestCase
     {
         $constantName = sprintf("%s::NAME", get_class($this->getFormat()));
         if (defined($constantName)) {
-            $this->assertEquals(constant($constantName), $this->getFormat()->getName());
+            $this->assertEquals(constant($constantName), (string) $this->getFormat());
         } else {
             $this->markTestSkipped('No name constant was determined');
         }

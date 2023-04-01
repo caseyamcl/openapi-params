@@ -252,7 +252,6 @@ abstract class Parameter
 
     /**
      * @param array<int,mixed> $examples
-     * @return self
      */
     final public function setExamples(array $examples): static
     {
