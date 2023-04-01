@@ -28,13 +28,6 @@ class EmailFormat extends AbstractParamFormat
     public const TYPE_CLASS = StringParameter::class;
     public const NAME = 'email';
 
-    /**
-     * Get built-in validation rules
-     *
-     * These are added to the validation preparation step automatically
-     *
-     * @return array|ParameterValidationRule[]
-     */
     public function getValidationRules(): array
     {
         return [

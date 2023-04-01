@@ -27,9 +27,9 @@ use Respect\Validation\Rules\AbstractRule;
  */
 class ValidObjectExtraProperties extends AbstractRule
 {
-    private $allowedProperties;
-    private $allowed;
-    protected $invalidProperties = '';
+    private array $allowedProperties;
+    private string $allowed;
+    protected string $invalidProperties = '';
 
     public function __construct(array $allowedProperties)
     {

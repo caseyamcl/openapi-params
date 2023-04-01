@@ -22,6 +22,7 @@ use DateTimeInterface;
 use InvalidArgumentException;
 use LogicException;
 use OpenApiParams\Contract\ParamFormat;
+use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Format;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Model\ParameterValidationRule;
@@ -45,27 +46,11 @@ class StringParameter extends Parameter
     /**
      * @var string  Regex pattern without slashes
      */
-    private $pattern;
-
-    /**
-     * @var int|null
-     */
-    private $minLength = null;
-
-    /**
-     * @var int|null
-     */
-    private $maxLength = null;
-
-    /**
-     * @var bool
-     */
-    private $trim = true;
-
-    /**
-     * @var bool
-     */
-    private $sanitize = false;
+    private ?string $pattern = null;
+    private ?int $minLength = null;
+    private ?int $maxLength = null;
+    private bool $trim = true;
+    private bool $sanitize = false;
 
     // -----------------------------------------------------------------
     // Convenience methods
@@ -74,7 +59,7 @@ class StringParameter extends Parameter
      * Set format to alphanumeric
      *
      * @param string $extraChars
-     * @return $this
+     * @return self
      */
     final public function makeAlphanumeric(string $extraChars = ''): self
     {
@@ -83,7 +68,7 @@ class StringParameter extends Parameter
 
     /**
      * Set format to yes/no (accepts '1', '0', 1, 0, 'true', 'false', 'yes', 'no', 'on', 'off')
-     * @return $this
+     * @return self
      */
     final public function makeYesNo(): self
     {
@@ -93,7 +78,7 @@ class StringParameter extends Parameter
     /**
      * Set format to byte (base64-encoded)
      *
-     * @return $this
+     * @return self
      */
     final public function makeByte(): self
     {
@@ -103,7 +88,7 @@ class StringParameter extends Parameter
     /**
      * Set format to email
      *
-     * @return $this
+     * @return self
      */
     final public function makeEmail(): self
     {
@@ -117,7 +102,7 @@ class StringParameter extends Parameter
      *
      * @param DateTimeInterface|null $earliest
      * @param DateTimeInterface|null $latest
-     * @return $this
+     * @return self
      */
     final public function makeDate(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
     {
@@ -129,7 +114,7 @@ class StringParameter extends Parameter
      *
      * @param DateTimeInterface|null $earliest
      * @param DateTimeInterface|null $latest
-     * @return $this
+     * @return self
      */
     final public function makeDateTime(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
     {
@@ -140,7 +125,7 @@ class StringParameter extends Parameter
      * Set the format to CSV
      *
      * @param string $separator
-     * @return $this
+     * @return self
      */
     final public function makeCsv(string $separator = ','): self
     {
@@ -153,7 +138,7 @@ class StringParameter extends Parameter
      * This format does nothing programmatically, but is important for API documentation in the case that clients
      * automatically parse the documentation to generate forms.
      *
-     * @return $this
+     * @return self
      */
     final public function makePassword(): self
     {
@@ -168,7 +153,7 @@ class StringParameter extends Parameter
      *
      * @param DateTimeInterface|null $earliest
      * @param DateTimeInterface|null $latest
-     * @return $this
+     * @return self
      */
     final public function makeTemporal(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
     {
@@ -178,19 +163,13 @@ class StringParameter extends Parameter
     /**
      * Sets the format to UUID
      *
-     * @return $this
+     * @return self
      */
     final public function makeUuid(): self
     {
         return $this->setFormat(new Format\UuidFormat());
     }
 
-    /**
-     * Set format
-     *
-     * @param ParamFormat|null $format
-     * @return self
-     */
     final public function setFormat(?ParamFormat $format): self
     {
         if (! empty($this->format)) {
@@ -229,7 +208,7 @@ class StringParameter extends Parameter
      * Explicitly turn trim on or off (default is TRUE; on)
      *
      * @param bool $trim
-     * @return StringParameter
+     * @return self
      */
     final public function setTrim(bool $trim): self
     {
@@ -241,7 +220,7 @@ class StringParameter extends Parameter
      * Set regex pattern
      *
      * @param string|null $pattern  Can contain PHP '/' delimiters or not
-     * @return StringParameter
+     * @return self
      */
     final public function setPattern(?string $pattern = null): self
     {
@@ -259,7 +238,7 @@ class StringParameter extends Parameter
     }
 
     /**
-     * @return array
+     * @return array<string,mixed>
      */
     protected function listExtraDocumentationItems(): array
     {
@@ -273,10 +252,6 @@ class StringParameter extends Parameter
         );
     }
 
-    /**
-     * @param int|null $length
-     * @return StringParameter
-     */
     final public function setMinLength(?int $length): self
     {
         Assert::greaterThanEq($length, 0);
@@ -285,10 +260,6 @@ class StringParameter extends Parameter
         return $this;
     }
 
-    /**
-     * @param int|null $length
-     * @return StringParameter
-     */
     final public function setMaxLength(?int $length): self
     {
         Assert::greaterThanEq($length, 0);
@@ -299,10 +270,6 @@ class StringParameter extends Parameter
 
     /**
      * Set both minimum and maximum allowable length
-     *
-     * @param int|null $min
-     * @param int|null $max
-     * @return StringParameter
      */
     final public function setLength(?int $min = null, ?int $max = null): self
     {
@@ -317,7 +284,7 @@ class StringParameter extends Parameter
     }
 
     /**
-     * @return array
+     * @return array<int,PreparationStep>
      */
     protected function getPreValidationPreparationSteps(): array
     {
@@ -333,7 +300,7 @@ class StringParameter extends Parameter
      *
      * These run after validation but before format-specific preparation steps
      *
-     * @return array
+     * @return array<int,PreparationStep>
      */
     protected function getPostValidationPreparationSteps(): array
     {
@@ -341,7 +308,7 @@ class StringParameter extends Parameter
     }
 
     /**
-     * @return array
+     * @return array<int,ParameterValidationRule>
      */
     protected function getBuiltInValidationRules(): array
     {

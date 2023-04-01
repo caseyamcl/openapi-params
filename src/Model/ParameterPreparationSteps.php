@@ -33,13 +33,13 @@ use OpenApiParams\Contract\PreparationStep;
 final class ParameterPreparationSteps implements IteratorAggregate, Countable
 {
     /**
-     * @var PreparationStep[]
+     * @var array<int,PreparationStep>
      */
-    private $steps = [];
+    private array $steps = [];
 
     /**
      * ParameterPreparationStepChain constructor.
-     * @param iterable|PreparationStep[] $steps
+     * @param iterable<int,PreparationStep> $steps
      */
     public function __construct(iterable $steps = [])
     {
@@ -49,7 +49,7 @@ final class ParameterPreparationSteps implements IteratorAggregate, Countable
     }
 
     /**
-     * @return iterable|PreparationStep[]
+     * @return iterable<int,PreparationStep>
      */
     public function listSteps(): iterable
     {
@@ -57,7 +57,7 @@ final class ParameterPreparationSteps implements IteratorAggregate, Countable
     }
 
     /**
-     * @return array|string[]
+     * @return array<int,string>
      */
     public function listNotes(): array
     {
@@ -66,9 +66,6 @@ final class ParameterPreparationSteps implements IteratorAggregate, Countable
 
     /**
      * Append a step to the end of the preparation step stack and get new copy of this object
-     *
-     * @param PreparationStep $step
-     * @return ParameterPreparationSteps
      */
     public function withStep(PreparationStep $step): ParameterPreparationSteps
     {
@@ -79,28 +76,21 @@ final class ParameterPreparationSteps implements IteratorAggregate, Countable
 
     /**
      * Push a preparation step onto the end of the stack
-     *
-     * @param PreparationStep $step
-     * @return ParameterPreparationSteps
      */
-    private function add(PreparationStep $step): self
+    private function add(PreparationStep $step): void
     {
         $this->steps[] = $step;
-        return $this;
     }
 
     /**
-     * @return ArrayIterator|PreparationStep[]
+     * @return ArrayIterator<int,PreparationStep>
      */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->listSteps());
     }
 
-    /**
-     * @return int
-     */
-    public function count()
+    public function count(): int
     {
         return count($this->steps);
     }

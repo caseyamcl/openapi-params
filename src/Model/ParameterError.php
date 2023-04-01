@@ -18,6 +18,8 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Model;
 
+use Webmozart\Assert\Assert;
+
 /**
  * Invalid Parameter Error
  *
@@ -25,37 +27,19 @@ namespace OpenApiParams\Model;
  */
 class ParameterError
 {
-    /**
-     * @var string
-     */
-    private $message;
+    private string $message;
 
-    /**
-     * @var string
-     */
-    private $detail;
-
-    /**
-     * @var int
-     */
-    private $code;
-
-    /**
-     * @var array
-     */
-    private $extra;
-
-    /**
-     * @var string
-     */
-    private $pointer;
+    private string $detail;
+    private string $code;
+    private array $extra;
+    private string $pointer;
 
     /**
      * InvalidParameterError constructor.
      * @param string $title    The error message
      * @param string $pointer  An array index or path (RFC6901) e.g. "paramName" or "data/relationships/people/3/id"
      * @param string $detail   The error detail
-     * @param string $code     Application-specific error code
+     * @param string $code     Application-specific error code (maybe a HTTP code)
      * @param array $extra     Extra values
      */
     public function __construct(

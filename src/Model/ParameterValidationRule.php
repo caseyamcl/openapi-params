@@ -30,25 +30,12 @@ use Respect\Validation\Validatable;
  */
 final class ParameterValidationRule implements ParamValidationRule
 {
-    /**
-     * @var Validatable
-     */
-    private $rule;
-
-    /**
-     * @var string
-     */
-    private $description;
-    /**
-     * @var bool
-     */
-    private $includeDescriptionInApiDocumentation;
+    private Validatable $rule;
+    private string $description;
+    private bool $includeDescriptionInApiDocumentation;
 
     /**
      * ParameterValidationRule constructor.
-     * @param Validatable $rule
-     * @param string $description
-     * @param bool $includeDescriptionInDocumentation
      */
     public function __construct(
         Validatable $rule,
@@ -62,8 +49,6 @@ final class ParameterValidationRule implements ParamValidationRule
 
     /**
      * Get validator
-     *
-     * @return Validatable
      */
     public function getValidator(): Validatable
     {
@@ -72,17 +57,12 @@ final class ParameterValidationRule implements ParamValidationRule
 
     /**
      * Get the documentation for this validation rule
-     *
-     * @return string
      */
     public function getDescription(): string
     {
         return $this->description;
     }
 
-    /**
-     * @return bool
-     */
     public function includeInDocumentation(): bool
     {
         return $this->includeDescriptionInApiDocumentation;

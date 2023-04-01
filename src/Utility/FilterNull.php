@@ -27,8 +27,6 @@ class FilterNull
 {
     /**
      * Filter NULL values out of an array (with strict type-checking)
-     * @param array $arr
-     * @return array
      */
     public static function filterNull(array $arr): array
     {

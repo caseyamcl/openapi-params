@@ -25,7 +25,7 @@ interface ParameterException
     /**
      * Get parameter errors
      *
-     * @return array|ParameterError[]
+     * @return array<int,ParameterError>
      */
     public function getErrors(): array;
 
@@ -33,7 +33,7 @@ interface ParameterException
      * Get parameter errors with added pointer prefix
      *
      * @param string $pointerPrefix
-     * @return array|ParameterError[]
+     * @return array<int,ParameterError>
      */
     public function getErrorsWithPointerPrefix(string $pointerPrefix): array;
 }

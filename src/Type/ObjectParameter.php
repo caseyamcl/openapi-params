@@ -42,7 +42,7 @@ class ObjectParameter extends Parameter
     public const PHP_DATA_TYPE = 'object';
 
     /**
-     * @var Parameter[]
+     * @var array<int,Parameter>
      */
     private array $properties = [];
 
@@ -79,15 +79,15 @@ class ObjectParameter extends Parameter
     }
 
     /**
-     * @return array|Parameter[]
+     * @return array<int,Parameter>
      */
-    final public function getProperties()
+    final public function getProperties(): array
     {
         return $this->properties;
     }
 
     /**
-     * Set whether or not this parameter should allow additional, arbitrary properties (default is auto-detect)
+     * Set whether this parameter should allow additional, arbitrary properties (default is auto-detect)
      *
      * Auto-detect means that if no properties are explicitly defined, assume that this object allows additional
      * properties
@@ -105,7 +105,7 @@ class ObjectParameter extends Parameter
      * Set minimum allowable number of properties
      *
      * @param int|null $min
-     * @return ObjectParameter
+     * @return self
      */
     final public function setMinProperties(?int $min): self
     {
@@ -121,9 +121,9 @@ class ObjectParameter extends Parameter
      * Set the maximum allowable properties
      *
      * @param int|null $max
-     * @return $this
+     * @return self
      */
-    final public function setMaxProperties(?int $max)
+    final public function setMaxProperties(?int $max): self
     {
         if (! is_null($max)) {
             Assert::natural($max);
@@ -137,7 +137,7 @@ class ObjectParameter extends Parameter
      * Add a property
      *
      * @param Parameter $parameter
-     * @return ObjectParameter
+     * @return self
      */
     final public function addProperty(Parameter $parameter): self
     {
@@ -149,7 +149,7 @@ class ObjectParameter extends Parameter
 
     /**
      * @param Parameter ...$parameters
-     * @return ObjectParameter
+     * @return self
      */
     final public function addProperties(Parameter ...$parameters): self
     {
@@ -165,7 +165,7 @@ class ObjectParameter extends Parameter
      *
      * These are added to the validation preparation step automatically
      *
-     * @return array|ParameterValidationRule[]
+     * @return array<int,ParameterValidationRule>
      */
     protected function getBuiltInValidationRules(): array
     {
@@ -224,7 +224,7 @@ class ObjectParameter extends Parameter
      * Certain data types in OpenApi list additional properties in the schema.  Override this method
      * to add those when self-creating documentation
      *
-     * @return array  Key/value pairs of additional OpenApi Documentation properties
+     * @return array<string,mixed>  Key/value pairs of additional OpenApi Documentation properties
      */
     protected function listExtraDocumentationItems(): array
     {
@@ -242,7 +242,7 @@ class ObjectParameter extends Parameter
             // so we remove it, but if it is true, there is a special 'required' attribute for the
             // parent object that must have the property name in it.  Sheesh...
             if (isset($extra['properties'][$propName]['required'])) {
-                if ($extra['properties'][$propName]['required'] == true) {
+                if ($extra['properties'][$propName]['required']) {
                     $extra['required'][] = $propName;
                 }
                 unset($extra['properties'][$propName]['required']);
@@ -253,7 +253,7 @@ class ObjectParameter extends Parameter
     }
 
     /**
-     * @return array
+     * @return array<int,PreparationStep>
      */
     protected function getPreTypeCastPreparationSteps(): array
     {
@@ -262,7 +262,7 @@ class ObjectParameter extends Parameter
 
 
     /**
-     * @return array|PreparationStep[]
+     * @return array<int,PreparationStep>
      */
     protected function getPostValidationPreparationSteps(): array
     {

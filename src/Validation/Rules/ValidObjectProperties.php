@@ -27,8 +27,11 @@ use Respect\Validation\Rules\AbstractRule;
  */
 class ValidObjectProperties extends AbstractRule
 {
-    private $requiredProperties;
-    protected $missingProperties = '';
+    /**
+     * @var array<int,string>
+     */
+    private array $requiredProperties;
+    protected string $missingProperties = '';
 
     public function __construct(array $requiredProps)
     {

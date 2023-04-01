@@ -30,11 +30,9 @@ use Respect\Validation\Validator;
  */
 class ValidUnixPath extends AbstractRule
 {
-    private $allowRelativePaths;
-
-    public function __construct(bool $allowRelativePaths = false)
-    {
-        $this->allowRelativePaths = $allowRelativePaths;
+    public function __construct(
+        private readonly bool $allowRelativePaths = false
+    ) {
     }
 
     public function getName(): ?string

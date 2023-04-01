@@ -34,20 +34,7 @@ use OpenApiParams\Contract\ParameterDeserializer;
  */
 class ParameterValuesContext
 {
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var LoggerInterface
-     */
-    private $logger;
-
-    /**
-     * @var ParameterDeserializer|null
-     */
-    private $deserializer;
+    private LoggerInterface $logger;
 
     /**
      * ParameterContext constructor.
@@ -57,42 +44,28 @@ class ParameterValuesContext
      * @param LoggerInterface|null $logger
      */
     public function __construct(
-        string $name = 'values',
-        ?ParameterDeserializer $deserializer = null,
+        private readonly string $name = 'values',
+        private readonly ?ParameterDeserializer $deserializer = null,
         ?LoggerInterface $logger = null
     ) {
-        $this->name = $name;
-        $this->deserializer = $deserializer;
         $this->logger = $logger ?: new NullLogger();
     }
 
-    /**
-     * @return string
-     */
     final public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return LoggerInterface
-     */
     final public function getLogger(): LoggerInterface
     {
         return $this->logger;
     }
 
-    /**
-     * @return string
-     */
     final public function __toString(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return ParameterDeserializer|null
-     */
     final public function getDeserializer(): ?ParameterDeserializer
     {
         return $this->deserializer;

@@ -36,10 +36,7 @@ class NumberParameter extends AbstractNumericParameter
     public const TYPE_NAME = 'number';
     public const PHP_DATA_TYPE = null;
 
-    /**
-     * @var bool
-     */
-    private $requireDecimal = false;
+    private bool $requireDecimal = false;
 
     /**
      * NumberParameter constructor.
@@ -54,10 +51,7 @@ class NumberParameter extends AbstractNumericParameter
         $this->setRequireDecimal($requireDecimal);
     }
 
-    /**
-     * @return ParamFormat
-     */
-    protected function buildFormat(): ?ParamFormat
+    protected function buildFormat(): ParamFormat
     {
         return (PHP_FLOAT_DIG >= 15) ? new DoubleFormat() : new FloatFormat();
     }
@@ -100,7 +94,6 @@ class NumberParameter extends AbstractNumericParameter
             )
         ]);
     }
-
 
     /**
      * Get the PHP data-type for this parameter

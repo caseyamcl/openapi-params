@@ -36,17 +36,12 @@ use Webmozart\Assert\Assert;
 class PrepareObjectPropertiesStep implements PreparationStep
 {
     /**
-     * @var ObjectParameter
-     */
-    private $parameter;
-
-    /**
      * PrepareObjectPropertiesStep constructor.
      * @param ObjectParameter $parameter
      */
-    public function __construct(ObjectParameter $parameter)
-    {
-        $this->parameter = $parameter;
+    public function __construct(
+        private readonly ObjectParameter $parameter
+    ) {
     }
 
     /**
@@ -81,10 +76,10 @@ class PrepareObjectPropertiesStep implements PreparationStep
      *
      * @param mixed $value The current value to be processed
      * @param string $paramName
-     * @param ParameterValues $allValues All of the values
+     * @param ParameterValues $allValues All the values
      * @return mixed
      */
-    public function __invoke($value, string $paramName, ParameterValues $allValues)
+    public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
         Assert::isInstanceOf($value, stdClass::class);
 

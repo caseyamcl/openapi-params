@@ -43,14 +43,6 @@ class YesNoFormat extends AbstractParamFormat
         'false' => false, '0' => false, 'no' => false, 'off' => false
     ];
 
-    /**
-     * Get built-in validation rules
-     *
-     * These are added to the validation preparation step automatically
-     *
-     * @return array|ParameterValidationRule[]
-     * @throws ComponentException
-     */
     public function getValidationRules(): array
     {
         return [
@@ -65,13 +57,6 @@ class YesNoFormat extends AbstractParamFormat
         ];
     }
 
-    /**
-     * Get built-in parameter preparation steps
-     *
-     * These run after validation but before any custom preparation steps
-     *
-     * @return array|PreparationStep[]
-     */
     public function getPreparationSteps(): array
     {
         return [

@@ -31,7 +31,7 @@ trait RequireConstantTrait
      * @param string $message
      * @return mixed
      */
-    protected function requireConstant(string $name, string $message = '')
+    protected function requireConstant(string $name, string $message = ''): mixed
     {
         $constantName = 'static::' . $name;
         $value = constant($constantName);

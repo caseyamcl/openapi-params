@@ -50,86 +50,36 @@ abstract class Parameter
     public const WRITE_ONLY = 1;
     public const READ_WRITE = 2;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
+    private string $description = '';
+    private bool $required = false;
+    private mixed $default = null;
+    private bool $nullable = false;
+    private ?array $enum = null;
+    private ?array $examples = [];
+    private bool $deprecated = false;
+    private int $readWriteMode = self::READ_WRITE;
+    protected ?ParamFormat $format = null;
+    protected bool $allowTypeCast = false;
+    private bool $defaultWasSet = false;
 
     /**
-     * @var string
+     * @var array<int,PreparationStep>
      */
-    private $description;
-
+    private array $extraPreparationSteps = [];
     /**
-     * @var bool
+     * @var array<int,ParameterValidationRule>
      */
-    private $required;
-
+    private array $validationRules = [];
     /**
-     * @var mixed
+     * @var array<int,string>  Other parameter names that should not be present if this parameter is present
      */
-    private $default;
-
+    private array $dependsOnAbsenceOf = [];
     /**
-     * @var bool
+     * @var array <int,string|null>  Other parameter names that must exist (and optional callback condition); keys are
+     *                               parameter names, values are either callback or NULL
      */
-    private $nullable = false;
-
-    /**
-     * @var array|null
-     */
-    private $enum = null;
-
-    /**
-     * @var array|mixed[]
-     */
-    private $examples = [];
-
-    /**
-     * @var bool
-     */
-    private $deprecated = false;
-
-    /**
-     * @var int
-     */
-    private $readWriteMode = self::READ_WRITE;
-
-    /**
-     * @var array|PreparationStep[]
-     */
-    private $extraPreparationSteps = [];
-
-    /**
-     * @var array|ParameterValidationRule[]
-     */
-    private $validationRules = [];
-
-    /**
-     * @var ParamFormat|null
-     */
-    protected $format = null;
-
-    /**
-     * @var bool
-     */
-    protected $allowTypeCast = false;
-
-    /**
-     * @var bool
-     */
-    private $defaultWasSet = false;
-
-    /**
-     * @var array|string[]  Other parameter names that should not be present if this parameter is present
-     */
-    private $dependsOnAbsenceOf = [];
-
-    /**
-     * @var array string[]|null[]  Other parameter names that must exist (and optional callback condition); keys are
-     *                             parameter names, values are either callback or NULL
-     */
-    private $dependsOn = [];
+    private array $dependsOn = [];
 
     /**
      * AbstractParameter constructor (alternate syntax)
@@ -138,7 +88,7 @@ abstract class Parameter
      * @param bool $required
      * @return static
      */
-    public static function create(string $name = '', bool $required = false)
+    public static function create(string $name = '', bool $required = false): static
     {
         return new static($name, $required);
     }
@@ -176,48 +126,34 @@ abstract class Parameter
      * @param string $documentation Will be ignored if $rule is instance of ParameterValidationRule
      * @return Parameter
      */
-    final public function addValidation($rule, string $documentation = ''): self
-    {
+    final public function addValidation(
+        callable|ParameterValidationRule|Validatable $rule,
+        string $documentation = ''
+    ): self {
         $this->validationRules[] = $this->buildValidationRule($rule, $documentation);
         return $this;
     }
 
-    /**
-     * @return string
-     */
     final public function __toString(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     final public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return string
-     */
     final public function getTypeName(): string
     {
         return $this->requireConstant('TYPE_NAME');
     }
 
-    /**
-     * @return ParamFormat|null
-     */
     final public function getFormat(): ?ParamFormat
     {
         return $this->format;
     }
 
-
-    /**
-     * @return string
-     */
     final public function getDescription(): string
     {
         $description = $this->description;
@@ -233,26 +169,20 @@ abstract class Parameter
         return trim(preg_replace('/\s{2,}/', "\n", $description));
     }
 
-    /**
-     * @return bool
-     */
     final public function isRequired(): bool
     {
         return $this->required;
     }
 
-    /**
-     * @return bool
-     */
     final public function hasDefault(): bool
     {
         return ($this->defaultWasSet && ! $this->isRequired());
     }
 
     /**
-     * @return mixed
+     * Returns NULL if no default defined
      */
-    final public function getDefault()
+    final public function getDefault(): mixed
     {
         return $this->default ?? null;
     }
@@ -267,111 +197,75 @@ abstract class Parameter
         return $this->enum;
     }
 
-    /**
-     * @return bool
-     */
     final public function isNullable(): bool
     {
         return $this->nullable;
     }
 
     /**
-     * @return array
+     * @return array<int,mixed>
      */
     final public function listExamples(): array
     {
         return $this->examples;
     }
 
-    /**
-     * @return bool
-     */
     final public function isDeprecated(): bool
     {
         return $this->deprecated;
     }
 
-    /**
-     * @return bool
-     */
     final public function isReadOnly(): bool
     {
         return $this->readWriteMode === self::READ_ONLY;
     }
 
-    /**
-     * @return bool
-     */
     final public function isWriteOnly(): bool
     {
         return $this->readWriteMode === self::WRITE_ONLY;
     }
 
-    /**
-     * @param bool $allowTypeCast
-     * @return static
-     */
-    final public function setAllowTypeCast(bool $allowTypeCast): self
+    final public function setAllowTypeCast(bool $allowTypeCast): static
     {
         $this->allowTypeCast = $allowTypeCast;
         return $this;
     }
 
-    /**
-     * @param string $description
-     * @return self|Parameter
-     */
-    final public function setDescription(string $description): self
+    final public function setDescription(string $description): static
     {
         $this->description = $description;
         return $this;
     }
 
-    /**
-     * @param bool $nullable
-     * @return self
-     */
-    final public function setNullable(bool $nullable): self
+    final public function setNullable(bool $nullable): static
     {
         $this->nullable = $nullable;
         return $this;
     }
 
-    /**
-     * @param array|null $enum
-     * @return self
-     */
-    final public function setEnum(?array $enum): self
+    final public function setEnum(?array $enum): static
     {
         $this->enum = $enum;
         return $this;
     }
 
     /**
-     * @param array|mixed[] $examples
+     * @param array<int,mixed> $examples
      * @return self
      */
-    final public function setExamples($examples): self
+    final public function setExamples(array $examples): static
     {
         $this->examples = $examples;
         return $this;
     }
 
-    /**
-     * @param bool $deprecated
-     * @return self
-     */
-    final public function setDeprecated(bool $deprecated): self
+    final public function setDeprecated(bool $deprecated): static
     {
         $this->deprecated = $deprecated;
         return $this;
     }
 
-    /**
-     * @param bool $readOnly
-     * @return Parameter
-     */
-    final public function setReadOnly(bool $readOnly): self
+    final public function setReadOnly(bool $readOnly): static
     {
         if ($readOnly) {
             $this->readWriteMode = self::READ_ONLY;
@@ -380,11 +274,7 @@ abstract class Parameter
         return $this;
     }
 
-    /**
-     * @param bool $writeOnly
-     * @return Parameter
-     */
-    final public function setWriteOnly(bool $writeOnly): self
+    final public function setWriteOnly(bool $writeOnly): static
     {
         if ($writeOnly) {
             $this->readWriteMode = self::WRITE_ONLY;
@@ -397,11 +287,8 @@ abstract class Parameter
      * Set this to be a required value
      *
      * NOTE: If there is a default value and required is TRUE, this will throw an exception
-     *
-     * @param bool $isRequired
-     * @return self
      */
-    final public function makeRequired(bool $isRequired = true): self
+    final public function makeRequired(bool $isRequired = true): static
     {
         if ($this->hasDefault() && $isRequired === true) {
             throw new LogicException(sprintf(
@@ -416,11 +303,8 @@ abstract class Parameter
 
     /**
      * Set this to be an optional value
-     *
-     * @param bool $isOptional
-     * @return Parameter
      */
-    final public function makeOptional(bool $isOptional = true): self
+    final public function makeOptional(bool $isOptional = true): static
     {
         $this->makeRequired(! $isOptional);
         return $this;
@@ -430,11 +314,8 @@ abstract class Parameter
      * Set default value
      *
      * NULL is the only allowable value if this parameter is required
-     *
-     * @param mixed $default
-     * @return self
      */
-    final public function setDefaultValue($default): self
+    final public function setDefaultValue(mixed $default): static
     {
         if ($this->required === true) {
             throw new LogicException(sprintf(
@@ -452,15 +333,15 @@ abstract class Parameter
      * Add a dependency for this parameter
      *
      * If this parameter is allowed only if another parameter is present, then add the other parameter name
-     * using this method.  Additionally, you may optionally add an additional check (to check if the parameter has a
+     * using this method.  Additionally, you may optionally add a check (to check if the parameter has a
      * certain value or some-such) by passing a callback.
      *
      * @param string $otherParameterName
      * @param callable|null $callback     Optional callback; signature is $cb(ParameterValue $value): void
      *                                    The callback should throw an \InvalidArgument exception if value is invalid.
-     * @return self|Parameter
+     * @return static
      */
-    final public function addDependsOn(string $otherParameterName, ?callable $callback = null): self
+    final public function addDependsOn(string $otherParameterName, ?callable $callback = null): static
     {
         $this->dependsOn[$otherParameterName] = $callback;
         return $this;
@@ -470,23 +351,17 @@ abstract class Parameter
      * Indicate that this parameter is allowed only if another parameter is not present
      *
      * If this parameter is only allowed if another parameter is not present, then add that rule using this method.
-     *
-     * @param string $otherParameterName
-     * @return Parameter
      */
-    final public function addDependsOnAbsenceOf(string $otherParameterName): self
+    final public function addDependsOnAbsenceOf(string $otherParameterName): static
     {
         $this->dependsOnAbsenceOf[] = $otherParameterName;
         return $this;
     }
 
     /**
-     * Add an extra preparation step
-     *
-     * @param PreparationStep ...$step
-     * @return self
+     * Add a preparation step
      */
-    final public function addPreparationStep(PreparationStep ...$step): self
+    final public function addPreparationStep(PreparationStep ...$step): static
     {
         foreach ($step as $extraStep) {
             $this->extraPreparationSteps[] = $extraStep;
@@ -501,12 +376,12 @@ abstract class Parameter
     /**
      * Get OpenAPI-compatible documentation in the form of key/value pairs
      *
-     * @return array
+     * @return array<string,mixed>
      */
     final public function getDocumentation(): array
     {
         $defaultDocumentation = FilterNull::filterNull([
-            'type'        => (string) $this->getTypeName(),
+            'type'        => $this->getTypeName(),
             'required'    => $this->isRequired() ? true : null,
             'description' => $this->getDescription() ?: null,
             'format'      => $this->getFormat() ? (string) $this->getFormat() : null,
@@ -527,7 +402,7 @@ abstract class Parameter
     /**
      * Get all validation rules
      *
-     * @return array|ParameterValidationRule[]
+     * @return array<int,ParameterValidationRule>
      */
     final public function getValidationRules(): array
     {
@@ -542,11 +417,11 @@ abstract class Parameter
      * List preparation steps in the order they are run
      *
      * @param bool $checkDependencies
-     * @return ParameterPreparationSteps|PreparationStep[]
+     * @return ParameterPreparationSteps<int,PreparationStep>
      */
     final public function getPreparationSteps(bool $checkDependencies = true): ParameterPreparationSteps
     {
-        // Dependency steps are always run, regardless of if NULL is allowed..
+        // Dependency steps are always run, regardless of if NULL is allowed
         $preSteps = [];
 
         if ($checkDependencies && ! empty($this->dependsOn)) {
@@ -608,10 +483,10 @@ abstract class Parameter
      * Prepare the parameter
      *
      * @param mixed $value
-     * @param ParameterValues $allValues
-     * @return mixed|void
+     * @param ParameterValues|null $allValues
+     * @return mixed
      */
-    final public function prepare($value, ParameterValues &$allValues = null)
+    final public function prepare(mixed $value, ?ParameterValues &$allValues = null): mixed
     {
         $myName = $this->getName() ?: '(no name)';
 
@@ -646,7 +521,7 @@ abstract class Parameter
     /**
      * Get the PHP data-type for this parameter
      *
-     * @return array|string[]
+     * @return array<int,string>
      */
     public function getPhpDataTypes(): array
     {
@@ -654,9 +529,7 @@ abstract class Parameter
     }
 
     /**
-     * Return whether or not this parameter allows typecast
-     *
-     * @return bool
+     * Return whether this parameter allows to typecast
      */
     public function allowsTypeCast(): bool
     {
@@ -666,7 +539,7 @@ abstract class Parameter
     /**
      * List parameter names that this parameter depends on (either being present or being not present)
      *
-     * @return array|string[]  List of parameter names
+     * @return array<int,string>  List of parameter names
      */
     public function listDependencies(): array
     {
@@ -676,7 +549,7 @@ abstract class Parameter
     // --------------------------------------------------------------
 
     /**
-     * @return array
+     * @return array<string,mixed>
      */
     protected function listExtraDocumentationItems(): array
     {
@@ -688,7 +561,7 @@ abstract class Parameter
      *
      * Used mainly for deserialization
      *
-     * @return array
+     * @return array<int,PreparationStep>
      */
     protected function getPreTypeCastPreparationSteps(): array
     {
@@ -700,7 +573,7 @@ abstract class Parameter
      *
      * These run after type-check/type-cast but before validation
      *
-     * @return array|PreparationStep[]
+     * @return array<int,PreparationStep>
      */
     protected function getPreValidationPreparationSteps(): array
     {
@@ -712,7 +585,7 @@ abstract class Parameter
      *
      * These run after validation but before format-specific preparation steps
      *
-     * @return array
+     * @return array<int,PreparationStep>
      */
     protected function getPostValidationPreparationSteps(): array
     {
@@ -724,7 +597,7 @@ abstract class Parameter
      *
      * These are added to the validation preparation step automatically
      *
-     * @return array|ParameterValidationRule[]
+     * @return array<int,ParameterValidationRule>
      */
     abstract protected function getBuiltInValidationRules(): array;
 }

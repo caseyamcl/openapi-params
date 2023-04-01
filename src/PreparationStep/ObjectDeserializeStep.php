@@ -59,10 +59,10 @@ class ObjectDeserializeStep implements PreparationStep
      *
      * @param mixed $value The current value to be processed
      * @param string $paramName
-     * @param ParameterValues $allValues All of the values
+     * @param ParameterValues $allValues All the values
      * @return mixed
      */
-    public function __invoke($value, string $paramName, ParameterValues $allValues)
+    public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
         try {
             return ($deserializer = $allValues->getContext()->getDeserializer())

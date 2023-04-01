@@ -33,13 +33,6 @@ class UuidFormat extends AbstractParamFormat
     public const NAME = 'uuid';
     public const TYPE_CLASS = StringParameter::class;
 
-    /**
-     * Get built-in validation rules
-     *
-     * These are added to the validation preparation step automatically
-     *
-     * @return array|ParameterValidationRule[]
-     */
     public function getValidationRules(): array
     {
         return [
@@ -50,13 +43,6 @@ class UuidFormat extends AbstractParamFormat
         ];
     }
 
-    /**
-     * Get built-in parameter preparation steps
-     *
-     * These run after validation but before any custom preparation steps
-     *
-     * @return array|PreparationStep[]
-     */
     public function getPreparationSteps(): array
     {
         return []; // no extra preparation steps.

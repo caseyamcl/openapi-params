@@ -29,25 +29,8 @@ use RuntimeException;
  */
 final class ParameterValue
 {
-    /**
-     * @var string
-     */
-    private $name;
-
-    /**
-     * @var mixed
-     */
-    private $rawValue;
-
-    /**
-     * @var bool
-     */
-    private $prepared = false;
-
-    /**
-     * @var mixed
-     */
-    private $preparedValue;
+    private bool $prepared = false;
+    private mixed $preparedValue;
 
     /**
      * ParameterValue constructor.
@@ -55,42 +38,31 @@ final class ParameterValue
      * @param string $name
      * @param mixed $rawValue
      */
-    public function __construct(string $name, $rawValue)
-    {
-        $this->name = $name;
-        $this->rawValue = $rawValue;
+    public function __construct(
+        private readonly string $name,
+        private readonly mixed $rawValue
+    ) {
     }
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRawValue()
+    public function getRawValue(): mixed
     {
         return $this->rawValue;
     }
 
     /**
      * Does this contain a prepared value?
-     *
-     * @return bool
      */
     public function isPrepared(): bool
     {
         return (bool) $this->prepared;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getPreparedValue()
+    public function getPreparedValue(): mixed
     {
         if (! $this->prepared) {
             throw new RuntimeException("Parameter has not yet been prepared: {$this->name}");
@@ -100,11 +72,8 @@ final class ParameterValue
 
     /**
      * Get a copy of this with a prepared value
-     *
-     * @param $preparedValue
-     * @return ParameterValue
      */
-    public function withPreparedValue($preparedValue): ParameterValue
+    public function withPreparedValue(mixed $preparedValue): ParameterValue
     {
         $that = clone $this;
         $that->prepared = true;

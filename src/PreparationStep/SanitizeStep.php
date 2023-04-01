@@ -39,7 +39,7 @@ class SanitizeStep implements PreparationStep
      */
     public function __toString(): string
     {
-        return 'sanitizes input using filter_far FILTER_SANITIZE_STRING';
+        return 'sanitizes input using filter_var FILTER_SANITIZE_SPECIAL_CHARS';
     }
 
     /**
@@ -50,9 +50,9 @@ class SanitizeStep implements PreparationStep
      * @param ParameterValues $allValues
      * @return mixed
      */
-    public function __invoke($value, string $paramName, ParameterValues $allValues)
+    public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
-        return filter_var(str_replace(["'", '"', "\\", '/'], '', strip_tags($value)), FILTER_SANITIZE_STRING);
+        return filter_var(str_replace(["'", '"', "\\", '/'], '', strip_tags($value)), FILTER_SANITIZE_SPECIAL_CHARS);
     }
 
     /**

@@ -49,7 +49,7 @@ class ArrayItemsPreparationStep implements PreparationStep
      * ArrayItemsPreparationStep constructor.
      *
      * @param array $parameterTypeMap keys are PHP data type name; values are an array of possible parameter definitions
-     * @param iterable $forEach  Additional rules to run for each item
+     * @param iterable<int,PreparationStep> $forEach  Additional steps to run for each item
      */
     public function __construct(array $parameterTypeMap = self::ALL, iterable $forEach = [])
     {
@@ -62,8 +62,6 @@ class ArrayItemsPreparationStep implements PreparationStep
      *
      * If this step defines a rule that is important to be included in the API documentation, then include
      * it here.  e.g. "value must be ..."
-     *
-     * @return string|null
      */
     public function getApiDocumentation(): ?string
     {
@@ -85,10 +83,10 @@ class ArrayItemsPreparationStep implements PreparationStep
      *
      * @param array $value The current value to be processed
      * @param string $paramName
-     * @param ParameterValues $allValues All of the values
+     * @param ParameterValues $allValues All the values
      * @return mixed
      */
-    public function __invoke($value, string $paramName, ParameterValues $allValues)
+    public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
         Assert::isArray($value);
 
@@ -113,12 +111,12 @@ class ArrayItemsPreparationStep implements PreparationStep
      *
      * @param mixed $value      The value
      * @param string $itemName  Pointer to index (e.g. '[array_name]/5' or '[array_name]/6', etc..)
-     * @param array|Parameter[] $paramTypeMapping
+     * @param array<int,Parameter> $paramTypeMapping
      * @return mixed
      */
-    protected function prepareItem($value, string $itemName, array $paramTypeMapping)
+    protected function prepareItem(mixed $value, string $itemName, array $paramTypeMapping): mixed
     {
-        // Go through each mapping and the first one that works wins..
+        // Go through each mapping, and the first one that works wins...
         foreach ($paramTypeMapping as $param) {
             try {
                 return $param->prepare($value);
@@ -137,12 +135,12 @@ class ArrayItemsPreparationStep implements PreparationStep
     }
 
     /**
-     * @param array|InvalidValueException[] $exceptions All of the exceptions that occurred;
+     * @param array<int,InvalidValueException> $exceptions All the exceptions that occurred;
      *                                                  keys are the respective indexes that failed.
-     * @param $value
+     * @param mixed $value
      * @return InvalidValueException
      */
-    private function generateException(array $exceptions, $value)
+    private function generateException(array $exceptions, mixed $value): InvalidValueException
     {
         $errors = [];
         foreach ($exceptions as $idx => $exception) {
@@ -157,9 +155,9 @@ class ArrayItemsPreparationStep implements PreparationStep
      *
      * @param mixed $item
      * @param string $paramName
-     * @return array|Parameter[]  Empty array for any type allowed
+     * @return array|Parameter[]  Empty array means that any type is allowed
      */
-    private function resolveParamsForItem($item, string $paramName): array
+    private function resolveParamsForItem(mixed $item, string $paramName): array
     {
         if ($this->parameterTypeMap === self::ALL) {
             // If no parameters explicitly defined for this array, then guess it.
@@ -174,8 +172,8 @@ class ArrayItemsPreparationStep implements PreparationStep
             // If parameters are explicitly defined for this type, then use those
             $params = $this->parameterTypeMap[gettype($item)];
         } elseif (count($this->listParameters()) === 1 && current($this->listParameters())->allowsTypeCast()) {
-            //If no parameters are explicitly defined for this type, but there is only one type and it allows
-            // typecast
+            //If no parameters are explicitly defined for this type, but there is only one type, and it allows
+            // typecasting
             $params = $this->listParameters();
         } else {
             // Craft an error message
@@ -199,8 +197,8 @@ class ArrayItemsPreparationStep implements PreparationStep
     /**
      * Resolve parameter type names
      *
-     * @param array|Parameter[] $validParams
-     * @return array|string[]
+     * @param array<int,Parameter> $validParams
+     * @return array<int,string>
      */
     private function resolveValidParameterTypeNames(array $validParams): array
     {
@@ -212,7 +210,7 @@ class ArrayItemsPreparationStep implements PreparationStep
     }
 
     /**
-     * @return array|Parameter[]
+     * @return array<int,Parameter>
      */
     private function listParameters(): array
     {

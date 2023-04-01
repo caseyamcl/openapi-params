@@ -36,23 +36,10 @@ final class InvalidValueException extends RuntimeException implements ParameterE
 {
     use ParameterErrorsTrait;
 
-    private PreparationStep $step;
-
-    /**
-     * @var mixed
-     */
-    private $value;
-
     /**
      * Generate an InvalidValueException from a single error message
-     *
-     * @param PreparationStep $step
-     * @param string $paramName  Full parameter name
-     * @param $value
-     * @param string $message
-     * @return InvalidValueException
      */
-    public static function fromMessage(PreparationStep $step, string $paramName, $value, string $message): self
+    public static function fromMessage(PreparationStep $step, string $paramName, mixed $value, string $message): self
     {
         return InvalidValueException::fromMessages($step, $paramName, $value, [$message]);
     }
@@ -63,10 +50,10 @@ final class InvalidValueException extends RuntimeException implements ParameterE
      * @param PreparationStep $step
      * @param string $paramName
      * @param mixed $value
-     * @param array|string[] $messages
+     * @param array<int,string> $messages
      * @return InvalidValueException
      */
-    public static function fromMessages(PreparationStep $step, string $paramName, $value, array $messages): self
+    public static function fromMessages(PreparationStep $step, string $paramName, mixed $value, array $messages): self
     {
         Assert::allString($messages);
 
@@ -84,17 +71,17 @@ final class InvalidValueException extends RuntimeException implements ParameterE
      * @param mixed $value
      * @param array|ParameterError[] $errors
      */
-    public function __construct(PreparationStep $step, $value, array $errors)
-    {
+    public function __construct(
+        private readonly PreparationStep $step,
+        private readonly mixed $value,
+        array $errors
+    ) {
         Assert::allIsInstanceOf($errors, ParameterError::class);
 
         $message = 'Parameter preparation step failed (invalid data): ' . get_class($step);
         $message .= '; ' . implode(PHP_EOL, $errors);
 
         parent::__construct($message, 422);
-
-        $this->step = $step;
-        $this->value = $value;
         array_map([$this, 'addError'], $errors);
     }
 
@@ -108,10 +95,8 @@ final class InvalidValueException extends RuntimeException implements ParameterE
 
     /**
      * Get the raw parameter value that was invalid
-     *
-     * @return mixed
      */
-    public function getValue()
+    public function getValue(): mixed
     {
         return $this->value;
     }

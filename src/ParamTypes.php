@@ -73,7 +73,7 @@ final class ParamTypes
      * @param string $name
      * @return Parameter
      */
-    public static function resolveParameterForValue($value, string $name = ''): Parameter
+    public static function resolveParameterForValue(mixed $value, string $name = ''): Parameter
     {
         switch (true) {
             case is_object($value):

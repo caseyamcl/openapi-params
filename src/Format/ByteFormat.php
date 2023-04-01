@@ -54,7 +54,7 @@ class ByteFormat extends AbstractParamFormat
      *
      * These run after validation but before any custom preparation steps
      *
-     * @return array|PreparationStep[]
+     * @return array<int,PreparationStep>
      */
     public function getPreparationSteps(): array
     {
@@ -63,9 +63,6 @@ class ByteFormat extends AbstractParamFormat
         }, 'base64 decode the value')];
     }
 
-    /**
-     * @return string|null
-     */
     public function getDocumentation(): ?string
     {
         return "Value must a base64-encoded string.";

@@ -37,7 +37,7 @@ class BooleanParameter extends Parameter
      *
      * These are added to the validation preparation step automatically
      *
-     * @return array|ParameterValidationRule[]
+     * @return array<int,ParameterValidationRule>
      */
     protected function getBuiltInValidationRules(): array
     {

@@ -47,17 +47,11 @@ class TemporalFormat extends DateTimeFormat
         ];
     }
 
-    /**
-     * @return string|null
-     */
     public function getDocumentation(): ?string
     {
         return 'Value must be a valid date/time (examples: "now", "2017-03-04", "tomorrow", "2017-03-04T01:30:40Z").';
     }
 
-    /**
-     * @return ParamValidationRule
-     */
     protected function getBaseRule(): ParamValidationRule
     {
         return new ParameterValidationRule(

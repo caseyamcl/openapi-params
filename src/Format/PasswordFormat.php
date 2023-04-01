@@ -34,13 +34,6 @@ class PasswordFormat extends AbstractParamFormat
     public const TYPE_CLASS = StringParameter::class;
     public const NAME = 'password';
 
-    /**
-     * Get built-in validation rules
-     *
-     * These are added to the validation preparation step automatically
-     *
-     * @return array|ParameterValidationRule[]
-     */
     public function getValidationRules(): array
     {
         // There are no built-in rules for passwords.  Implementing libraries should add their own custom rules...

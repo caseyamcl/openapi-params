@@ -28,14 +28,9 @@ use OpenApiParams\Model\ParameterValues;
  */
 class AllowNullPreparationStep implements PreparationStep
 {
-    /**
-     * @var PreparationStep
-     */
-    private $innerStep;
-
-    public function __construct(PreparationStep $innerStep)
-    {
-        $this->innerStep = $innerStep;
+    public function __construct(
+        private readonly PreparationStep $innerStep
+    ) {
     }
 
     /**
@@ -43,8 +38,6 @@ class AllowNullPreparationStep implements PreparationStep
      *
      * If this step defines a rule that is important to be included in the API description, then include
      * it here.  e.g. "value must be ..."
-     *
-     * @return string|null
      */
     public function getApiDocumentation(): ?string
     {
@@ -53,8 +46,6 @@ class AllowNullPreparationStep implements PreparationStep
 
     /**
      * Describe what this step does (will appear in debug log if enabled)
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -66,10 +57,10 @@ class AllowNullPreparationStep implements PreparationStep
      *
      * @param mixed $value The current value to be processed
      * @param string $paramName
-     * @param ParameterValues $allValues All of the values
+     * @param ParameterValues $allValues All the values
      * @return mixed
      */
-    public function __invoke($value, string $paramName, ParameterValues $allValues)
+    public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
         return $value === null ? $value : $this->innerStep->__invoke($value, $paramName, $allValues);
     }

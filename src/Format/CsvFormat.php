@@ -44,20 +44,17 @@ class CsvFormat extends AbstractParamFormat
     public const NAME = 'csv';
 
     /**
-     * @var array|string[]
+     * @var array<int, string>
      */
-    private $separator = [','];
+    private array $separator = [','];
 
-    /**
-     * @var ParamValidationRule
-     */
-    private $validatorForEach;
+    private ?ParamValidationRule $validatorForEach = null;
 
     /**
      * CsvFormat constructor.
-     * @param string|array|string[] $separators
+     * @param string|array<int,string> $separators
      */
-    public function __construct($separators = ',')
+    public function __construct(string|array $separators = ',')
     {
         $this->separator = is_array($separators) ? $separators : str_split($separators);
     }
@@ -80,7 +77,7 @@ class CsvFormat extends AbstractParamFormat
      *
      * These are added to the validation preparation step automatically
      *
-     * @return array|ParameterValidationRule[]
+     * @return array<int,ParameterValidationRule>
      */
     public function getValidationRules(): array
     {
@@ -98,11 +95,8 @@ class CsvFormat extends AbstractParamFormat
 
     /**
      * Convenience method for setting validation (calls CsvFormat::setValidatorForEach())
-     *
-     * @param Validatable|ParameterValidationRule|callable $rule
-     * @return self
      */
-    public function each($rule): self
+    public function each(Validatable|ParamValidationRule|callable $rule): self
     {
         $this->setValidatorForEach($this->buildValidationRule($rule));
         return $this;
@@ -113,7 +107,7 @@ class CsvFormat extends AbstractParamFormat
      *
      * @param ParamValidationRule $rule
      */
-    public function setValidatorForEach(ParamValidationRule $rule)
+    public function setValidatorForEach(ParamValidationRule $rule): void
     {
         $this->validatorForEach = $rule;
     }
@@ -123,7 +117,7 @@ class CsvFormat extends AbstractParamFormat
      *
      * These run after validation but before any custom preparation steps
      *
-     * @return array|PreparationStep[]
+     * @return array<int,PreparationStep>
      */
     public function getPreparationSteps(): array
     {
@@ -134,9 +128,6 @@ class CsvFormat extends AbstractParamFormat
         ];
     }
 
-    /**
-     * @return string|null
-     */
     public function getDocumentation(): ?string
     {
         $separator = implode('', $this->separator);

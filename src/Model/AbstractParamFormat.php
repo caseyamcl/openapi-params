@@ -59,7 +59,7 @@ abstract class AbstractParamFormat implements ParamFormat
         if (static::NAME) {
             return (string) static::NAME;
         } elseif ($shortName = (new ReflectionClass($this))->getShortName()) {
-            if (substr($shortName, -6) === 'Format') {
+            if (str_ends_with($shortName, 'Format')) {
                 return strtolower(substr($shortName, 0, strlen($shortName) - 6));
             }
         }

@@ -36,14 +36,11 @@ use OpenApiParams\Model\ParameterValues;
 class RespectValidationStep implements PreparationStep
 {
     /**
-     * @var array|ParameterValidationRule[]
+     * @var array<int,ParameterValidationRule>
      */
-    private $rules = [];
+    private array $rules = [];
 
-    /**
-     * @var Validator
-     */
-    private $validator;
+    private Validator $validator;
 
     /**
      * RespectValidationStep constructor.
@@ -58,7 +55,7 @@ class RespectValidationStep implements PreparationStep
         }
     }
 
-    private function addRule(ParameterValidationRule $rule)
+    private function addRule(ParameterValidationRule $rule): void
     {
         $this->rules[] = $rule;
         $this->validator->addRule($rule->getValidator());
@@ -94,10 +91,10 @@ class RespectValidationStep implements PreparationStep
      *
      * @param mixed $value
      * @param string $paramName
-     * @param ParameterValues $allAllValues
+     * @param ParameterValues $allValues
      * @return mixed
      */
-    public function __invoke($value, string $paramName, ParameterValues $allAllValues)
+    public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
         try {
             $this->validator->assert($value);

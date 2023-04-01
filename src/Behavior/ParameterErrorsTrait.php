@@ -56,7 +56,7 @@ trait ParameterErrorsTrait
 
         $arr = [];
 
-        foreach ($this->getErrors() as $pointer => $error) {
+        foreach ($this->getErrors() as $error) {
             $newErr = $addPrefix($error);
             $arr[$newErr->getPointer()] = $newErr;
         }

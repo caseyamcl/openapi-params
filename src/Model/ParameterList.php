@@ -148,17 +148,11 @@ class ParameterList implements IteratorAggregate, Countable
         return $this->name;
     }
 
-    /**
-     * @return ArrayObject
-     */
     public function getParameters(): ArrayObject
     {
         return $this->items;
     }
 
-    /**
-     * @return ParameterValuesContext|null
-     */
     public function getContext(): ?ParameterValuesContext
     {
         return $this->context;
@@ -166,8 +160,6 @@ class ParameterList implements IteratorAggregate, Countable
 
     /**
      * Get the OpenAPI documentation for this set of parameters
-     *
-     * @return array
      */
     public function getApiDocumentation(): array
     {
@@ -178,10 +170,6 @@ class ParameterList implements IteratorAggregate, Countable
         return $apiDocs;
     }
 
-    /**
-     * @param string $name
-     * @return Parameter
-     */
     public function get(string $name): Parameter
     {
         if ($this->has($name)) {
@@ -193,9 +181,6 @@ class ParameterList implements IteratorAggregate, Countable
 
     /**
      * Check if a parameter is set
-     *
-     * @param string $name
-     * @return bool
      */
     public function has(string $name): bool
     {
@@ -205,9 +190,6 @@ class ParameterList implements IteratorAggregate, Countable
     // --------------------------------------------------------------
     // Methods to implement interfaces
 
-    /**
-     * @return int
-     */
     public function count(): int
     {
         return $this->items->count();
@@ -221,8 +203,7 @@ class ParameterList implements IteratorAggregate, Countable
     }
 
     /**
-     *
-     * @return iterable|Parameter[]
+     * @return iterable<int,Parameter>
      * @throws CircularDependencyException
      * @throws ElementNotFoundException
      */
@@ -239,9 +220,6 @@ class ParameterList implements IteratorAggregate, Countable
         }
     }
 
-    /**
-     * @return ParameterList
-     */
     protected function getParameterList(): ParameterList
     {
         return $this;

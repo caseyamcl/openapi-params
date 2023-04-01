@@ -39,32 +39,19 @@ class ArrayParameter extends Parameter
     public const PHP_DATA_TYPE = 'array';
 
     /**
-     * @var array|Parameter[]
+     * @var array<int,Parameter>
      */
-    private $allowedTypes = [];
+    private array $allowedTypes = [];
+    private bool $uniqueItems = false;
+    private ?int $minItems = null;
+    private ?int $maxItems = null;
+    /**
+     * @var array<int,PreparationStep>
+     */
+    private array $extraPreparationSteps = [];
 
     /**
-     * @var bool
-     */
-    private $uniqueItems = false;
-
-    /**
-     * @var int|null
-     */
-    private $minItems = null;
-
-    /**
-     * @var int|null
-     */
-    private $maxItems = null;
-
-    /**
-     * @var array|PreparationStep[]
-     */
-    private $extraPreparationSteps = [];
-
-    /**
-     * @return array
+     * @return array<string,mixed>
      */
     protected function listExtraDocumentationItems(): array
     {
@@ -90,7 +77,7 @@ class ArrayParameter extends Parameter
      * Specify that all items must be unique
      *
      * @param bool $uniqueItems
-     * @return ArrayParameter
+     * @return self
      */
     final public function setUniqueItems(bool $uniqueItems): self
     {
@@ -102,9 +89,9 @@ class ArrayParameter extends Parameter
      * Set minimum items number of items (null for no minimum)
      *
      * @param int|null $minItems
-     * @return ArrayParameter
+     * @return self
      */
-    final public function setMinItems(?int $minItems): ArrayParameter
+    final public function setMinItems(?int $minItems): self
     {
         $this->minItems = $minItems;
         return $this;
@@ -114,16 +101,16 @@ class ArrayParameter extends Parameter
      * Set maximum allowable number of items (null for no maximum)
      *
      * @param int|null $maxItems
-     * @return ArrayParameter
+     * @return self
      */
-    final public function setMaxItems(?int $maxItems): ArrayParameter
+    final public function setMaxItems(?int $maxItems): self
     {
         $this->maxItems = $maxItems;
         return $this;
     }
 
     /**
-     * @return array
+     * @return array<int,PreparationStep>
      */
     protected function getPostValidationPreparationSteps(): array
     {
@@ -161,7 +148,7 @@ class ArrayParameter extends Parameter
      * Must be 'string', 'integer', 'array', 'object', 'number', or 'boolean'
      *
      * @param string ...$type
-     * @return ArrayParameter|self
+     * @return self
      */
     final public function addAllowedType(string ...$type): self
     {
@@ -176,7 +163,7 @@ class ArrayParameter extends Parameter
      * Add an allowed type in the form of a parameter
      *
      * @param Parameter $parameter
-     * @return ArrayParameter
+     * @return self
      */
     final public function addAllowedParamDefinition(Parameter $parameter): self
     {
@@ -190,7 +177,7 @@ class ArrayParameter extends Parameter
     /**
      * Array Deserialize is a pre-type cast preparation step
      *
-     * @return array
+     * @return array<int,PreparationStep>
      */
     protected function getPreTypeCastPreparationSteps(): array
     {
@@ -205,7 +192,7 @@ class ArrayParameter extends Parameter
      *
      * These are added to the validation preparation step automatically
      *
-     * @return array|ParameterValidationRule[]
+     * @return array<int,ParameterValidationRule>
      */
     protected function getBuiltInValidationRules(): array
     {
@@ -243,7 +230,7 @@ class ArrayParameter extends Parameter
      *
      * Flatten the allowedTypes property
      *
-     * @return array|Parameter[]
+     * @return array<int,Parameter>
      */
     private function listAllowedTypes(): array
     {

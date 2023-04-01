@@ -26,16 +26,16 @@ namespace OpenApiParams\Utility;
 class UnpackCSV
 {
     /**
-     * @var array|string[]
+     * @var array<int,string>
      */
-    private $defaultSeparators;
+    private array $defaultSeparators = [];
 
     /**
      * @param string $value
-     * @param array|string[]|string $separators
-     * @return array|string[]
+     * @param array<int,string>|string $separators
+     * @return array<int,string>
      */
-    public static function un(string $value, $separators = [','])
+    public static function un(string $value, array|string $separators = [','])
     {
         static $that;
         if (! $that) {
@@ -47,9 +47,9 @@ class UnpackCSV
 
     /**
      * UnpackCSV constructor.
-     * @param array|string[]|string $separators
+     * @param array<int,string>|string $separators
      */
-    public function __construct($separators = [','])
+    public function __construct(array|string $separators = [','])
     {
         $this->defaultSeparators = (array) $separators;
     }
@@ -58,20 +58,20 @@ class UnpackCSV
      * Invoke
      *
      * @param string $value
-     * @param array $separators
-     * @return array|string[]
+     * @param array<int,string> $separators
+     * @return array<int,string>
      */
-    public function __invoke(string $value, $separators = null)
+    public function __invoke(string $value, array $separators = null): array
     {
         return $this->unpack($value, (array) $separators);
     }
 
     /**
      * @param string $value
-     * @param array|string|string[] $separators
-     * @return array|string[]
+     * @param array<int,string>|string $separators
+     * @return array<int,string>
      */
-    public function unpack(string $value, $separators = null)
+    public function unpack(string $value, array|string $separators = '')
     {
         $separators = $separators ? (array) $separators : $this->defaultSeparators;
 

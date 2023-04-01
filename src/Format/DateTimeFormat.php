@@ -52,8 +52,8 @@ class DateTimeFormat extends AbstractParamFormat
     /**
      * DateTimeFormat constructor.
      *
-     * @param DateTimeInterface|null $earliest  Specify oldest allowable date/time (inclusive)
-     * @param DateTimeInterface|null $latest  Specify newest allowable date/time (inclusive)
+     * @param DateTimeInterface|null $earliest  Specify the oldest allowable date/time (inclusive)
+     * @param DateTimeInterface|null $latest  Specify the newest allowable date/time (inclusive)
      */
     public function __construct(?DateTimeInterface $earliest = null, DateTimeInterface $latest = null)
     {
@@ -83,7 +83,7 @@ class DateTimeFormat extends AbstractParamFormat
      *
      * These are added to the validation preparation step automatically
      *
-     * @return array|ParameterValidationRule[]
+     * @return array<int,ParameterValidationRule>
      */
     public function getValidationRules(): array
     {
@@ -117,7 +117,7 @@ class DateTimeFormat extends AbstractParamFormat
      *
      * These run after validation but before any custom preparation steps
      *
-     * @return array|PreparationStep[]
+     * @return array<int,PreparationStep>
      */
     public function getPreparationSteps(): array
     {
@@ -128,17 +128,11 @@ class DateTimeFormat extends AbstractParamFormat
         ];
     }
 
-    /**
-     * @return string|null
-     */
     public function getDocumentation(): ?string
     {
         return 'Value must be a valid RFC 3339 (section 5.6) date-time; e.g. "' . static::DATE_FORMAT_EXAMPLE . '".';
     }
 
-    /**
-     * @return ParamValidationRule
-     */
     protected function getBaseRule(): ParamValidationRule
     {
         return new ParameterValidationRule(

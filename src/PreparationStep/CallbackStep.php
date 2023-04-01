@@ -30,20 +30,9 @@ use OpenApiParams\Model\ParameterValues;
  */
 class CallbackStep implements PreparationStep
 {
-    /**
-     * @var callable
-     */
     private $step;
-
-    /**
-     * @var string
-     */
-    private $description;
-
-    /**
-     * @var string|null
-     */
-    private $documentation;
+    private string $description;
+    private ?string $documentation;
 
     /**
      * CallbackStep constructor.
@@ -61,8 +50,6 @@ class CallbackStep implements PreparationStep
 
     /**
      * Get documentation for this preparation step to include parameter notes
-     *
-     * @return string
      */
     public function __toString(): string
     {
@@ -77,7 +64,7 @@ class CallbackStep implements PreparationStep
      * @param ParameterValues $allValues
      * @return mixed
      */
-    public function __invoke($value, string $paramName, ParameterValues $allValues)
+    public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
         try {
             return call_user_func($this->step, $value);
@@ -91,8 +78,6 @@ class CallbackStep implements PreparationStep
      *
      * If this step defines a rule that is important to be included in the API documentation, then include
      * it here.  e.g. "value must be ..."
-     *
-     * @return string|null
      */
     public function getApiDocumentation(): ?string
     {

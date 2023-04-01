@@ -41,18 +41,11 @@ interface PreparationStep
 
     /**
      * Describe what this step does (will appear in debug log if enabled)
-     *
-     * @return string
      */
     public function __toString(): string;
 
     /**
      * Prepare a parameter
-     *
-     * @param mixed $value The current value to be processed
-     * @param string $paramName
-     * @param ParameterValues $allValues All the values
-     * @return mixed
      */
-    public function __invoke($value, string $paramName, ParameterValues $allValues);
+    public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed;
 }

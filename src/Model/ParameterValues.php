@@ -33,15 +33,8 @@ use Traversable;
  */
 final class ParameterValues implements Countable, IteratorAggregate
 {
-    /**
-     * @var array
-     */
-    private $values = [];
-
-    /**
-     * @var ParameterValuesContext
-     */
-    private $context;
+    private array $values = [];
+    private ParameterValuesContext $context;
 
     /**
      * Create parameter values using single parameter value
@@ -52,17 +45,15 @@ final class ParameterValues implements Countable, IteratorAggregate
      * @return ParameterValues
      */
     public static function single(
-        $value,
+        mixed $value,
         ?ParameterValuesContext $context = null,
         string $name = '(no name)'
     ): ParameterValues {
-        return new static([$name => $value], $context);
+        return new self([$name => $value], $context);
     }
 
     /**
      * ParameterValues constructor.
-     * @param iterable|Traversable $values
-     * @param ParameterValuesContext $context
      */
     public function __construct(iterable $values, ?ParameterValuesContext $context = null)
     {
@@ -85,20 +76,13 @@ final class ParameterValues implements Countable, IteratorAggregate
 
     /**
      * Returns TRUE if the value was passed, even if the value itself is NULL
-     *
-     * @param string $name
-     * @return bool
      */
     public function hasValue(string $name): bool
     {
         return isset($this->values[$name]);
     }
 
-    /**
-     * @param string $name
-     * @return mixed
-     */
-    public function getPreparedValue(string $name)
+    public function getPreparedValue(string $name): mixed
     {
         if ($this->hasValue($name)) {
             return $this->values[$name]->getPreparedValue();
@@ -107,11 +91,7 @@ final class ParameterValues implements Countable, IteratorAggregate
         }
     }
 
-    /**
-     * @param string $name
-     * @return mixed
-     */
-    public function getRawValue(string $name)
+    public function getRawValue(string $name): mixed
     {
         if ($this->hasValue($name)) {
             return $this->values[$name]->getRawValue();
@@ -122,9 +102,6 @@ final class ParameterValues implements Countable, IteratorAggregate
 
     /**
      * Get the ParameterValue item for a parameter
-     *
-     * @param string $name
-     * @return ParameterValue
      */
     public function get(string $name): ParameterValue
     {
@@ -136,9 +113,9 @@ final class ParameterValues implements Countable, IteratorAggregate
     }
 
     /**
-     * @return ArrayIterator|ParameterValue[]
+     * @return ArrayIterator<int,ParameterValue>
      */
-    public function getIterator()
+    public function getIterator(): ArrayIterator
     {
         return new ArrayIterator($this->values);
     }
@@ -146,29 +123,22 @@ final class ParameterValues implements Countable, IteratorAggregate
     /**
      * List parameter names as array
      *
-     * @return array|string[]
+     * @return array<int,string>
      */
     public function listNames(): array
     {
         return array_keys($this->values);
     }
 
-    /**
-     * @return int
-     */
-    public function count()
+    public function count(): int
     {
         return count($this->values);
     }
 
     /**
      * Get a copy of this object with added raw value
-     *
-     * @param string $name
-     * @param mixed $rawValue
-     * @return ParameterValues
      */
-    public function withRawValue(string $name, $rawValue): ParameterValues
+    public function withRawValue(string $name, mixed $rawValue): ParameterValues
     {
         if ($name === '') {
             throw new RuntimeException('Cannot add a raw value for parameter with no name');
@@ -185,12 +155,8 @@ final class ParameterValues implements Countable, IteratorAggregate
      * Get a copy of this object with value set to prepared
      *
      * NOTE: This method can only be run once per parameter
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return ParameterValues
      */
-    public function withPreparedValue(string $name, $value): ParameterValues
+    public function withPreparedValue(string $name, mixed $value): ParameterValues
     {
         if ($name === '') {
             throw new RuntimeException('Cannot set prepared value for parameter with no name');

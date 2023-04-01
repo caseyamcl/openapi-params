@@ -43,7 +43,7 @@ class DateFormat extends DateTimeFormat
      *
      * These run after validation but before any custom preparation steps
      *
-     * @return array|PreparationStep[]
+     * @return array<int,PreparationStep>
      */
     public function getPreparationSteps(): array
     {

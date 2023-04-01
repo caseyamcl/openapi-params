@@ -42,9 +42,9 @@ class IntegerParameter extends AbstractNumericParameter
     }
 
     /**
-     * @return ParamFormat|null
+     * @return ParamFormat
      */
-    protected function buildFormat(): ?ParamFormat
+    protected function buildFormat(): ParamFormat
     {
         return PHP_INT_SIZE === 8 ? new Int64Format() : new Int32Format();
     }

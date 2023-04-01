@@ -85,10 +85,10 @@ class EnsureCorrectDataTypeStep implements PreparationStep
      *
      * @param mixed $value
      * @param string $paramName
-     * @param ParameterValues $allAllValues
+     * @param ParameterValues $allValues
      * @return mixed
      */
-    public function __invoke($value, string $paramName, ParameterValues $allAllValues)
+    public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
         if (in_array(gettype($value), $this->phpDataTypes)) {
             return $value;

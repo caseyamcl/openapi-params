@@ -35,19 +35,16 @@ class StandardDeserializer implements ParameterDeserializer
      *
      * Example: "3,4,5" becomes ['3', '4', '5']
      *
-     * @param string|array $value
+     * @param mixed $value
      * @return array
      */
-    public function deserializeArray($value): array
+    public function deserializeArray(mixed $value): array
     {
-        switch (true) {
-            case is_array($value):
-                return $value;
-            case is_string($value):
-                return UnpackCSV::un($value);
-            default:
-                throw new InvalidArgumentException('Cannot deserialize value (expected array or string');
-        }
+        return match (true) {
+            is_array($value) => $value,
+            is_string($value) => UnpackCSV::un($value),
+            default => throw new InvalidArgumentException('Cannot deserialize value (expected array or string'),
+        };
     }
 
     /**
@@ -67,7 +64,7 @@ class StandardDeserializer implements ParameterDeserializer
                 return (object) $value;
             case is_string($value):
                 foreach (UnpackCSV::un($value) as $val) {
-                    if (strpos($val, '=') !== false) {
+                    if (str_contains($val, '=')) {
                         list($k, $v) = explode('=', $val, 2);
                         $arr[$k] = $v;
                     } else {
