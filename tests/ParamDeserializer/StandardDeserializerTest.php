@@ -30,7 +30,7 @@ class StandardDeserializerTest extends TestCase
         $this->assertEquals([1, 2, 3], (new StandardDeserializer())->deserializeArray($val));
     }
 
-    public function validArraysProvider(): array
+    public static function validArraysProvider(): array
     {
         return [
             [[1, 2, 3]],
@@ -52,7 +52,7 @@ class StandardDeserializerTest extends TestCase
         );
     }
 
-    public function validObjectsProvider(): array
+    public static function validObjectsProvider(): array
     {
         return [
             [['name' => 'Bob', 'age' => 25]],

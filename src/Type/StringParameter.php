@@ -30,7 +30,6 @@ use OpenApiParams\PreparationStep\CallbackStep;
 use OpenApiParams\PreparationStep\SanitizeStep;
 use OpenApiParams\Utility\FilterNull;
 use Respect\Validation\Validator;
-use Throwable;
 use Webmozart\Assert\Assert;
 
 /**
@@ -44,7 +43,7 @@ class StringParameter extends Parameter
     public const PHP_DATA_TYPE = 'string';
 
     /**
-     * @var string  Regex pattern without slashes
+     * @var string|null Regex pattern without slashes
      */
     private ?string $pattern = null;
     private ?int $minLength = null;
@@ -227,10 +226,8 @@ class StringParameter extends Parameter
         $pattern = ($pattern[0] !== '/') ? '/' . $pattern . '/' : $pattern;
 
         // Test regex to ensure it is valid.
-        try {
-            preg_match($pattern, '');
-        } catch (Throwable $e) {
-            throw new InvalidArgumentException('Pattern must be a valid regular expression', $e->getCode(), $e);
+        if (preg_match($pattern, '') === false) {
+            throw new InvalidArgumentException('Pattern must be a valid regular expression');
         }
 
         $this->pattern = $pattern;

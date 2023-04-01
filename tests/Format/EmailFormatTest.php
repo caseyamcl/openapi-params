@@ -18,11 +18,11 @@ namespace OpenApiParams\Format;
 
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Exception\InvalidValueException;
-use OpenApiParams\Model\AbstractParamFormatTest;
+use OpenApiParams\Model\AbstractParamFormatTestBase;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Type\StringParameter;
 
-class EmailFormatTest extends AbstractParamFormatTest
+class EmailFormatTest extends AbstractParamFormatTestBase
 {
     public function testValidValueIsPrepared()
     {

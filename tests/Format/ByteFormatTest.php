@@ -16,7 +16,7 @@
 
 namespace OpenApiParams\Format;
 
-use OpenApiParams\Model\AbstractParamFormatTest;
+use OpenApiParams\Model\AbstractParamFormatTestBase;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
@@ -28,7 +28,7 @@ use OpenApiParams\Type\StringParameter;
  *
  * @package OpenApi-Params\Format
  */
-class ByteFormatTest extends AbstractParamFormatTest
+class ByteFormatTest extends AbstractParamFormatTestBase
 {
     public function testValidValueIsPrepared(): void
     {

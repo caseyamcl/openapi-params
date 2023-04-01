@@ -16,7 +16,7 @@
 
 namespace OpenApiParams\Type;
 
-use OpenApiParams\AbstractParameterTest;
+use OpenApiParams\AbstractParameterTestBase;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\PreparationStep\RespectValidationStep;
@@ -26,7 +26,7 @@ use OpenApiParams\PreparationStep\RespectValidationStep;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ObjectParameterTest extends AbstractParameterTest
+class ObjectParameterTest extends AbstractParameterTestBase
 {
     public function testSetSchemaName()
     {
@@ -169,7 +169,7 @@ class ObjectParameterTest extends AbstractParameterTest
 
     // --------------------------------------------------------------
 
-    protected function getTwoOrMoreValidValues(): array
+    protected static function getTwoOrMoreValidValues(): array
     {
         return [
             (object) ['foo' => 'bar', 'baz' => 'biz'],
@@ -181,9 +181,9 @@ class ObjectParameterTest extends AbstractParameterTest
     /**
      * Return values that are not the correct type, but can be automatically type-cast if that is enabled
      *
-     * @return array|mixed[]  Values for type cast check
+     * @return array<string,mixed>  Values for type cast check
      */
-    protected function getValuesForTypeCastTest(): array
+    protected static function getValuesForTypeCastTest(): array
     {
         return [
             ['test' => 'array', 'to' => 'object'],

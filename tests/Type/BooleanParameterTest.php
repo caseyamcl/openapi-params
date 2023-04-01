@@ -16,7 +16,7 @@
 
 namespace OpenApiParams\Type;
 
-use OpenApiParams\AbstractParameterTest;
+use OpenApiParams\AbstractParameterTestBase;
 use OpenApiParams\Model\Parameter;
 
 /**
@@ -24,12 +24,12 @@ use OpenApiParams\Model\Parameter;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class BooleanParameterTest extends AbstractParameterTest
+class BooleanParameterTest extends AbstractParameterTestBase
 {
     /**
      * @return array
      */
-    protected function getTwoOrMoreValidValues(): array
+    protected static function getTwoOrMoreValidValues(): array
     {
         return [true, false];
     }
@@ -40,7 +40,7 @@ class BooleanParameterTest extends AbstractParameterTest
      *
      * @return array|mixed[]  Values for type cast check
      */
-    protected function getValuesForTypeCastTest(): array
+    protected static function getValuesForTypeCastTest(): array
     {
         return [1, '1', 0, '0'];
     }

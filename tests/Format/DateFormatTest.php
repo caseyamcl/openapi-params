@@ -26,7 +26,7 @@ use OpenApiParams\Type\StringParameter;
  */
 class DateFormatTest extends DateTimeFormatTest
 {
-    public function dateTimeProvider(): array
+    public static function dateTimeProvider(): array
     {
         return [
             ['2002-10-02'],

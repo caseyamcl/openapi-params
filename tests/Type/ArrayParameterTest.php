@@ -17,7 +17,7 @@
 namespace OpenApiParams\Type;
 
 use InvalidArgumentException;
-use OpenApiParams\AbstractParameterTest;
+use OpenApiParams\AbstractParameterTestBase;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Model\ParameterValues;
@@ -28,7 +28,7 @@ use OpenApiParams\PreparationStep\CallbackStep;
 use OpenApiParams\PreparationStep\RespectValidationStep;
 use stdClass;
 
-class ArrayParameterTest extends AbstractParameterTest
+class ArrayParameterTest extends AbstractParameterTestBase
 {
     public function testHeterogeneousTypesAllowedWhenNoTypesAdded()
     {
@@ -236,7 +236,7 @@ class ArrayParameterTest extends AbstractParameterTest
     /**
      * @return array
      */
-    protected function getTwoOrMoreValidValues(): array
+    protected static function getTwoOrMoreValidValues(): array
     {
         return [
             [1, 2, 3],
@@ -248,18 +248,18 @@ class ArrayParameterTest extends AbstractParameterTest
     /**
      * Return values that are not the correct type, but can be automatically type-cast if that is enabled
      *
-     * @return array|mixed[]  Values for type cast check
+     * @return array<int,mixed>  Values for type cast check
      */
-    protected function getValuesForTypeCastTest(): array
+    protected static function getValuesForTypeCastTest(): array
     {
         return ['a', 1, 35.0, true]; // non-array values will be type-cast
     }
 
     /**
      * @param string $name
-     * @return Parameter|ArrayParameter
+     * @return ArrayParameter
      */
-    protected function getInstance(string $name = 'test'): Parameter
+    protected function getInstance(string $name = 'test'): ArrayParameter
     {
         return new ArrayParameter($name);
     }

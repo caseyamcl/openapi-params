@@ -18,13 +18,13 @@ namespace OpenApiParams\Format;
 
 use Carbon\CarbonImmutable;
 use Exception;
-use OpenApiParams\Model\AbstractParamFormatTest;
+use OpenApiParams\Model\AbstractParamFormatTestBase;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Type\StringParameter;
 
-class DateTimeFormatTest extends AbstractParamFormatTest
+class DateTimeFormatTest extends AbstractParamFormatTestBase
 {
     /**
      * @param string $dtString
@@ -42,7 +42,7 @@ class DateTimeFormatTest extends AbstractParamFormatTest
         $this->assertSame((new CarbonImmutable($dtString))->format($format), $date->format($format));
     }
 
-    public function dateTimeProvider(): array
+    public static function dateTimeProvider(): array
     {
         return [
             ['2002-10-02T10:00:00-05:00'],

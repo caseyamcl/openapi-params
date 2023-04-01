@@ -16,7 +16,7 @@
 
 namespace OpenApiParams\Format;
 
-use OpenApiParams\Model\AbstractParamFormatTest;
+use OpenApiParams\Model\AbstractParamFormatTestBase;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Model\ParameterValidationRule;
@@ -27,7 +27,7 @@ use Respect\Validation\Validator;
  * Class CsvFormatTest
  * @package OpenApi-Params\Format
  */
-class CsvFormatTest extends AbstractParamFormatTest
+class CsvFormatTest extends AbstractParamFormatTestBase
 {
     public function testEach()
     {
@@ -80,7 +80,7 @@ class CsvFormatTest extends AbstractParamFormatTest
         );
     }
 
-    public function separatorInConstructorDataProvider(): array
+    public static function separatorInConstructorDataProvider(): array
     {
         return [
             [',', 'test1,test2,test3'],

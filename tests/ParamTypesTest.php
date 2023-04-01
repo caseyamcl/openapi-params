@@ -45,7 +45,7 @@ class ParamTypesTest extends TestCase
         $this->assertSame($value->getTypeName(), $expectedType);
     }
 
-    public function valueProvider()
+    public static function valueProvider(): array
     {
         return [
             [new stdClass(), ParamTypes::OBJECT],

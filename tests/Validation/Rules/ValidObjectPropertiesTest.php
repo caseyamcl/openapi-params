@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Validation\Rules;
 
-use OpenApiParams\Validation\AbstractValidatorRuleTest;
+use OpenApiParams\Validation\AbstractValidatorRuleTestBase;
 use OpenApiParams\Validation\Exceptions\ValidObjectPropertiesException;
 use stdClass;
 
@@ -27,7 +27,7 @@ use stdClass;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ValidObjectPropertiesTest extends AbstractValidatorRuleTest
+class ValidObjectPropertiesTest extends AbstractValidatorRuleTestBase
 {
     public function testValid()
     {

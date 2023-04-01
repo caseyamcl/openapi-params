@@ -17,10 +17,10 @@
 namespace OpenApiParams\ParamContext;
 
 use OpenApiParams\Model\ParameterValuesContext;
-use OpenApiParams\Model\ParameterValuesContextTest;
+use OpenApiParams\Model\ParameterValuesContextTestBase;
 use Psr\Log\LoggerInterface;
 
-class ParamQueryContextTest extends ParameterValuesContextTest
+class ParamQueryContextTest extends ParameterValuesContextTestBase
 {
     protected function getContextInstance(LoggerInterface $logger = null): ParameterValuesContext
     {

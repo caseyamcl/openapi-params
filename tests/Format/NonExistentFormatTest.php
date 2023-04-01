@@ -16,16 +16,16 @@
 
 declare(strict_types=1);
 
-namespace Format;
+namespace OpenApiParams\Format;
 
-use OpenApiParams\Model\AbstractParamFormatTest;
+use OpenApiParams\Model\AbstractParamFormatTestBase;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Model\AbstractParamFormat;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Type\StringParameter;
 use RuntimeException;
 
-class NonExistentFormatTest extends AbstractParamFormatTest
+class NonExistentFormatTest extends AbstractParamFormatTestBase
 {
     public function testGetName()
     {

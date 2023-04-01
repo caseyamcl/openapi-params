@@ -32,7 +32,7 @@ class EnumCheckStepTest extends TestCase
         $this->assertSame($expected, (new EnumCheckStep($value))->__toString());
     }
 
-    public function valuesDataProvider(): iterable
+    public static function valuesDataProvider(): iterable
     {
         yield [['a', 'b'], 'a, b'];
         yield [['a'], 'a'];

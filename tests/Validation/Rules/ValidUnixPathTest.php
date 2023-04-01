@@ -16,10 +16,10 @@
 
 namespace OpenApiParams\Validation\Rules;
 
-use OpenApiParams\Validation\AbstractValidatorRuleTest;
+use OpenApiParams\Validation\AbstractValidatorRuleTestBase;
 use OpenApiParams\Validation\Exceptions\ValidUnixPathException;
 
-class ValidUnixPathTest extends AbstractValidatorRuleTest
+class ValidUnixPathTest extends AbstractValidatorRuleTestBase
 {
     /**
      * @dataProvider validUnixPathProvider
@@ -29,7 +29,7 @@ class ValidUnixPathTest extends AbstractValidatorRuleTest
         $this->assertTrue((new ValidUnixPath())->validate($unixPath));
     }
 
-    public function validUnixPathProvider(): array
+    public static function validUnixPathProvider(): array
     {
         return [
             ['/test'],
@@ -59,7 +59,7 @@ class ValidUnixPathTest extends AbstractValidatorRuleTest
         (new ValidUnixPath(true))->assert($unixPath);
     }
 
-    public function invalidUnixPathProvider(): array
+    public static function invalidUnixPathProvider(): array
     {
         return [
             ['@'],

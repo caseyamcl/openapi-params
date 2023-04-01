@@ -21,7 +21,7 @@ use OpenApiParams\Contract\ParamValidationRule;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Contract\PreparationStep;
 
-abstract class AbstractParamFormatTest extends TestCase
+abstract class AbstractParamFormatTestBase extends TestCase
 {
     public function testGetName()
     {

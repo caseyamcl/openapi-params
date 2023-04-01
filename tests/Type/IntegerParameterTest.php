@@ -16,21 +16,17 @@
 
 namespace OpenApiParams\Type;
 
-use OpenApiParams\Model\AbstractNumericParameterTest;
+use OpenApiParams\Model\AbstractNumericParameterTestBase;
 use OpenApiParams\Model\Parameter;
 
-class IntegerParameterTest extends AbstractNumericParameterTest
+class IntegerParameterTest extends AbstractNumericParameterTestBase
 {
-    /**
-     * @param int $value
-     * @return double|float|int
-     */
-    protected function cast(int $value)
+    protected function cast(int|float $value): int
     {
         return (int) $value;
     }
 
-    protected function getTwoOrMoreValidValues(): array
+    protected static function getTwoOrMoreValidValues(): array
     {
         return [1, -45, 20452];
     }
@@ -40,7 +36,7 @@ class IntegerParameterTest extends AbstractNumericParameterTest
      *
      * @return array|mixed[]  Values for type cast check
      */
-    protected function getValuesForTypeCastTest(): array
+    protected static function getValuesForTypeCastTest(): array
     {
         return ['34.5', '29', 52.0, -194.3];
     }

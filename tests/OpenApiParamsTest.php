@@ -40,7 +40,7 @@ class OpenApiParamsTest extends TestCase
     }
 
 
-    public function dataValuesProvider()
+    public static function dataValuesProvider(): array
     {
         return [
             [[OpenApiParams::class, 'queryParams'], ParamQueryContext::class],

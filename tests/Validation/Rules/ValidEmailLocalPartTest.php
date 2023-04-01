@@ -16,10 +16,10 @@
 
 namespace OpenApiParams\Validation\Rules;
 
-use OpenApiParams\Validation\AbstractValidatorRuleTest;
+use OpenApiParams\Validation\AbstractValidatorRuleTestBase;
 use OpenApiParams\Validation\Exceptions\ValidEmailLocalPartException;
 
-class ValidEmailLocalPartTest extends AbstractValidatorRuleTest
+class ValidEmailLocalPartTest extends AbstractValidatorRuleTestBase
 {
     public function testInvalidLocalPartThrowsException()
     {

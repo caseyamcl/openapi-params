@@ -33,7 +33,7 @@ use Respect\Validation\Validatable;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-abstract class AbstractParameterTest extends TestCase
+abstract class AbstractParameterTestBase extends TestCase
 {
     public function testParameterDocumentationContainsExpectedValues()
     {
@@ -163,7 +163,7 @@ abstract class AbstractParameterTest extends TestCase
         $value = current($this->getTwoOrMoreValidValues());
 
         $allValues = new ParameterValues(['test' => $value, 'foo' => 'bar']);
-        $param->prepare($value, $param->prepare($value, $allValues));
+        $param->prepare($value, $allValues);
     }
 
     public function testGetDefault(): void
@@ -240,7 +240,7 @@ abstract class AbstractParameterTest extends TestCase
     // --------------------------------------------------------------
     // Data providers for built-in methods
 
-    public function validValidationRuleProvider(): array
+    public static function validValidationRuleProvider(): array
     {
         return [
             [new ParameterValidationRule(new AlwaysValid(), 'always valid')],
@@ -254,21 +254,21 @@ abstract class AbstractParameterTest extends TestCase
     /**
      * @return array|array[]
      */
-    public function validValueDataProvider(): array
+    public static function validValueDataProvider(): array
     {
         return array_map(function ($value) {
             return [$value];
-        }, $this->getTwoOrMoreValidValues());
+        }, static::getTwoOrMoreValidValues());
     }
 
     /**
      * @return array|array[]
      */
-    public function typeCastDataProvider(): array
+    public static function typeCastDataProvider(): array
     {
         return array_map(function ($value) {
             return [$value];
-        }, $this->getValuesForTypeCastTest());
+        }, static::getValuesForTypeCastTest());
     }
 
     // --------------------------------------------------------------
@@ -277,16 +277,16 @@ abstract class AbstractParameterTest extends TestCase
     /**
      * Get at-least two valid values (preferably three or more)
      *
-     * @return array|mixed[]
+     * @return array
      */
-    abstract protected function getTwoOrMoreValidValues(): array;
+    abstract protected static function getTwoOrMoreValidValues(): array;
 
     /**
      * Return values that are not the correct type, but can be automatically type-cast if that is enabled
      *
-     * @return array|mixed[]  Values for type cast check
+     * @return array Values for type cast check
      */
-    abstract protected function getValuesForTypeCastTest(): array;
+    abstract protected static function getValuesForTypeCastTest(): array;
 
     /**
      * @param string $name

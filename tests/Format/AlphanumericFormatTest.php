@@ -17,7 +17,7 @@
 namespace OpenApiParams\Format;
 
 use OpenApiParams\Contract\ParamFormat;
-use OpenApiParams\Model\AbstractParamFormatTest;
+use OpenApiParams\Model\AbstractParamFormatTestBase;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Type\StringParameter;
@@ -27,7 +27,7 @@ use OpenApiParams\Type\StringParameter;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class AlphanumericFormatTest extends AbstractParamFormatTest
+class AlphanumericFormatTest extends AbstractParamFormatTestBase
 {
     public function testValidValueIsPrepared()
     {

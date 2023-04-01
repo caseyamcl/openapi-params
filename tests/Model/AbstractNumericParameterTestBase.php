@@ -16,7 +16,7 @@
 
 namespace OpenApiParams\Model;
 
-use OpenApiParams\AbstractParameterTest;
+use OpenApiParams\AbstractParameterTestBase;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\PreparationStep\RespectValidationStep;
 
@@ -26,7 +26,7 @@ use OpenApiParams\PreparationStep\RespectValidationStep;
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  * @method AbstractNumericParameter getInstance(string $name = 'test')
  */
-abstract class AbstractNumericParameterTest extends AbstractParameterTest
+abstract class AbstractNumericParameterTestBase extends AbstractParameterTestBase
 {
     public function testGetMultipleOf()
     {

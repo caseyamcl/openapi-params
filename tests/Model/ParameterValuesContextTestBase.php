@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 
-abstract class ParameterValuesContextTest extends TestCase
+abstract class ParameterValuesContextTestBase extends TestCase
 {
     public function testToStringReturnsContextName()
     {

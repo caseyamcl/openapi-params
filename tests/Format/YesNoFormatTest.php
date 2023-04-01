@@ -16,13 +16,13 @@
 
 namespace OpenApiParams\Format;
 
-use OpenApiParams\Model\AbstractParamFormatTest;
+use OpenApiParams\Model\AbstractParamFormatTestBase;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Type\StringParameter;
 
-class YesNoFormatTest extends AbstractParamFormatTest
+class YesNoFormatTest extends AbstractParamFormatTestBase
 {
     /**
      * @dataProvider validDataProvider
@@ -44,7 +44,7 @@ class YesNoFormatTest extends AbstractParamFormatTest
         $this->getParameterWithFormat()->prepare($value);
     }
 
-    public function invalidDataProvider(): array
+    public static function invalidDataProvider(): array
     {
         return [
             ['foo'],
@@ -57,7 +57,7 @@ class YesNoFormatTest extends AbstractParamFormatTest
     /**
      * @return iterable
      */
-    public function validDataProvider(): iterable
+    public static function validDataProvider(): iterable
     {
         foreach (YesNoFormat::BOOLEAN_MAP as $key => $value) {
             yield [(string) $key, $value];

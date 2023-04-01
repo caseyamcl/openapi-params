@@ -17,13 +17,13 @@
 namespace OpenApiParams\Format;
 
 use Carbon\CarbonImmutable;
-use OpenApiParams\Model\AbstractParamFormatTest;
+use OpenApiParams\Model\AbstractParamFormatTestBase;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Type\StringParameter;
 
-class TemporalFormatTest extends AbstractParamFormatTest
+class TemporalFormatTest extends AbstractParamFormatTestBase
 {
     /**
      * @dataProvider validValuesDataProvider
@@ -44,7 +44,7 @@ class TemporalFormatTest extends AbstractParamFormatTest
         $this->getParameterWithFormat()->prepare($value);
     }
 
-    public function invalidValuesDataProvider(): array
+    public static function invalidValuesDataProvider(): array
     {
         return [
             ['foo'],
@@ -52,7 +52,7 @@ class TemporalFormatTest extends AbstractParamFormatTest
         ];
     }
 
-    public function validValuesDataProvider(): array
+    public static function validValuesDataProvider(): array
     {
         return [
             ["now"],

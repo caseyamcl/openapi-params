@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Validation\Rules;
 
-use OpenApiParams\Validation\AbstractValidatorRuleTest;
+use OpenApiParams\Validation\AbstractValidatorRuleTestBase;
 use OpenApiParams\Validation\Exceptions\ValidObjectExtraPropertiesException;
 use stdClass;
 
@@ -13,7 +13,7 @@ use stdClass;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ValidObjectExtraPropertiesTest extends AbstractValidatorRuleTest
+class ValidObjectExtraPropertiesTest extends AbstractValidatorRuleTestBase
 {
     public function testValid()
     {

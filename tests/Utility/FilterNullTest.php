@@ -30,7 +30,7 @@ class FilterNullTest extends TestCase
         $this->assertSame(array_values(FilterNull::filterNull($values)), array_values($expected));
     }
 
-    public function valuesProvider()
+    public static function valuesProvider(): array
     {
         return [
             [['a', null, 'b', null],  ['a', 'b']],

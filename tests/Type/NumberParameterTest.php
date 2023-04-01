@@ -16,7 +16,7 @@
 
 namespace OpenApiParams\Type;
 
-use OpenApiParams\Model\AbstractNumericParameterTest;
+use OpenApiParams\Model\AbstractNumericParameterTestBase;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
@@ -27,7 +27,7 @@ use OpenApiParams\PreparationStep\EnsureCorrectDataTypeStep;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class NumberParameterTest extends AbstractNumericParameterTest
+class NumberParameterTest extends AbstractNumericParameterTestBase
 {
     /**
      * Test that, if we are not requiring a decimal, integers are automatically typecast (even if typecast is disabled)
@@ -90,7 +90,7 @@ class NumberParameterTest extends AbstractNumericParameterTest
     /**
      * @return array
      */
-    protected function getTwoOrMoreValidValues(): array
+    protected static function getTwoOrMoreValidValues(): array
     {
         // Techincally, integers are allowed, too, but we return only floats here, because the default
         // getInstance() returns an object that has strict decimal checking enabled.
@@ -103,7 +103,7 @@ class NumberParameterTest extends AbstractNumericParameterTest
      *
      * @return array|mixed[]  Values for type cast check
      */
-    protected function getValuesForTypeCastTest(): array
+    protected static function getValuesForTypeCastTest(): array
     {
         return ['7', '9.0'];
     }

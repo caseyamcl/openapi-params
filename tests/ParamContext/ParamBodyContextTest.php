@@ -17,7 +17,7 @@
 namespace OpenApiParams\ParamContext;
 
 use OpenApiParams\Model\ParameterValuesContext;
-use OpenApiParams\Model\ParameterValuesContextTest;
+use OpenApiParams\Model\ParameterValuesContextTestBase;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -25,7 +25,7 @@ use Psr\Log\LoggerInterface;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ParamBodyContextTest extends ParameterValuesContextTest
+class ParamBodyContextTest extends ParameterValuesContextTestBase
 {
     public function testGetDeserializer()
     {

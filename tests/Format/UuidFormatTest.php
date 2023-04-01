@@ -16,13 +16,13 @@
 
 namespace OpenApiParams\Format;
 
-use OpenApiParams\Model\AbstractParamFormatTest;
+use OpenApiParams\Model\AbstractParamFormatTestBase;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Type\StringParameter;
 
-class UuidFormatTest extends AbstractParamFormatTest
+class UuidFormatTest extends AbstractParamFormatTestBase
 {
     /**
      * @dataProvider validUuidDataProvider
@@ -33,7 +33,7 @@ class UuidFormatTest extends AbstractParamFormatTest
         $this->assertSame($value, $this->getParameterWithFormat()->prepare($value));
     }
 
-    public function validUuidDataProvider(): array
+    public static function validUuidDataProvider(): array
     {
         return [
             ['726a1f97-154d-423d-9f5e-06ad9f4b8aed'],
@@ -52,7 +52,7 @@ class UuidFormatTest extends AbstractParamFormatTest
         $this->getParameterWithFormat()->prepare($value);
     }
 
-    public function invalidUuidDataProvider(): array
+    public static function invalidUuidDataProvider(): array
     {
         return [
             ['abc'],

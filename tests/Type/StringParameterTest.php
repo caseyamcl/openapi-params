@@ -18,7 +18,7 @@ namespace OpenApiParams\Type;
 
 use InvalidArgumentException;
 use LogicException;
-use OpenApiParams\AbstractParameterTest;
+use OpenApiParams\AbstractParameterTestBase;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Format;
 use OpenApiParams\Format\Int32Format;
@@ -30,12 +30,12 @@ use OpenApiParams\Model\Parameter;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class StringParameterTest extends AbstractParameterTest
+class StringParameterTest extends AbstractParameterTestBase
 {
     /**
      * @return array|array[]
      */
-    protected function getValuesForTypeCastTest(): array
+    protected static function getValuesForTypeCastTest(): array
     {
         return [1.0, true];
     }
@@ -118,16 +118,6 @@ class StringParameterTest extends AbstractParameterTest
         $this->getInstance()->setFormat(new Int32Format()); // Invalid!
     }
 
-    public function testSetFormatGeneratesNoticeWhenFormatAlreadySet()
-    {
-        $this->expectNotice();
-        $this->expectNoticeMessage('Format already set for parameter');
-
-        $obj = $this->getInstance();
-        $obj->setFormat(new Format\AlphanumericFormat());
-        $obj->setFormat(new PasswordFormat());
-    }
-
     /**
      * @dataProvider makeMethodDataProvider
      * @param string $methodName
@@ -140,7 +130,7 @@ class StringParameterTest extends AbstractParameterTest
         $this->assertInstanceOf($expectedFormatClass, $obj->getFormat());
     }
 
-    public function makeMethodDataProvider(): array
+    public static function makeMethodDataProvider(): array
     {
         return [
             ['makeAlphanumeric', Format\AlphanumericFormat::class],
@@ -156,7 +146,7 @@ class StringParameterTest extends AbstractParameterTest
         ];
     }
 
-    protected function getTwoOrMoreValidValues(): array
+    protected static function getTwoOrMoreValidValues(): array
     {
         return ['hi there', '45.23', 'stringval'];
     }

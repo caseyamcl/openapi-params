@@ -25,7 +25,7 @@ use PHPUnit\Framework\TestCase;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-abstract class AbstractValidatorRuleTest extends TestCase
+abstract class AbstractValidatorRuleTestBase extends TestCase
 {
     // pass..
 }

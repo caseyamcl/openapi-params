@@ -16,12 +16,12 @@
 
 namespace OpenApiParams\Format;
 
-use OpenApiParams\Model\AbstractParamFormatTest;
+use OpenApiParams\Model\AbstractParamFormatTestBase;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Type\StringParameter;
 
-class BinaryFormatTest extends AbstractParamFormatTest
+class BinaryFormatTest extends AbstractParamFormatTestBase
 {
     /**
      * @return ParamFormat
