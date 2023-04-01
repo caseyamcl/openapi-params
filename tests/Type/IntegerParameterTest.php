@@ -16,11 +16,18 @@
 
 namespace OpenApiParams\Type;
 
+use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Model\AbstractNumericParameterTestBase;
 use OpenApiParams\Model\Parameter;
 
 class IntegerParameterTest extends AbstractNumericParameterTestBase
 {
+    public function testIntegerParameterAlwaysHasType(): void
+    {
+        $intObj = $this->getInstance();
+        $this->assertInstanceOf(ParamFormat::class, $intObj->getFormat());
+    }
+
     protected function cast(int|float $value): int
     {
         return (int) $value;
