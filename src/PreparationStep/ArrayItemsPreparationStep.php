@@ -36,25 +36,16 @@ class ArrayItemsPreparationStep implements PreparationStep
     public const ALL = [];
 
     /**
-     * @var array|Parameter[]
-     */
-    private $parameterTypeMap;
-
-    /**
-     * @var iterable|PreparationStep[]
-     */
-    private $forEach;
-
-    /**
      * ArrayItemsPreparationStep constructor.
      *
-     * @param array $parameterTypeMap keys are PHP data type name; values are an array of possible parameter definitions
+     * @param array<string,Parameter> $parameterTypeMap keys are PHP data type name; values are an array
+     *                                                  of possible parameter definitions
      * @param iterable<int,PreparationStep> $forEach  Additional steps to run for each item
      */
-    public function __construct(array $parameterTypeMap = self::ALL, iterable $forEach = [])
-    {
-        $this->parameterTypeMap = $parameterTypeMap;
-        $this->forEach = $forEach;
+    public function __construct(
+        private readonly array $parameterTypeMap = self::ALL,
+        private readonly iterable $forEach = []
+    ) {
     }
 
     /**
@@ -138,14 +129,14 @@ class ArrayItemsPreparationStep implements PreparationStep
 
     /**
      * @param array<int,InvalidValueException> $exceptions All the exceptions that occurred;
-     *                                                  keys are the respective indexes that failed.
+     *                                                     keys are the respective indexes that failed.
      * @param mixed $value
      * @return InvalidValueException
      */
     private function generateException(array $exceptions, mixed $value): InvalidValueException
     {
         $errors = [];
-        foreach ($exceptions as $idx => $exception) {
+        foreach ($exceptions as $exception) {
             $errors = array_merge($errors, $exception->getErrors());
         }
 
@@ -212,7 +203,7 @@ class ArrayItemsPreparationStep implements PreparationStep
     }
 
     /**
-     * @return array<int,Parameter>
+     * @return array<int,array>
      */
     private function listParameters(): array
     {

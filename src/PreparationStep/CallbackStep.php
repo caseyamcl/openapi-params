@@ -18,6 +18,7 @@ declare(strict_types=1);
 
 namespace OpenApiParams\PreparationStep;
 
+use Closure;
 use InvalidArgumentException;
 use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Exception\InvalidValueException;
@@ -30,7 +31,7 @@ use OpenApiParams\Model\ParameterValues;
  */
 class CallbackStep implements PreparationStep
 {
-    private $step;
+    private Closure $step;
     private string $description;
     private ?string $documentation;
 
@@ -43,7 +44,7 @@ class CallbackStep implements PreparationStep
      */
     public function __construct(callable $callback, string $description, string $documentation = null)
     {
-        $this->step = $callback;
+        $this->step = $callback(...);
         $this->description = $description;
         $this->documentation = $documentation;
     }

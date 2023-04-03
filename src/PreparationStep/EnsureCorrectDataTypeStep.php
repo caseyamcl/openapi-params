@@ -36,24 +36,14 @@ use OpenApiParams\Model\ParameterValues;
 class EnsureCorrectDataTypeStep implements PreparationStep
 {
     /**
-     * @var string
-     */
-    private $phpDataTypes;
-
-    /**
-     * @var bool
-     */
-    private $allowCast;
-
-    /**
      * EnsureCorrectDataTypeStep constructor.
-     * @param array|string[] $phpDataTypes  Built-in PHP data type to check for
+     * @param array<int,string> $phpDataTypes  Built-in PHP data type to check for
      * @param bool $allowCast      Attempt to auto-cast to the given type (useful in numeric query values)
      */
-    public function __construct(array $phpDataTypes, bool $allowCast = false)
-    {
-        $this->phpDataTypes = $phpDataTypes;
-        $this->allowCast = $allowCast;
+    public function __construct(
+        private readonly array $phpDataTypes,
+        private readonly bool $allowCast = false
+    ) {
     }
 
     /**

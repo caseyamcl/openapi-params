@@ -34,19 +34,11 @@ class DependencyCheckStep implements PreparationStep
     public const MUST_NOT_EXIST = false;
 
     /**
-     * @var array|string[]
+     * @var array<int,string>
      */
-    private $params;
-
-    /**
-     * @var array|null
-     */
-    private $callbacks;
-
-    /**
-     * @var bool
-     */
-    private $mode;
+    private array $paramNames;
+    private ?array $callbacks = [];
+    private bool $mode;
 
     /**
      * DependencyCheckStep constructor.
@@ -56,7 +48,7 @@ class DependencyCheckStep implements PreparationStep
      */
     public function __construct(array $params, bool $mode = self::MUST_EXIST, ?array $callbacks = [])
     {
-        $this->params = $params;
+        $this->paramNames = $params;
         $this->callbacks = $callbacks;
         $this->mode = $mode;
     }
@@ -75,7 +67,7 @@ class DependencyCheckStep implements PreparationStep
             ? 'only available if the other parameters are present: %s'
             : 'not available if other parameters are present: %s';
 
-        return sprintf($template, implode(', ', $this->params));
+        return sprintf($template, implode(', ', $this->paramNames));
     }
 
     /**
@@ -89,7 +81,7 @@ class DependencyCheckStep implements PreparationStep
             ? 'checks for presence of other parameters: %s'
             : 'checks for absence of other parameters: %s';
 
-        return sprintf($template, implode(', ', $this->params));
+        return sprintf($template, implode(', ', $this->paramNames));
     }
 
     /**
@@ -105,17 +97,17 @@ class DependencyCheckStep implements PreparationStep
         // values must exist
         if ($this->mode === self::MUST_EXIST) {
             $template = '%s parameter can only be used when other parameter(s) are present: %s';
-            $valid = count(array_diff($this->params, $allValues->listNames())) === 0;
+            $valid = count(array_diff($this->paramNames, $allValues->listNames())) === 0;
         } else { // values must not exist
             $template = '%s parameter can not be used when other parameter(s) are present: %s';
-            $valid = array_diff($this->params, $allValues->listNames()) == $this->params;
+            $valid = array_diff($this->paramNames, $allValues->listNames()) == $this->paramNames;
         }
 
         if (! $valid) {
             throw InvalidValueException::fromMessage($this, $paramName, $value, sprintf(
                 $template,
                 $paramName,
-                implode(', ', $this->params)
+                implode(', ', $this->paramNames)
             ));
         }
 
