@@ -125,13 +125,33 @@ abstract class Parameter
      *
      * @param callable|ParameterValidationRule|Validatable $rule
      * @param string $documentation Will be ignored if $rule is instance of ParameterValidationRule
-     * @return Parameter
+     * @return self
      */
-    final public function addValidation(
+    final public function addValidationRule(
         callable|ParameterValidationRule|Validatable $rule,
         string $documentation = ''
     ): self {
         $this->validationRules[] = $this->buildValidationRule($rule, $documentation);
+        return $this;
+    }
+
+    /**
+     * Add multiple validation rules
+     *
+     * NOTE: If passing callbacks or instances of Validatable (Respect rules), the library
+     * assumes that there is no documentation associated with the rules.
+     *
+     * To pass documentation, pass instances of ParameterValidationRule or use self::addValidationRule()
+     *
+     * @param callable|ParameterValidationRule|Validatable ...$rules
+     * @return self
+     */
+    final public function addValidationRules(callable|ParameterValidationRule|Validatable ...$rules): self
+    {
+        foreach ($rules as $rule) {
+            $this->addValidationRule($rule);
+        }
+
         return $this;
     }
 

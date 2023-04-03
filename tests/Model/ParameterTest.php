@@ -17,10 +17,12 @@
 namespace OpenApiParams\Model;
 
 use MJS\TopSort\CircularDependencyException;
+use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\ParamContext\ParamQueryContext;
 use OpenApiParams\Type\StringParameter;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\Test\TestLogger;
+use Respect\Validation\Validator;
 
 class ParameterTest extends TestCase
 {
@@ -93,5 +95,32 @@ class ParameterTest extends TestCase
             ['type' => 'string', 'pattern' => '/[abc]/', 'minLength' => 3, 'maxLength' => 10, 'default' => 'abc'],
             $param->getDocumentation()
         );
+    }
+
+    public function testAddMultipleValidationRulesWithValidData(): void
+    {
+        $ruleOne = fn ($value) => $value !== 'abc';
+        $ruleTwo = Validator::alnum('_');
+        $ruleThree = new ParameterValidationRule(Validator::length(null, 5), 'This rule has documentation');
+        $param = StringParameter::create('xyz')->addValidationRules($ruleOne, $ruleTwo, $ruleThree);
+        $prepared = $param->prepare('def');
+
+        $this->assertEquals('def', $prepared);
+        $this->assertEquals(
+            ['type' => 'string', 'description' => 'This rule has documentation'],
+            $param->getDocumentation()
+        );
+    }
+
+    public function testAddMultipleValidationRulesWithInvalidData(): void
+    {
+        $this->expectException(InvalidValueException::class);
+        $this->expectExceptionMessage('These rules must pass for ');
+
+        $ruleOne = fn ($value) => $value !== 'abcdefg';
+        $ruleTwo = Validator::alnum('_');
+        $ruleThree = new ParameterValidationRule(Validator::length(null, 5), 'This rule has documentation');
+        $param = StringParameter::create('xyz')->addValidationRules($ruleOne, $ruleTwo, $ruleThree);
+        $param->prepare('abcdefg');
     }
 }

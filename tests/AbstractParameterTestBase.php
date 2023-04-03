@@ -188,7 +188,7 @@ abstract class AbstractParameterTestBase extends TestCase
     public function testAddValidationWithValidArguments($rule)
     {
         $param = $this->getInstance();
-        $param->addValidation($rule);
+        $param->addValidationRule($rule);
         $this->assertTrue(true, 'test passed');
     }
 
