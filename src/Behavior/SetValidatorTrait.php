@@ -33,8 +33,10 @@ trait SetValidatorTrait
     /**
      * Build an openapi-params validation rule from an existing rule, respect/validation rule, or callback
      */
-    protected function buildValidationRule($rule, string $documentation = ''): ParameterValidationRule
-    {
+    protected function buildValidationRule(
+        ParameterValidationRule|Validatable|callable $rule,
+        string $documentation = ''
+    ): ParameterValidationRule {
         return match (true) {
             $rule instanceof ParameterValidationRule => $rule,
             $rule instanceof Validatable => new ParameterValidationRule($rule, $documentation),
