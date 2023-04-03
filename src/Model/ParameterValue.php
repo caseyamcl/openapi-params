@@ -29,7 +29,7 @@ use RuntimeException;
  */
 final class ParameterValue
 {
-    private bool $prepared = false;
+    private bool $isPrepared = false;
     private mixed $preparedValue;
 
     /**
@@ -59,12 +59,12 @@ final class ParameterValue
      */
     public function isPrepared(): bool
     {
-        return (bool) $this->prepared;
+        return $this->isPrepared;
     }
 
     public function getPreparedValue(): mixed
     {
-        if (! $this->prepared) {
+        if (! $this->isPrepared) {
             throw new RuntimeException("Parameter has not yet been prepared: {$this->name}");
         }
         return $this->preparedValue;
@@ -76,7 +76,7 @@ final class ParameterValue
     public function withPreparedValue(mixed $preparedValue): ParameterValue
     {
         $that = clone $this;
-        $that->prepared = true;
+        $that->isPrepared = true;
         $that->preparedValue = $preparedValue;
         return $that;
     }
