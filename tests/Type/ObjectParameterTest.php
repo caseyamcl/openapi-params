@@ -197,6 +197,6 @@ class ObjectParameterTest extends AbstractParameterTestBase
      */
     protected function getInstance(string $name = 'test'): Parameter
     {
-        return (new ObjectParameter($name));
+        return new ObjectParameter($name);
     }
 }
