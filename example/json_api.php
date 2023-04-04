@@ -22,6 +22,7 @@ $rawData = '
         { "type": "books", "id": 52 },
         { "type": "books", "id": 31 }
       ] },
+      "tags": { "data": [] },
       "spouse": { "data": { "type": "people", "id": 213 } },
       "bestFriend": { "data": null }
     }
@@ -48,6 +49,12 @@ $testData = (object) [
     ]
 ];
 
+// Relationship parameter
+$relationshipParam = fn($nullable = true) => ObjectParameter::create('data')->setNullable($nullable)->addProperties(
+    StringParameter::create('type', true),
+    IntegerParameter::create('id', true) // can we auto-extract from entity metadata what data type the identifier is?
+);
+
 $dataParam = ObjectParameter::create()->addProperty(
     ObjectParameter::create('data', true)->addProperties(
         StringParameter::create('id', true)->addValidationRule(v::numericVal()),
@@ -59,24 +66,19 @@ $dataParam = ObjectParameter::create()->addProperty(
         ObjectParameter::create('relationships')->addProperties(
             // To-Many w/data
             ObjectParameter::create('books')->addProperty(
-                ArrayParameter::create('data')->addAllowedParamDefinition(ObjectParameter::create()->addProperties(
-                    StringParameter::create('type', true),
-                    IntegerParameter::create('id', true)
-                ))
+                ArrayParameter::create('data')->addAllowedParamDefinition($relationshipParam())
             ),
-            // To-one w/data
-            ObjectParameter::create('spouse')->addProperty(
-                ObjectParameter::create('data')->setNullable(true)->addProperties(
-                    StringParameter::create('type', true),
-                    IntegerParameter::create('id', true)
-                )
+            // To-Many w/o data
+            ObjectParameter::create('tags')->addProperty(
+                ArrayParameter::create('data')->addAllowedParamDefinition($relationshipParam())
             ),
+            // To-one w/data; nullable
+            ObjectParameter::create('spouse')->addProperty($relationshipParam()),
             // To-one w/o data
-            ObjectParameter::create('bestFriend')->addProperty(
-                ObjectParameter::create('data')->setNullable(true)->addProperties(
-                    StringParameter::create('type', true),
-                    IntegerParameter::create('id', true)
-                )
+            ObjectParameter::create('bestFriend')->addProperty($relationshipParam()),
+            // Non-existent parameter (should succeed, because object params are optional by default)
+            ObjectParameter::create('children')->addProperty(
+                ArrayParameter::create('data')->addAllowedParamDefinition($relationshipParam())
             )
         )
     )
