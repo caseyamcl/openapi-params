@@ -35,6 +35,11 @@ class CallbackStep implements PreparationStep
     private string $description;
     private ?string $documentation;
 
+    public static function fromCallable(callable $callback, string $description, ?string $documentation = null): static
+    {
+        return new static($callback, $description, $documentation);
+    }
+
     /**
      * CallbackStep constructor.
      *
@@ -42,7 +47,7 @@ class CallbackStep implements PreparationStep
      * @param string $description A description of the step
      * @param string|null $documentation
      */
-    public function __construct(callable $callback, string $description, string $documentation = null)
+    public function __construct(callable $callback, string $description, ?string $documentation = null)
     {
         $this->step = $callback(...);
         $this->description = $description;
