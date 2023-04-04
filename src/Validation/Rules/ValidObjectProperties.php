@@ -38,6 +38,10 @@ class ValidObjectProperties extends AbstractRule
         $this->requiredProperties = $requiredProps;
     }
 
+    /**
+     * TODO: Is there a way to pass the path to this error message in order to produce more useful error messages?
+     * e.g. /data/people[2]/attributes
+     */
     public function getName(): ?string
     {
         return 'objectProps';
