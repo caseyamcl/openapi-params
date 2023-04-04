@@ -27,15 +27,16 @@ use Respect\Validation\Rules\AbstractRule;
  */
 class ValidObjectProperties extends AbstractRule
 {
-    /**
-     * @var array<int,string>
-     */
-    private array $requiredProperties;
     protected string $missingProperties = '';
 
-    public function __construct(array $requiredProps)
-    {
-        $this->requiredProperties = $requiredProps;
+    /**
+     * @param array<int,string> $requiredProperties
+     * @param string $propName This should be the full path to the property (e.g., "/data/myarr[3]/myobject")
+     */
+    public function __construct(
+        private readonly array $requiredProperties,
+        private readonly string $propName = ''
+    ) {
     }
 
     /**
@@ -44,7 +45,7 @@ class ValidObjectProperties extends AbstractRule
      */
     public function getName(): ?string
     {
-        return 'objectProps';
+        return $this->propName ?: 'objectProps';
     }
 
     public function validate($input): bool
