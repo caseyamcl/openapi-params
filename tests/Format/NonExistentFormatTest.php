@@ -16,7 +16,7 @@
 
 declare(strict_types=1);
 
-namespace Format;
+namespace OpenApiParams\Format;
 
 use OpenApiParams\Model\AbstractParamFormatTest;
 use OpenApiParams\Contract\ParamFormat;
