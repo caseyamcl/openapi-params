@@ -19,7 +19,7 @@ namespace OpenApiParams\Type;
 use OpenApiParams\AbstractParameterTestBase;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
-use OpenApiParams\PreparationStep\RespectValidationStep;
+use OpenApiParams\PreparationStep\ValidationStep;
 
 /**
  * Class ObjectParameterTest
@@ -72,7 +72,7 @@ class ObjectParameterTest extends AbstractParameterTestBase
     public function testMinPropertiesWithInvalidData()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(RespectValidationStep::class);
+        $this->expectExceptionMessage(ValidationStep::class);
 
         $param = $this->getInstance()->setMinProperties(5);
         $param->prepare((object) ['test' => 'item', 'test2' => 'item']);
@@ -89,7 +89,7 @@ class ObjectParameterTest extends AbstractParameterTestBase
     public function testMaxPropertiesWithInvalidData()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(RespectValidationStep::class);
+        $this->expectExceptionMessage(ValidationStep::class);
 
         $param = $this->getInstance()->setMaxProperties(1);
         $param->prepare((object) ['test' => 'item', 'test2' => 'item']);

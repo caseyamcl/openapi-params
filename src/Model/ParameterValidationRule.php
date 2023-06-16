@@ -20,6 +20,7 @@ namespace OpenApiParams\Model;
 
 use OpenApiParams\Contract\ParamValidationRule;
 use Respect\Validation\Validatable;
+use Symfony\Component\Validator\Constraint;
 
 /**
  * Parameter Validation Rule
@@ -30,7 +31,7 @@ use Respect\Validation\Validatable;
  */
 final class ParameterValidationRule implements ParamValidationRule
 {
-    private Validatable $rule;
+    private Constraint $rule;
     private string $description;
     private bool $includeDescriptionInApiDocumentation;
 
@@ -38,7 +39,7 @@ final class ParameterValidationRule implements ParamValidationRule
      * ParameterValidationRule constructor.
      */
     public function __construct(
-        Validatable $rule,
+        Constraint $rule,
         string $description,
         bool $includeDescriptionInDocumentation = true
     ) {
@@ -50,7 +51,7 @@ final class ParameterValidationRule implements ParamValidationRule
     /**
      * Get validator
      */
-    public function getValidator(): Validatable
+    public function getValidator(): Constraint
     {
         return $this->rule;
     }

@@ -27,7 +27,7 @@ use OpenApiParams\PreparationStep\AllowNullPreparationStep;
 use OpenApiParams\PreparationStep\DependencyCheckStep;
 use OpenApiParams\PreparationStep\EnsureCorrectDataTypeStep;
 use OpenApiParams\PreparationStep\EnumCheckStep;
-use OpenApiParams\PreparationStep\RespectValidationStep;
+use OpenApiParams\PreparationStep\ValidationStep;
 use OpenApiParams\Utility\FilterNull;
 use OpenApiParams\Utility\RequireConstantTrait;
 
@@ -474,7 +474,7 @@ abstract class Parameter
         // Add validation if there are validation rules
         $validationRules = $this->getValidationRules();
         if (!empty($validationRules)) {
-            $steps[] = new RespectValidationStep($validationRules);
+            $steps[] = new ValidationStep($validationRules);
         }
 
         // Add the built-in post-validation preparation steps

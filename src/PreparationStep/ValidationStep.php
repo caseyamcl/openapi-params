@@ -18,12 +18,13 @@ declare(strict_types=1);
 
 namespace OpenApiParams\PreparationStep;
 
-use Respect\Validation\Exceptions\NestedValidationException;
-use Respect\Validation\Validator;
+use OpenApiParams\Utility\ValidatorFactory;
 use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\Model\ParameterValues;
+use Symfony\Component\Validator\Exception\ValidationFailedException;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
  * Respect Validation Step
@@ -33,14 +34,14 @@ use OpenApiParams\Model\ParameterValues;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class RespectValidationStep implements PreparationStep
+class ValidationStep implements PreparationStep
 {
     /**
      * @var array<int,ParameterValidationRule>
      */
     private array $rules = [];
 
-    private Validator $validator;
+    private ValidatorInterface $validator;
 
     /**
      * RespectValidationStep constructor.
@@ -48,7 +49,7 @@ class RespectValidationStep implements PreparationStep
      */
     public function __construct(iterable $rules)
     {
-        $this->validator = new Validator();
+        $this->validator = ValidatorFactory::build();
 
         foreach ($rules as $rule) {
             $this->addRule($rule);
@@ -58,7 +59,6 @@ class RespectValidationStep implements PreparationStep
     private function addRule(ParameterValidationRule $rule): void
     {
         $this->rules[] = $rule;
-        $this->validator->addRule($rule->getValidator());
     }
 
     /**
@@ -96,11 +96,13 @@ class RespectValidationStep implements PreparationStep
      */
     public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
-        try {
-            $this->validator->assert($value);
+        $rules = array_map(fn (ParameterValidationRule $r) => $r->getValidator(), $this->rules);
+
+        $errorList = iterator_to_array($this->validator->validate($value, $rules));
+        if (count($errorList) > 0) {
+            throw InvalidValueException::fromMessages($this, $paramName, $value, array_map('strval', $errorList));
+        } else {
             return $value;
-        } catch (NestedValidationException $e) {
-            throw InvalidValueException::fromMessage($this, $paramName, $value, $e->getFullMessage());
         }
     }
 }

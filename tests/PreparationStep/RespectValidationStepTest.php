@@ -31,7 +31,7 @@ class RespectValidationStepTest extends TestCase
     public function testRespectValidationStepBasicFunctionality(): void
     {
         $rule = new ParameterValidationRule(new Ip(), 'is valid IP');
-        $step = new RespectValidationStep([$rule]);
+        $step = new ValidationStep([$rule]);
         $pv = new ParameterValues(['test' => '127.0.0.1']);
         $result = $step->__invoke('127.0.0.1', 'test', $pv);
         $this->assertSame('127.0.0.1', $result);
@@ -45,7 +45,7 @@ class RespectValidationStepTest extends TestCase
             Validator::anyOf(Validator::ip(), Validator::domain(false)),
             'is valid IP or domain name'
         );
-        $step = new RespectValidationStep([$rule]);
+        $step = new ValidationStep([$rule]);
         $pv = new ParameterValues(['test' => '-test.com']);
         $step->__invoke('-test.com', 'test', $pv);
     }
@@ -58,7 +58,7 @@ class RespectValidationStepTest extends TestCase
             new ValidEmailLocalPart(),
             'is valid email local part'
         );
-        $step = new RespectValidationStep([$rule]);
+        $step = new ValidationStep([$rule]);
         $pv = new ParameterValues(['test' => 'my..email']);
         $step->__invoke('my..email', 'test', $pv);
     }

@@ -18,7 +18,7 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Contract;
 
-use Respect\Validation\Validatable;
+use Symfony\Component\Validator\Constraint;
 
 /**
  * Parameter Validation Rule
@@ -32,9 +32,9 @@ interface ParamValidationRule
     /**
      * Get validator
      *
-     * @return Validatable
+     * @return Constraint
      */
-    public function getValidator(): Validatable;
+    public function getValidator(): Constraint;
 
     /**
      * Get the documentation for this validation rule

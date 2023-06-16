@@ -18,7 +18,7 @@ namespace OpenApiParams\Model;
 
 use OpenApiParams\AbstractParameterTestBase;
 use OpenApiParams\Exception\InvalidValueException;
-use OpenApiParams\PreparationStep\RespectValidationStep;
+use OpenApiParams\PreparationStep\ValidationStep;
 
 /**
  * Class AbstractNumericParameterTest
@@ -37,7 +37,7 @@ abstract class AbstractNumericParameterTestBase extends AbstractParameterTestBas
     public function testSetMultipleOf()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(RespectValidationStep::class);
+        $this->expectExceptionMessage(ValidationStep::class);
 
         $obj = $this->getInstance()->setMultipleOf(5);
         $obj->prepare($this->cast(17));
@@ -52,7 +52,7 @@ abstract class AbstractNumericParameterTestBase extends AbstractParameterTestBas
     public function testMin()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(RespectValidationStep::class);
+        $this->expectExceptionMessage(ValidationStep::class);
         $obj = $this->getInstance()->min(-5);
         $obj->prepare($this->cast(-22));
     }
@@ -60,7 +60,7 @@ abstract class AbstractNumericParameterTestBase extends AbstractParameterTestBas
     public function testMax()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(RespectValidationStep::class);
+        $this->expectExceptionMessage(ValidationStep::class);
         $obj = $this->getInstance()->max(22);
         $obj->prepare($this->cast(55));
     }
@@ -68,7 +68,7 @@ abstract class AbstractNumericParameterTestBase extends AbstractParameterTestBas
     public function testSetMinimumWithInvalidValue()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(RespectValidationStep::class);
+        $this->expectExceptionMessage(ValidationStep::class);
         $obj = $this->getInstance()->setMinimum(-5);
         $obj->prepare($this->cast(-22));
     }
@@ -82,7 +82,7 @@ abstract class AbstractNumericParameterTestBase extends AbstractParameterTestBas
     public function testSetMaximumWithInvalidValue()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(RespectValidationStep::class);
+        $this->expectExceptionMessage(ValidationStep::class);
         $obj = $this->getInstance()->setMaximum(22);
         $obj->prepare($this->cast(55));
     }
@@ -90,7 +90,7 @@ abstract class AbstractNumericParameterTestBase extends AbstractParameterTestBas
     public function testSetExclusiveMaximum()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(RespectValidationStep::class);
+        $this->expectExceptionMessage(ValidationStep::class);
         $obj = $this->getInstance()->setMaximum(22)->setExclusiveMaximum(true);
         $obj->prepare($this->cast(22));
     }
@@ -98,7 +98,7 @@ abstract class AbstractNumericParameterTestBase extends AbstractParameterTestBas
     public function testSetExclusiveMinimum()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(RespectValidationStep::class);
+        $this->expectExceptionMessage(ValidationStep::class);
         $obj = $this->getInstance()->setMinimum(-5)->setExclusiveMinimum(true);
         $obj->prepare($this->cast(-5));
     }

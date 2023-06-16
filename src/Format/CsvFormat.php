@@ -19,8 +19,6 @@ declare(strict_types=1);
 namespace OpenApiParams\Format;
 
 use OpenApiParams\Behavior\SetValidatorTrait;
-use Respect\Validation\Validatable;
-use Respect\Validation\Validator;
 use OpenApiParams\Contract\ParamValidationRule;
 use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Model\AbstractParamFormat;
@@ -28,6 +26,9 @@ use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\PreparationStep\CallbackStep;
 use OpenApiParams\Type\StringParameter;
 use OpenApiParams\Utility\UnpackCSV;
+use Symfony\Component\Validator\Constraints\All;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Context\ExecutionContextInterface as Context;
 
 /**
  * Comma-Separated-Value Format
@@ -59,7 +60,6 @@ class CsvFormat extends AbstractParamFormat
         $this->separator = is_array($separators) ? $separators : str_split($separators);
     }
 
-
     /**
      * Set the separator
      *
@@ -81,12 +81,23 @@ class CsvFormat extends AbstractParamFormat
      */
     public function getValidationRules(): array
     {
+        // TODO: LEFT OFF HERE. Figure out how to do this under new Symfony paradigm
+        // OLD:
+        //  new ParameterValidationRule(Validator::callback(function ($value) {
+        //      $items = UnpackCSV::un($value, $this->separator);
+        //      return Validator::each($this->validatorForEach->getValidator())->validate($items);
+        //      }), $this->validatorForEach->getDescription())
         if ($this->validatorForEach) {
             return [
-                new ParameterValidationRule(Validator::callback(function ($value) {
-                    $items = UnpackCSV::un($value, $this->separator);
-                    return Validator::each($this->validatorForEach->getValidator())->validate($items);
-                }), $this->validatorForEach->getDescription())
+                new ParameterValidationRule(
+                    new Callback(function (Context $context, $value) {
+                        $items = UnpackCSV::un($value, $this->separator);
+                        return (new All(['constraints' => [
+                            $this->validatorForEach->getValidator()
+                        ]]));
+                    }),
+                    $this->validatorForEach->getDescription()
+                )
             ];
         } else {
             return [];

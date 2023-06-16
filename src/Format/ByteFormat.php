@@ -18,12 +18,12 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Format;
 
-use Respect\Validation\Validator;
 use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Model\AbstractParamFormat;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\PreparationStep\CallbackStep;
 use OpenApiParams\Type\StringParameter;
+use Symfony\Component\Validator\Constraints\Regex;
 
 /**
  * OpenAPI String Byte Format
@@ -35,6 +35,8 @@ class ByteFormat extends AbstractParamFormat
     public const TYPE_CLASS = StringParameter::class;
     public const NAME = 'byte';
 
+    private const BASE64_REGEX = '^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$';
+
     /**
      * Get built-in validation rules
      *
@@ -45,7 +47,10 @@ class ByteFormat extends AbstractParamFormat
     public function getValidationRules(): array
     {
         return [
-            new ParameterValidationRule(Validator::base64(), 'value must be base64-encoded')
+            new ParameterValidationRule(
+                new Regex(self::BASE64_REGEX),
+                'value must be base64-encoded'
+            )
         ];
     }
 

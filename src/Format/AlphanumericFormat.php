@@ -18,10 +18,10 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Format;
 
-use Respect\Validation\Validator;
 use OpenApiParams\Model\AbstractParamFormat;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\Type\StringParameter;
+use Symfony\Component\Validator\Constraints\Regex;
 
 /**
  * Class AlphanumericFormat
@@ -32,6 +32,8 @@ class AlphanumericFormat extends AbstractParamFormat
 {
     public const NAME = 'alphanumeric';
     public const TYPE_CLASS = StringParameter::class;
+
+    private const ALPHANUM_PATTERN = "a-zA-Z0-9";
 
     private string $extraChars = '';
 
@@ -74,9 +76,15 @@ class AlphanumericFormat extends AbstractParamFormat
      */
     public function getValidationRules(): array
     {
+        $regexPattern = sprintf(
+            '/^[%s%s]*$/',
+            self::ALPHANUM_PATTERN,
+            $this->extraChars
+        );
+
         return [
             new ParameterValidationRule(
-                Validator::alnum($this->extraChars),
+                new Regex($regexPattern),
                 trim(sprintf(
                     'value must be alphanumeric %s',
                     ($this->extraChars ? "(also allowed: {$this->extraChars})" : '')

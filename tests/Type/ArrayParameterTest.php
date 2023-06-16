@@ -25,7 +25,7 @@ use OpenApiParams\Model\ParameterValuesContext;
 use OpenApiParams\ParamDeserializer\StandardDeserializer;
 use OpenApiParams\PreparationStep\ArrayItemsPreparationStep;
 use OpenApiParams\PreparationStep\CallbackStep;
-use OpenApiParams\PreparationStep\RespectValidationStep;
+use OpenApiParams\PreparationStep\ValidationStep;
 use stdClass;
 
 class ArrayParameterTest extends AbstractParameterTestBase
@@ -145,7 +145,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
     public function testSetUniqueItemsWithInvalidData()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(RespectValidationStep::class);
+        $this->expectExceptionMessage(ValidationStep::class);
 
         $param = $this->getInstance()->setUniqueItems(true);
         $param->prepare([2, 2, 5]);
@@ -154,7 +154,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
     public function testSetMinItems()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(RespectValidationStep::class);
+        $this->expectExceptionMessage(ValidationStep::class);
 
         $param = $this->getInstance()->setMinItems(3);
         $param->prepare([2, 2]);
@@ -163,7 +163,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
     public function testSetMaxItems()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage(RespectValidationStep::class);
+        $this->expectExceptionMessage(ValidationStep::class);
 
         $param = $this->getInstance()->setMaxItems(3);
         $param->prepare([2, 2, 3, 4]);
