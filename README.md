@@ -13,7 +13,7 @@ by the code itself).
 ## Features:
  
  * Provides an OpenApi3-compatible low-level API to define and describe parameters
- * Validation via the [`respect/validation` library](https://respect-validation.readthedocs.io/en/latest/)
+ * Validation via the [Symfony Validator component](https://symfony.com/doc/current/validation.html)
  * IDE auto-completion friendly
  * Support for parameter dependencies
  * Bottom-up, code-based approach
@@ -119,7 +119,7 @@ specification. There are a few definitions:
         * Body parameters are not deserialized
     * You can define a custom deserializer if the default one doesn't suit your needs
 * **Parameter Validation Rule**
-    * A combination of a [Respect Validation Rule](https://respect-validation.readthedocs.io/en/latest/) and a description 
+    * A combination of a [Symfony Constraint](https://symfony.com/doc/current/validation.html#constraints) and a description 
       of what the rule does.
 
 ## Parameter Types and Formats
@@ -132,8 +132,6 @@ In addition, OpenApi-Params provides a couple of extra built-in "convenience" fo
 * **AlphanumericFormat** - Accepts and validates alphanumeric values, with optional additional parameters
 * **EmailFormat** - Accepts and validates any email address via the 
   [`egulias/email-validator` package](https://packagist.org/packages/egulias/email-validator)
-* **CsvFormat** - Accepts and converts to an array any string containing comma-separated
-  values (e.g. 'a,b,c').  In addition, you can specify custom delimiters (e.g. 'a|b|c')
 * **TemporalFormat** - Accepts and converts to instance of `CarbonImmutable` any
   string supported by PHP's [`strtotime` function](https://www.php.net/manual/en/function.strtotime.php) 
 * **UuidFormat** - Accepts and validates any valid UUID
@@ -231,10 +229,10 @@ listed that occurred during processing.
 ## Validation
 
 This library provides a built-in preparation step is for validation using the 
-[`Respect/validation`](https://respect-validation.readthedocs.io/en/2.3/) library.
+[Symfony Validator Component](https://symfony.com/doc/current/validation.html) library.
 
 Rules are wrapped in the `ParameterValidationRule` class, because most
-rules require documentation (which is the point of the OpenApi specification!).
+rules require documentation (which is the point of the OpenApi specification).
 
 However, you can add a rule to a parameter without documentation if you
 believe that documentation is not necessary (e.g. the validation is self-evident in the parameter format).
@@ -242,14 +240,16 @@ believe that documentation is not necessary (e.g. the validation is self-evident
 ```php
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\OpenApiParams;
-use Respect\Validation\Validator as v;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Regex;
+use Symfony\Component\Validator\Constraints\PasswordStrength;
 
 $paramList = OpenApiParms::bodyParams();
 $pwParam = $paramList->addPassword('password', required: true);
 
-$ruleOne = new ParameterValidationRule(v::length(8, null));
-$ruleTwo = v::alnum('_-!#');
-$ruleThree = fn($val, $allVals) => $val !== $allVals->get('username')->getRawValue();
+$ruleOne = new Length(min: 8);
+$ruleTwo = new Regex('[/A-Za-z0-9_-!#]+/');
+$ruleThree = new PasswordStrength(minScore: 3)
 $pwParam->addValidationRules($ruleOne, $ruleTwo, $ruleThree);
 
 $prepared = $paramList->prepare(['password' => 'correctHorseBatteryStaple!']);
@@ -289,7 +289,7 @@ Built-in preparation steps are automatically added for specific types and format
 In addition to the above built-in steps, this library provides for the fairly common use-case of needing to perform a custom action on a parameter.
 For example, converting a value into a database entity, processing a filter, or processing pagination info.
 
-To create a custom callback for a parameter
+To create a custom callback for a parameter... _todo: Complete this!_
 
 ## Handling Errors
 
