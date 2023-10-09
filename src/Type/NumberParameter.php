@@ -24,7 +24,7 @@ use OpenApiParams\Format\DoubleFormat;
 use OpenApiParams\Format\FloatFormat;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\PreparationStep\CallbackStep;
-use Respect\Validation\Validator;
+use Symfony\Component\Validator\Constraints\Type;
 
 /**
  * Class NumberParameter
@@ -75,7 +75,7 @@ class NumberParameter extends AbstractNumericParameter
     {
         return array_merge(parent::getBuiltInValidationRules(), [
             new ParameterValidationRule(
-                Validator::oneOf(Validator::intType(), Validator::floatType()),
+                new Type(['integer', 'float', 'double', 'long']),
                 'value must be an integer or a float',
                 false
             )

@@ -18,9 +18,9 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Type;
 
-use Respect\Validation\Validator;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Model\ParameterValidationRule;
+use Symfony\Component\Validator\Constraints\Type;
 
 /**
  * Class BooleanParameter
@@ -41,6 +41,6 @@ class BooleanParameter extends Parameter
      */
     protected function getBuiltInValidationRules(): array
     {
-        return [new ParameterValidationRule(Validator::boolType(), 'value must be boolean')];
+        return [new ParameterValidationRule(new Type('boolean'), 'value must be boolean')];
     }
 }

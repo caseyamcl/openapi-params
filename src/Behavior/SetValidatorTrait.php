@@ -18,10 +18,9 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Behavior;
 
-use InvalidArgumentException;
 use OpenApiParams\Model\ParameterValidationRule;
-use Respect\Validation\Validatable;
-use Respect\Validation\Validator;
+use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\Constraints\Callback;
 
 /**
  * Trait SetValidatorTrait
@@ -31,16 +30,16 @@ use Respect\Validation\Validator;
 trait SetValidatorTrait
 {
     /**
-     * Build an openapi-params validation rule from an existing rule, respect/validation rule, or callback
+     * Build an openapi-params validation rule from an existing rule, Symfony Validator rule, or callback
      */
     protected function buildValidationRule(
-        ParameterValidationRule|Validatable|callable $rule,
+        ParameterValidationRule|Constraint|callable $rule,
         string $documentation = ''
     ): ParameterValidationRule {
         return match (true) {
             $rule instanceof ParameterValidationRule => $rule,
-            $rule instanceof Validatable => new ParameterValidationRule($rule, $documentation),
-            is_callable($rule) => new ParameterValidationRule(Validator::callback($rule), $documentation)
+            $rule instanceof Constraint => new ParameterValidationRule($rule, $documentation),
+            is_callable($rule) => new ParameterValidationRule(new Callback($rule), $documentation)
         };
     }
 }

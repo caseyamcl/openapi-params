@@ -18,15 +18,16 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Type;
 
-use OpenApiParams\Validation\Rules\ValidObjectExtraProperties;
-use OpenApiParams\Validation\Rules\ValidObjectProperties;
-use Respect\Validation\Validator;
 use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\PreparationStep\ObjectDeserializeStep;
 use OpenApiParams\PreparationStep\PrepareObjectPropertiesStep;
 use OpenApiParams\Utility\FilterNull;
+use OpenApiParams\Validator\ValidObjectExtraProperties;
+use OpenApiParams\Validator\ValidObjectProperties;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 use Webmozart\Assert\Assert;
 
 /**
@@ -175,9 +176,11 @@ class ObjectParameter extends Parameter
         if ($this->minProperties !== null) {
             $minNum = number_format($this->minProperties);
             $rules[] = new ParameterValidationRule(
-                Validator::callback(function ($obj) {
-                    return count((array) $obj) >= $this->minProperties;
-                })->setTemplate("number of properties in {{name}} must be greater than or equal to $minNum"),
+                new Callback(function ($obj, ExecutionContextInterface $ctx) use ($minNum) {
+                    if (count((array) $obj) < $this->minProperties) {
+                        $ctx->addViolation("number of properties in object must be greater than or equal to $minNum");
+                    }
+                }),
                 "number of properties in object must be greater than or equal to $minNum",
                 false
             );
@@ -187,21 +190,23 @@ class ObjectParameter extends Parameter
         if ($this->maxProperties !== null) {
             $maxNum = number_format($this->maxProperties);
             $rules[] = new ParameterValidationRule(
-                Validator::callback(function ($obj) {
-                    return count((array) $obj) <= $this->maxProperties;
-                })->setTemplate("number of properties in {{name}} must be less than or equal to $maxNum"),
+                new Callback(function ($obj, ExecutionContextInterface $ctx) use ($maxNum) {
+                    if (count((array) $obj) > $this->maxProperties) {
+                        $ctx->addViolation("number of properties in {{name}} must be less than or equal to $maxNum");
+                    }
+                }),
                 "number of properties in object must be less than or equal to $maxNum",
                 false
             );
         }
 
         // Required Properties?
-        $required = array_filter(array_keys($this->properties), function (string $name) {
+        $requiredProperties = array_filter(array_keys($this->properties), function (string $name) {
             return $this->properties[$name]->isRequired();
         });
         $rules[] = new ParameterValidationRule(
-            (new Validator())->addRule(new ValidObjectProperties($required)),
-            sprintf('object must contain properties: %s', implode(', ', $required)),
+            new ValidObjectProperties($requiredProperties),
+            sprintf('object must contain properties: %s', implode(', ', $requiredProperties)),
             false
         );
 
@@ -210,10 +215,10 @@ class ObjectParameter extends Parameter
             ? $this->allowAdditionalProperties
             : empty($this->properties);
         if (! $allowAdditional) {
-            $allowed = array_keys($this->properties);
+            $allowedExtraProps = array_keys($this->properties);
             $rules[] = new ParameterValidationRule(
-                (new Validator())->addRule(new ValidObjectExtraProperties($allowed)),
-                sprintf('value can only contain properties: %s', implode(', ', $allowed))
+                new ValidObjectExtraProperties($allowedExtraProps),
+                sprintf('value can only contain properties: %s', implode(', ', $allowedExtraProps))
             );
         }
 

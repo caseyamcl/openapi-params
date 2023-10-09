@@ -13,6 +13,7 @@ class EmailLocalPartValidator extends ConstraintValidator
 {
     public function validate(mixed $value, Constraint $constraint): void
     {
+        // Sanity test
         if (! $constraint instanceof EmailLocalPart) {
             throw new UnexpectedTypeException($constraint, EmailLocalPart::class);
         }

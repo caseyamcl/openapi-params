@@ -11,6 +11,7 @@ class UnixPathValidator extends ConstraintValidator
 {
     public function validate(mixed $value, Constraint $constraint): void
     {
+        // Sanity test
         if (! $constraint instanceof UnixPath) {
             throw new UnexpectedTypeException($constraint, UnixPath::class);
         }

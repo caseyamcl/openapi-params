@@ -18,12 +18,12 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Type;
 
-use Respect\Validation\Validator;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Model\AbstractNumericParameter;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\Format\Int32Format;
 use OpenApiParams\Format\Int64Format;
+use Symfony\Component\Validator\Constraints\Type;
 
 /**
  * Class IntegerParameter
@@ -47,7 +47,11 @@ class IntegerParameter extends AbstractNumericParameter
     {
         return array_merge(
             parent::getBuiltInValidationRules(),
-            [new ParameterValidationRule(Validator::intType(), 'value must be an integer', false)]
+            [new ParameterValidationRule(
+                new Type('integer'),
+                'value must be an integer',
+                false
+            )]
         );
     }
 

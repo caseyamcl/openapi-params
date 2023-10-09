@@ -19,14 +19,15 @@ namespace OpenApiParams;
 use InvalidArgumentException;
 use LogicException;
 use OpenApiParams\Model\ParameterValidationRule;
+use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\TestCase;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Model\ParameterValues;
 use OpenApiParams\PreparationStep\AllowNullPreparationStep;
 use OpenApiParams\PreparationStep\EnsureCorrectDataTypeStep;
-use Respect\Validation\Rules\AlwaysValid;
-use Respect\Validation\Validatable;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\IsTrue;
 
 /**
  * Class AbstactParameterTest
@@ -182,7 +183,7 @@ abstract class AbstractParameterTestBase extends TestCase
     }
 
     /**
-     * @param ParameterValidationRule|Validatable|callable $rule
+     * @param ParameterValidationRule|Constraint|callable $rule
      * @dataProvider validValidationRuleProvider
      */
     public function testAddValidationWithValidArguments($rule)
@@ -242,9 +243,11 @@ abstract class AbstractParameterTestBase extends TestCase
 
     public static function validValidationRuleProvider(): array
     {
+        $alwaysValid = new Callback(fn ($value) => null);
+
         return [
-            [new ParameterValidationRule(new AlwaysValid(), 'always valid')],
-            [new AlwaysValid()],
+            [new ParameterValidationRule($alwaysValid, 'always valid')],
+            [$alwaysValid],
             [function () {
                 return true;
             }]

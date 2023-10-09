@@ -19,7 +19,6 @@ namespace OpenApiParams\Type;
 use InvalidArgumentException;
 use OpenApiParams\AbstractParameterTestBase;
 use OpenApiParams\Exception\InvalidValueException;
-use OpenApiParams\Model\Parameter;
 use OpenApiParams\Model\ParameterValues;
 use OpenApiParams\Model\ParameterValuesContext;
 use OpenApiParams\ParamDeserializer\StandardDeserializer;

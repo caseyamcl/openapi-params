@@ -19,7 +19,6 @@ declare(strict_types=1);
 namespace OpenApiParams\Type;
 
 use OpenApiParams\Contract\PreparationStep;
-use Respect\Validation\Validator;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\ParamTypes;
@@ -27,6 +26,12 @@ use OpenApiParams\PreparationStep\ArrayDeserializeStep;
 use OpenApiParams\PreparationStep\ArrayItemsPreparationStep;
 use OpenApiParams\Utility\FilterNull;
 use stdClass;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\Count;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
+use Symfony\Component\Validator\Context\ExecutionContext;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Class ArrayParameter
@@ -198,7 +203,7 @@ class ArrayParameter extends Parameter
     {
         if ($this->minItems !== null) {
             $rules[] = new ParameterValidationRule(
-                Validator::length($this->minItems, null),
+                new Count(min: $this->minItems),
                 sprintf('number of items in array must be greater than or equal to %s', number_format($this->minItems)),
                 false
             );
@@ -206,7 +211,7 @@ class ArrayParameter extends Parameter
 
         if ($this->maxItems !== null) {
             $rules[] = new ParameterValidationRule(
-                Validator::length(null, $this->maxItems),
+                new Count(max: $this->maxItems),
                 sprintf('number of items in array must be less than or equal to %s', number_format($this->maxItems)),
                 false
             );
@@ -214,8 +219,10 @@ class ArrayParameter extends Parameter
 
         if ($this->uniqueItems) {
             $rules[] = new ParameterValidationRule(
-                Validator::callback(function (array $value) {
-                    return count(array_unique($value)) === count($value);
+                new Callback(function (array $value, ExecutionContextInterface $ctx) {
+                    if (count(array_unique($value)) !== count($value)) {
+                        $ctx->addViolation('values must be unique items');
+                    }
                 }),
                 'values must be unique items',
                 false

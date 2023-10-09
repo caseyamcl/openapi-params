@@ -19,7 +19,11 @@ declare(strict_types=1);
 namespace OpenApiParams\Model;
 
 use OpenApiParams\Utility\FilterNull;
-use Respect\Validation\Validator;
+use Symfony\Component\Validator\Constraints\DivisibleBy;
+use Symfony\Component\Validator\Constraints\GreaterThan;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\LessThan;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 
 /**
  * Class AbstractNumericParameter
@@ -159,7 +163,7 @@ abstract class AbstractNumericParameter extends Parameter
 
             $min = $this->getMinimum();
             $rules[] = new ParameterValidationRule(
-                $this->exclusiveMinimum ? Validator::greaterThan($min) : Validator::min($min),
+                $this->exclusiveMinimum ? new GreaterThan($min) : new GreaterThanOrEqual($min),
                 $minMessage,
                 false
             );
@@ -174,14 +178,14 @@ abstract class AbstractNumericParameter extends Parameter
 
             $max = $this->getMaximum();
             $rules[] = new ParameterValidationRule(
-                $this->exclusiveMaximum ? Validator::lessThan($max) : Validator::max($max),
+                $this->exclusiveMaximum ? new LessThan($max) : new LessThanOrEqual($max),
                 $maxMessage,
                 false
             );
         }
         if ($multipleOf = $this->getMultipleOf()) {
             $rules[] = new ParameterValidationRule(
-                Validator::multiple((int) $multipleOf),
+                new DivisibleBy((int) $multipleOf),
                 sprintf('value must be a multiple of %s', number_format((int) $this->getMultipleOf())),
                 false
             );

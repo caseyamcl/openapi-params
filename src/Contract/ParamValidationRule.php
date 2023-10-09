@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraint;
 /**
  * Parameter Validation Rule
  *
- * Augments Respect validation rule by adding OpenAPI documentation for the rule
+ * Augments validation rule by adding OpenAPI documentation for the rule
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */

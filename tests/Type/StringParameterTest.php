@@ -138,7 +138,6 @@ class StringParameterTest extends AbstractParameterTestBase
             ['makeByte',         Format\ByteFormat::class],
             ['makeDate',         Format\DateFormat::class],
             ['makeDateTime',     Format\DateTimeFormat::class],
-            ['makeCsv',          Format\CsvFormat::class],
             ['makePassword',     Format\PasswordFormat::class],
             ['makeTemporal',     Format\TemporalFormat::class],
             ['makeUuid',         Format\UuidFormat::class],

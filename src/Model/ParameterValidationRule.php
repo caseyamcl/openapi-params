@@ -19,13 +19,12 @@ declare(strict_types=1);
 namespace OpenApiParams\Model;
 
 use OpenApiParams\Contract\ParamValidationRule;
-use Respect\Validation\Validatable;
 use Symfony\Component\Validator\Constraint;
 
 /**
  * Parameter Validation Rule
  *
- * Augments Respect rules by adding documentation for the rule
+ * Augments validation rules by adding documentation for the rule
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */

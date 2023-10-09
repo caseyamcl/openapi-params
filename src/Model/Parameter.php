@@ -20,7 +20,6 @@ namespace OpenApiParams\Model;
 
 use LogicException;
 use OpenApiParams\Behavior\SetValidatorTrait;
-use Respect\Validation\Validatable;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\PreparationStep\AllowNullPreparationStep;
@@ -30,6 +29,7 @@ use OpenApiParams\PreparationStep\EnumCheckStep;
 use OpenApiParams\PreparationStep\ValidationStep;
 use OpenApiParams\Utility\FilterNull;
 use OpenApiParams\Utility\RequireConstantTrait;
+use Symfony\Component\Validator\Constraint;
 
 /**
  * Abstract Parameter
@@ -123,12 +123,12 @@ abstract class Parameter
     /**
      * Add a validation rule
      *
-     * @param callable|ParameterValidationRule|Validatable $rule
+     * @param callable|ParameterValidationRule|Constraint $rule
      * @param string $documentation Will be ignored if $rule is instance of ParameterValidationRule
      * @return self
      */
     final public function addValidationRule(
-        callable|ParameterValidationRule|Validatable $rule,
+        callable|ParameterValidationRule|Constraint $rule,
         string $documentation = ''
     ): self {
         $this->validationRules[] = $this->buildValidationRule($rule, $documentation);
@@ -143,10 +143,10 @@ abstract class Parameter
      *
      * To pass documentation, pass instances of ParameterValidationRule or use self::addValidationRule()
      *
-     * @param callable|ParameterValidationRule|Validatable ...$rules
+     * @param callable|ParameterValidationRule|Constraint ...$rules
      * @return self
      */
-    final public function addValidationRules(callable|ParameterValidationRule|Validatable ...$rules): self
+    final public function addValidationRules(callable|ParameterValidationRule|Constraint ...$rules): self
     {
         foreach ($rules as $rule) {
             $this->addValidationRule($rule);

@@ -23,11 +23,10 @@ use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\Model\ParameterValues;
-use Symfony\Component\Validator\Exception\ValidationFailedException;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 /**
- * Respect Validation Step
+ * Validation Step
  *
  * This step is built into the AbstractParameter, so if your parameter extends
  * that class, it will be run automatically.
@@ -44,8 +43,7 @@ class ValidationStep implements PreparationStep
     private ValidatorInterface $validator;
 
     /**
-     * RespectValidationStep constructor.
-     * @param iterable $rules|ParameterValidationRule[]
+     * @param iterable $rules<int,\Symfony\Validator\Constraint>
      */
     public function __construct(iterable $rules)
     {

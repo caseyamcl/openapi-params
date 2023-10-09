@@ -29,7 +29,8 @@ use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\PreparationStep\CallbackStep;
 use OpenApiParams\PreparationStep\SanitizeStep;
 use OpenApiParams\Utility\FilterNull;
-use Respect\Validation\Validator;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Regex;
 use Webmozart\Assert\Assert;
 
 /**
@@ -118,17 +119,6 @@ class StringParameter extends Parameter
     final public function makeDateTime(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
     {
         return $this->setFormat(new Format\DateTimeFormat($earliest, $latest));
-    }
-
-    /**
-     * Set the format to CSV
-     *
-     * @param string $separator
-     * @return self
-     */
-    final public function makeCsv(string $separator = ','): self
-    {
-        return $this->setFormat(new Format\CsvFormat($separator));
     }
 
     /**
@@ -314,21 +304,21 @@ class StringParameter extends Parameter
         // Rules do not provide documentation, because that would be redundant in the API documentation
         if ($this->minLength !== null) {
             $rules[] = new ParameterValidationRule(
-                Validator::length($this->minLength),
+                new Length(min: $this->minLength),
                 sprintf('Ensure length no shorter than %s', number_format($this->minLength)),
                 false
             );
         }
         if ($this->maxLength !== null) {
             $rules[] = new ParameterValidationRule(
-                Validator::length(null, $this->maxLength),
+                new Length(max: $this->maxLength),
                 sprintf('Ensure length no longer than %s', number_format($this->maxLength)),
                 false
             );
         }
         if ($this->pattern) {
             $rules[] = new ParameterValidationRule(
-                Validator::regex($this->pattern),
+                new Regex($this->pattern),
                 sprintf('Ensure pattern matches: "%s"', $this->pattern),
                 false
             );
