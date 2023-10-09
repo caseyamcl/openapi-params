@@ -281,7 +281,7 @@ Built-in preparation steps are automatically added for specific types and format
 | `EnumCheckStep`               | Checks value against a list of allowed values (if specified)                                                |
 | `ObjectDeserializeStep`       | Deserialize an object if there is a deserializer in the context                                             |
 | `PrepareObjectPropertiesStep` | Prepares individual properties in an object if they are specified                                           |
-| `RespectValidationStep`       | Runs built-in validation rules (see above)                                                                  |
+| `ValidationStep`              | Runs built-in validation rules (see above)                                                                  |
 | `SanitizeStep`                | Optionally sanitizes string parameters with `filter_var` (off by default)                                   |
 
 ### Callback Step
