@@ -35,10 +35,10 @@ abstract class AbstractParamFormatTestBase extends TestCase
 
     public function testGetPreparationSteps()
     {
-        $this->assertIsArray($this->getFormat()->getPreparationSteps());
+        $this->assertIsArray($this->getFormat()->getPreValidationPreparationSteps());
         $this->assertContainsOnlyInstancesOf(
             PreparationStep::class,
-            $this->getFormat()->getPreparationSteps()
+            $this->getFormat()->getPreValidationPreparationSteps()
         );
     }
 

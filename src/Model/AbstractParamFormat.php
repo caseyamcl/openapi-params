@@ -51,8 +51,9 @@ abstract class AbstractParamFormat implements ParamFormat
 
     /**
      * If the name is explicitly specified
+     *
      * @return string
-     * @throws ReflectionException|RuntimeException
+     * @throws RuntimeException
      */
     public function getName(): string
     {
@@ -104,13 +105,25 @@ abstract class AbstractParamFormat implements ParamFormat
     /**
      * Get built-in parameter preparation steps
      *
+     * These run before validation
+     *
+     * @return array<int,PreparationStep>
+     */
+    public function getPreValidationPreparationSteps(): array
+    {
+        // Most formats do not have extra preparation steps.
+        return [];
+    }
+
+    /**
+     * Get built-in post-validation preparation steps
+     *
      * These run after validation but before any custom preparation steps
      *
      * @return array<int,PreparationStep>
      */
-    public function getPreparationSteps(): array
+    public function getPostValidationPreparationSteps(): array
     {
-        // Most formats do not have extra preparation steps.
         return [];
     }
 }

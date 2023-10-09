@@ -35,7 +35,7 @@ class ByteFormat extends AbstractParamFormat
     public const TYPE_CLASS = StringParameter::class;
     public const NAME = 'byte';
 
-    private const BASE64_REGEX = '^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$';
+    private const BASE64_REGEX = '/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/';
 
     /**
      * Get built-in validation rules
@@ -61,7 +61,7 @@ class ByteFormat extends AbstractParamFormat
      *
      * @return array<int,PreparationStep>
      */
-    public function getPreparationSteps(): array
+    public function getPostValidationPreparationSteps(): array
     {
         return [new CallbackStep(function (string $value): string {
             return base64_decode($value);

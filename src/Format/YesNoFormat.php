@@ -57,7 +57,7 @@ class YesNoFormat extends AbstractParamFormat
         ];
     }
 
-    public function getPreparationSteps(): array
+    public function getPreValidationPreparationSteps(): array
     {
         return [
             new CallbackStep(function (string $value): bool {

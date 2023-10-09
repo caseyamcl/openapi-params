@@ -58,5 +58,5 @@ interface ParamFormat
      *
      * @return array<int,PreparationStep>
      */
-    public function getPreparationSteps(): array;
+    public function getPreValidationPreparationSteps(): array;
 }

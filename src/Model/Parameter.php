@@ -471,6 +471,11 @@ abstract class Parameter
         // Add built-in pre-validation preparation steps
         $steps = array_merge($steps, $this->getPreValidationPreparationSteps());
 
+        // Add the built-in pre-validation preparation steps from the format
+        if ($this->format) {
+            $steps = array_merge($steps, $this->format->getPreValidationPreparationSteps());
+        }
+
         // Add validation if there are validation rules
         $validationRules = $this->getValidationRules();
         if (!empty($validationRules)) {
@@ -480,9 +485,9 @@ abstract class Parameter
         // Add the built-in post-validation preparation steps
         $steps = array_merge($steps, $this->getPostValidationPreparationSteps());
 
-        // Add the built-in preparation steps from the format
+        // Add the built-in post-validation preparation steps from the format
         if ($this->format) {
-            $steps = array_merge($steps, $this->format->getPreparationSteps());
+            $steps = array_merge($steps, $this->format->getPostValidationPreparationSteps());
         }
 
         // Merge the steps
@@ -620,7 +625,7 @@ abstract class Parameter
     /**
      * Get built-in validation rules
      *
-     * These are added to the validation preparation step automatically
+     * These automatically are added to the validation preparation step
      *
      * @return array<int,ParameterValidationRule>
      */

@@ -19,18 +19,19 @@ declare(strict_types=1);
 namespace OpenApiParams\Format;
 
 use Carbon\CarbonImmutable;
-use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use Exception;
 use InvalidArgumentException;
-use Respect\Validation\Validator;
 use OpenApiParams\Contract\ParamValidationRule;
 use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Model\AbstractParamFormat;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\PreparationStep\CallbackStep;
 use OpenApiParams\Type\StringParameter;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
+use Symfony\Component\Validator\Constraints\LessThanOrEqual;
 
 /**
  * OpenAPI DateTime Format
@@ -42,7 +43,7 @@ class DateTimeFormat extends AbstractParamFormat
     public const TYPE_CLASS = StringParameter::class;
     public const NAME = 'date-time';
 
-    public const VALID_FORMATS = [DateTime::RFC3339, DateTime::RFC3339_EXTENDED];
+    public const VALID_FORMATS = [DateTimeInterface::RFC3339, DateTimeInterface::RFC3339_EXTENDED];
     public const DATE_FORMAT_EXAMPLE = '2017-07-21T17:32:28Z';
 
     private ?CarbonImmutable $earliestDate;
@@ -55,7 +56,7 @@ class DateTimeFormat extends AbstractParamFormat
      * @param DateTimeInterface|null $earliest  Specify the oldest allowable date/time (inclusive)
      * @param DateTimeInterface|null $latest  Specify the newest allowable date/time (inclusive)
      */
-    public function __construct(?DateTimeInterface $earliest = null, DateTimeInterface $latest = null)
+    public function __construct(?DateTimeInterface $earliest = null, ?DateTimeInterface $latest = null)
     {
         $this->setEarliestDate($earliest);
         $this->setLatestDate($latest);
@@ -91,7 +92,7 @@ class DateTimeFormat extends AbstractParamFormat
 
         if ($this->earliestDate) {
             $rules[] = new ParameterValidationRule(
-                Validator::min($this->earliestDate),
+                new GreaterThanOrEqual($this->earliestDate->format(DateTimeInterface::RFC3339_EXTENDED)),
                 sprintf(
                     'value must be newer than (inclusive) %s',
                     $this->earliestDate->format(current(static::VALID_FORMATS))
@@ -101,7 +102,7 @@ class DateTimeFormat extends AbstractParamFormat
 
         if ($this->latestDate) {
             $rules[] = new ParameterValidationRule(
-                Validator::max($this->latestDate),
+                new LessThanOrEqual($this->latestDate->format(DateTimeInterface::RFC3339_EXTENDED)),
                 sprintf(
                     'value must be older than (inclusive) %s',
                     $this->latestDate->format(current(static::VALID_FORMATS))
@@ -119,7 +120,7 @@ class DateTimeFormat extends AbstractParamFormat
      *
      * @return array<int,PreparationStep>
      */
-    public function getPreparationSteps(): array
+    public function getPreValidationPreparationSteps(): array
     {
         return [
             new CallbackStep(function (string $value): DateTimeImmutable {
@@ -136,10 +137,10 @@ class DateTimeFormat extends AbstractParamFormat
     protected function getBaseRule(): ParamValidationRule
     {
         return new ParameterValidationRule(
-            Validator::callback(function (string $value) {
+            new Callback(function (string $value) {
                 try {
                     return (bool) $this->buildDate($value);
-                } catch (InvalidArgumentException $e) {
+                } catch (InvalidArgumentException) {
                     return false;
                 }
             }),

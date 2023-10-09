@@ -45,7 +45,7 @@ class DateFormat extends DateTimeFormat
      *
      * @return array<int,PreparationStep>
      */
-    public function getPreparationSteps(): array
+    public function getPreValidationPreparationSteps(): array
     {
         return [
             new CallbackStep(function (string $value): DateTimeImmutable {

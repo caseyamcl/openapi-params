@@ -43,7 +43,7 @@ class UuidFormat extends AbstractParamFormat
         ];
     }
 
-    public function getPreparationSteps(): array
+    public function getPreValidationPreparationSteps(): array
     {
         return []; // no extra preparation steps.
     }

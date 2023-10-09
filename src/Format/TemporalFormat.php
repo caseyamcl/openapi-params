@@ -38,7 +38,7 @@ class TemporalFormat extends DateTimeFormat
     public const NAME = 'temporal';
     public const TYPE_CLASS = StringParameter::class;
 
-    public function getPreparationSteps(): array
+    public function getPreValidationPreparationSteps(): array
     {
         return [
             new CallbackStep(function (string $value): DateTimeImmutable {
