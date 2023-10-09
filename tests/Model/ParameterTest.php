@@ -22,7 +22,9 @@ use OpenApiParams\ParamContext\ParamQueryContext;
 use OpenApiParams\Type\StringParameter;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\Test\TestLogger;
-use Respect\Validation\Validator;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotEqualTo;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class ParameterTest extends TestCase
 {
@@ -100,8 +102,8 @@ class ParameterTest extends TestCase
     public function testAddMultipleValidationRulesWithValidData(): void
     {
         $ruleOne = fn ($value) => $value !== 'abc';
-        $ruleTwo = Validator::alnum('_');
-        $ruleThree = new ParameterValidationRule(Validator::length(null, 5), 'This rule has documentation');
+        $ruleTwo = new Regex('/[A-Za-z0-9_]+/');
+        $ruleThree = new ParameterValidationRule(new Length(max: 5), 'This rule has documentation');
         $param = StringParameter::create('xyz')->addValidationRules($ruleOne, $ruleTwo, $ruleThree);
         $prepared = $param->prepare('def');
 
@@ -115,11 +117,11 @@ class ParameterTest extends TestCase
     public function testAddMultipleValidationRulesWithInvalidData(): void
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('These rules must pass for ');
+        $this->expectExceptionMessage('(invalid data)');
 
-        $ruleOne = fn ($value) => $value !== 'abcdefg';
-        $ruleTwo = Validator::alnum('_');
-        $ruleThree = new ParameterValidationRule(Validator::length(null, 5), 'This rule has documentation');
+        $ruleOne = new NotEqualTo('abcdefg');
+        $ruleTwo = new Regex('/[a-zA-Z0-9_]+/');
+        $ruleThree = new ParameterValidationRule(new Length(max: 5), 'This rule has documentation');
         $param = StringParameter::create('xyz')->addValidationRules($ruleOne, $ruleTwo, $ruleThree);
         $param->prepare('abcdefg');
     }

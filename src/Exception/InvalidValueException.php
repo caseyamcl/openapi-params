@@ -79,7 +79,7 @@ final class InvalidValueException extends RuntimeException implements ParameterE
         Assert::allIsInstanceOf($errors, ParameterError::class);
 
         $message = 'Parameter preparation step failed (invalid data): ' . get_class($step);
-        $message .= '; ' . implode(PHP_EOL, $errors);
+        $message .= '; ' . PHP_EOL . implode(PHP_EOL, $errors);
 
         parent::__construct($message, 422);
         array_map([$this, 'addError'], $errors);

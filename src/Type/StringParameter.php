@@ -216,7 +216,7 @@ class StringParameter extends Parameter
         $pattern = ($pattern[0] !== '/') ? '/' . $pattern . '/' : $pattern;
 
         // Test regex to ensure it is valid.
-        if (preg_match($pattern, '') === false) {
+        if (@preg_match($pattern, '') === false) {
             throw new InvalidArgumentException('Pattern must be a valid regular expression');
         }
 

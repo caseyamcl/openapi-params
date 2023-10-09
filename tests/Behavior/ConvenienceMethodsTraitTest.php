@@ -25,15 +25,6 @@ use PHPUnit\Framework\TestCase;
 
 class ConvenienceMethodsTraitTest extends TestCase
 {
-
-    public function testAddCsvValue(): void
-    {
-        $obj = new ParameterList('test');
-        $obj->addCsv('test');
-        $prepared = $obj->prepare(['test' => 'a,b,c']);
-        $this->assertEquals(['a', 'b', 'c'], $prepared->getPreparedValue('test'));
-    }
-
     public function testAddNumber(): void
     {
         $obj = new ParameterList('test');

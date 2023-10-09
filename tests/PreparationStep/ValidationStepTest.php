@@ -21,12 +21,13 @@ namespace OpenApiParams\PreparationStep;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\Model\ParameterValues;
-use OpenApiParams\Validation\Rules\ValidEmailLocalPart;
+use OpenApiParams\Validator\EmailLocalPart;
 use PHPUnit\Framework\TestCase;
-use Respect\Validation\Rules\Ip;
-use Respect\Validation\Validator;
+use Symfony\Component\Validator\Constraints\AtLeastOneOf;
+use Symfony\Component\Validator\Constraints\Hostname;
+use Symfony\Component\Validator\Constraints\Ip;
 
-class RespectValidationStepTest extends TestCase
+class ValidationStepTest extends TestCase
 {
     public function testRespectValidationStepBasicFunctionality(): void
     {
@@ -42,7 +43,7 @@ class RespectValidationStepTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         $rule = new ParameterValidationRule(
-            Validator::anyOf(Validator::ip(), Validator::domain(false)),
+            new AtLeastOneOf([new Ip(), new Hostname()]),
             'is valid IP or domain name'
         );
         $step = new ValidationStep([$rule]);
@@ -55,7 +56,7 @@ class RespectValidationStepTest extends TestCase
         $this->expectException(InvalidValueException::class);
 
         $rule = new ParameterValidationRule(
-            new ValidEmailLocalPart(),
+            new EmailLocalPart(),
             'is valid email local part'
         );
         $step = new ValidationStep([$rule]);
