@@ -21,10 +21,10 @@ use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\ParamContext\ParamQueryContext;
 use OpenApiParams\Type\StringParameter;
 use PHPUnit\Framework\TestCase;
-use Psr\Log\Test\TestLogger;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotEqualTo;
 use Symfony\Component\Validator\Constraints\Regex;
+use ColinODell\PsrTestLogger\TestLogger;
 
 class ParameterTest extends TestCase
 {
