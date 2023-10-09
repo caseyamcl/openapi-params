@@ -22,14 +22,14 @@ use Carbon\CarbonImmutable;
 use DateTimeImmutable;
 use Exception;
 use InvalidArgumentException;
-use Respect\Validation\Validator;
 use OpenApiParams\Contract\ParamValidationRule;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\PreparationStep\CallbackStep;
 use OpenApiParams\Type\StringParameter;
+use Symfony\Component\Validator\Constraints\Callback;
 
 /**
- * Temporal format (any parse-able date string)
+ * Temporal format (any valid date string)
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
@@ -55,7 +55,7 @@ class TemporalFormat extends DateTimeFormat
     protected function getBaseRule(): ParamValidationRule
     {
         return new ParameterValidationRule(
-            Validator::callback(function (string $value) {
+            new Callback(function (string $value) {
                 try {
                     return (bool) CarbonImmutable::parse($value);
                 } catch (Exception | InvalidArgumentException $e) {

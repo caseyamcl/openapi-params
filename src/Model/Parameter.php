@@ -490,7 +490,7 @@ abstract class Parameter
             $steps = array_merge($steps, $this->format->getPostValidationPreparationSteps());
         }
 
-        // Merge the steps
+        // Add user-defined preparation steps
         $steps = array_merge($steps, $this->extraPreparationSteps);
 
         // If allow null, then wrap each step with a decorator

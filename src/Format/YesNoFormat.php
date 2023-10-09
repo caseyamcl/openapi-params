@@ -18,13 +18,14 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Format;
 
-use Respect\Validation\Exceptions\ComponentException;
-use Respect\Validation\Rules\Callback;
-use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Model\AbstractParamFormat;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\PreparationStep\CallbackStep;
 use OpenApiParams\Type\StringParameter;
+use Symfony\Component\Validator\Constraints\Callback;
+use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Validator\Context\ExecutionContext;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * Custom Yes/No (true/false, 1/0, on/off) string format
@@ -47,17 +48,13 @@ class YesNoFormat extends AbstractParamFormat
     {
         return [
             new ParameterValidationRule(
-                // Tried to use the Respect 'in' rule here, but it automatically typecast integer values, so I had
-                // to use a callback function instead.
-                new Callback(function ($value) {
-                    return isset(static::BOOLEAN_MAP[(string) $value]);
-                }),
+                new Choice(array_map('strval', array_keys(static::BOOLEAN_MAP))),
                 sprintf('must be one of: %s', implode(', ', array_keys(static::BOOLEAN_MAP)))
             )
         ];
     }
 
-    public function getPreValidationPreparationSteps(): array
+    public function getPostValidationPreparationSteps(): array
     {
         return [
             new CallbackStep(function (string $value): bool {

@@ -39,7 +39,7 @@ class AlphanumericFormatTest extends AbstractParamFormatTestBase
     public function testNonValidValueThrowsException()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('RespectValidationStep');
+        $this->expectExceptionMessage('is not valid');
         $this->getParameterWithFormat()->prepare('___');
     }
 

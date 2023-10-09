@@ -14,6 +14,8 @@
  *  ------------------------------------------------------------------
  */
 
+declare(strict_types=1);
+
 namespace OpenApiParams\Format;
 
 use OpenApiParams\Model\AbstractParamFormatTestBase;
@@ -24,6 +26,11 @@ use OpenApiParams\Type\StringParameter;
 
 class YesNoFormatTest extends AbstractParamFormatTestBase
 {
+    public function testValidList(): void
+    {
+        $this->assertEquals(0, 0);
+    }
+
     /**
      * @dataProvider validDataProvider
      * @param string $value

@@ -22,7 +22,7 @@ use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Model\AbstractParamFormat;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\Type\StringParameter;
-use Respect\Validation\Rules\Uuid;
+use Symfony\Component\Validator\Constraints\Uuid;
 
 /**
  * Class UuidFormat

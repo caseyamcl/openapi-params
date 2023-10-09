@@ -21,7 +21,7 @@ namespace OpenApiParams\Format;
 use OpenApiParams\Model\AbstractParamFormat;
 use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\Type\StringParameter;
-use Respect\Validation\Validator;
+use Symfony\Component\Validator\Constraints\Email;
 
 class EmailFormat extends AbstractParamFormat
 {
@@ -31,7 +31,7 @@ class EmailFormat extends AbstractParamFormat
     public function getValidationRules(): array
     {
         return [
-            new ParameterValidationRule(Validator::email(), 'value must be a valid email')
+            new ParameterValidationRule(new Email(mode: 'strict'), 'value must be a valid email')
         ];
     }
 }
