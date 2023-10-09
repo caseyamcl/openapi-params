@@ -203,13 +203,13 @@ class ArrayItemsPreparationStep implements PreparationStep
     }
 
     /**
-     * @return array<int,array>
+     * @return array<int,Parameter>
      */
     private function listParameters(): array
     {
         $out = [];
 
-        foreach ($this->parameterTypeMap as $type => $params) {
+        foreach ($this->parameterTypeMap as $params) {
             $out = array_merge($out, $params);
         }
 

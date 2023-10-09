@@ -29,15 +29,18 @@ use OpenApiParams\Model\ParameterValues;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class CallbackStep implements PreparationStep
+final class CallbackStep implements PreparationStep
 {
     private Closure $step;
     private string $description;
     private ?string $documentation;
 
-    public static function fromCallable(callable $callback, string $description, ?string $documentation = null): static
-    {
-        return new static($callback, $description, $documentation);
+    public static function fromCallable(
+        callable $callback,
+        string $description,
+        ?string $documentation = null
+    ): CallbackStep {
+        return new CallbackStep($callback, $description, $documentation);
     }
 
     /**

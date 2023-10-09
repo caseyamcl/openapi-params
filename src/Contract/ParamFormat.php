@@ -54,9 +54,16 @@ interface ParamFormat
     public function getValidationRules(): array;
 
     /**
-     * Get preparation steps (always runs after validation)
+     * Get built-in preparation steps that run before validation
      *
      * @return array<int,PreparationStep>
      */
     public function getPreValidationPreparationSteps(): array;
+
+    /**
+     * Get built-in preparation steps that run after validation
+     *
+     * @return array
+     */
+    public function getPostValidationPreparationSteps(): array;
 }
