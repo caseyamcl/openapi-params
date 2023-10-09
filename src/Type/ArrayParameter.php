@@ -28,9 +28,6 @@ use OpenApiParams\Utility\FilterNull;
 use stdClass;
 use Symfony\Component\Validator\Constraints\Callback;
 use Symfony\Component\Validator\Constraints\Count;
-use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
-use Symfony\Component\Validator\Constraints\LessThanOrEqual;
-use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
@@ -242,7 +239,7 @@ class ArrayParameter extends Parameter
     private function listAllowedTypes(): array
     {
         $out = [];
-        foreach ($this->allowedTypes as $type => $params) {
+        foreach ($this->allowedTypes as $params) {
             $out = array_merge($out, $params);
         }
         return $out;
