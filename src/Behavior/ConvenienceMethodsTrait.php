@@ -125,12 +125,6 @@ trait ConvenienceMethodsTrait
         return $this->addValue($param->setFormat(new Format\ByteFormat()));
     }
 
-    public function addCsv(string $name, bool $required = false, string $separator = ','): StringParameter
-    {
-        $param = new StringParameter($name, $required);
-        return $this->addValue($param->setFormat(new Format\CsvFormat($separator)));
-    }
-
     public function addDate(string $name, bool $required = false): StringParameter
     {
         $param = new StringParameter($name, $required);
