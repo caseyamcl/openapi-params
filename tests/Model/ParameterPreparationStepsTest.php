@@ -23,7 +23,6 @@ use PHPUnit\Framework\TestCase;
 
 class ParameterPreparationStepsTest extends TestCase
 {
-
     public function testListSteps()
     {
         $this->assertContainsOnlyInstancesOf(PreparationStep::class, $this->getInstance()->listSteps());

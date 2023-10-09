@@ -22,7 +22,6 @@ use PHPUnit\Framework\TestCase;
 
 class AggregateErrorsExceptionTest extends TestCase
 {
-
     public function testGetIterator()
     {
         $exception = $this->getInstance();

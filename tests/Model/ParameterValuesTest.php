@@ -21,7 +21,6 @@ use RuntimeException;
 
 class ParameterValuesTest extends TestCase
 {
-
     public function testCount()
     {
         $obj = new ParameterValues(['foo' => 'bar', 'baz' => 'biz']);

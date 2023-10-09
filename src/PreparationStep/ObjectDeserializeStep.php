@@ -30,7 +30,6 @@ use OpenApiParams\Model\ParameterValues;
  */
 class ObjectDeserializeStep implements PreparationStep
 {
-
     /**
      * Get API Documentation for this step
      *

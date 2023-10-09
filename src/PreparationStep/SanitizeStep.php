@@ -31,7 +31,6 @@ use OpenApiParams\Model\ParameterValues;
  */
 class SanitizeStep implements PreparationStep
 {
-
     /**
      * Get documentation for this preparation step to include parameter notes
      *
