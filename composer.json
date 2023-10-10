@@ -2,7 +2,7 @@
   "name": "caseyamcl/openapi-params",
   "description": "Parameter processing library that is compatible with the OpenApi 3.0 specification",
   "keywords": ["openapi", "open-api", "open api", "swagger", "parameter", "processing"],
-  "homepage": "https://github.com/caseyamcl/openapi-Params",
+  "homepage": "https://github.com/caseyamcl/openapi-params",
   "authors": [
     {
       "name":     "Casey McLaughlin",
