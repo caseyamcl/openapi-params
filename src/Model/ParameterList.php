@@ -46,9 +46,9 @@ class ParameterList implements IteratorAggregate, Countable
     private ?ParameterValuesContext $context;
 
     /**
-     * @var ArrayObject<int,Parameter>
+     * @var ArrayObject<string,Parameter>  key is parameter name
      */
-    private ArrayObject $items;
+    private ArrayObject $parameters;
 
     /**
      * ParameterList constructor.
@@ -62,7 +62,7 @@ class ParameterList implements IteratorAggregate, Countable
         Assert::allIsInstanceOf($items, Parameter::class);
 
         $this->name = $name;
-        $this->items = new ArrayObject();
+        $this->parameters = new ArrayObject();
 
         foreach ($items as $item) {
             $this->add($item);
@@ -79,7 +79,7 @@ class ParameterList implements IteratorAggregate, Countable
      */
     public function add(Parameter $param): Parameter
     {
-        $this->items[$param->getName()] = $param;
+        $this->parameters[$param->getName()] = $param;
         return $param;
     }
 
@@ -102,7 +102,7 @@ class ParameterList implements IteratorAggregate, Countable
 
         // Check for undefined parameters
         if ($strict) {
-            $diff = array_diff($paramValues->listNames(), array_keys($this->items->getArrayCopy()));
+            $diff = array_diff($paramValues->listNames(), array_keys($this->parameters->getArrayCopy()));
             if (! empty($diff)) {
                 $exceptions[] = new UndefinedParametersException($diff);
             }
@@ -150,7 +150,7 @@ class ParameterList implements IteratorAggregate, Countable
 
     public function getParameters(): ArrayObject
     {
-        return $this->items;
+        return $this->parameters;
     }
 
     public function getContext(): ?ParameterValuesContext
@@ -164,7 +164,7 @@ class ParameterList implements IteratorAggregate, Countable
     public function getApiDocumentation(): array
     {
         $apiDocs = [];
-        foreach ($this->items as $name => $parameter) {
+        foreach ($this->parameters as $name => $parameter) {
             $apiDocs[$name] = $parameter->getDocumentation();
         }
         return $apiDocs;
@@ -173,7 +173,7 @@ class ParameterList implements IteratorAggregate, Countable
     public function get(string $name): Parameter
     {
         if ($this->has($name)) {
-            return $this->items[$name];
+            return $this->parameters[$name];
         } else {
             throw new RuntimeException("Parameter not found: " . $name);
         }
@@ -184,7 +184,7 @@ class ParameterList implements IteratorAggregate, Countable
      */
     public function has(string $name): bool
     {
-        return isset($this->items[$name]);
+        return isset($this->parameters[$name]);
     }
 
     // --------------------------------------------------------------
@@ -192,12 +192,12 @@ class ParameterList implements IteratorAggregate, Countable
 
     public function count(): int
     {
-        return $this->items->count();
+        return $this->parameters->count();
     }
 
     public function getIterator(): Generator
     {
-        foreach ($this->items as $name => $value) {
+        foreach ($this->parameters as $name => $value) {
             yield $name => $value;
         }
     }
@@ -211,13 +211,25 @@ class ParameterList implements IteratorAggregate, Countable
     {
         $sorter = new StringSort();
 
-        foreach ($this->items as $parameter) {
-            $sorter->add($parameter->getName(), $parameter->listDependencies());
+        foreach ($this->parameters as $parameter) {
+            $paramDependencies = array_unique(array_merge(
+                $parameter->listDependencies(),
+                $parameter->listOptionalDependencies($this->listParameterNames())
+            ));
+            $sorter->add($parameter->getName(), $paramDependencies);
         }
 
         foreach ($sorter->sort() as $name) {
             yield $this->get($name);
         }
+    }
+
+    /**
+     * @return array<int,string>
+     */
+    protected function listParameterNames(): array
+    {
+        return array_keys($this->parameters->getArrayCopy());
     }
 
     protected function getParameterList(): ParameterList

@@ -76,10 +76,15 @@ abstract class Parameter
      */
     private array $dependsOnAbsenceOf = [];
     /**
-     * @var array <int,string|null>  Other parameter names that must exist (and optional callback condition); keys are
-     *                               parameter names, values are either callback or NULL
+     * @var array<string,callable|null>  Other parameter names that must exist (and optional callback condition);
+     *                                   keys are parameter names, values are either callback or NULL
      */
     private array $dependsOn = [];
+
+    /**
+     * @var array<string,callable|null>  Other parameter names that can optionally exist. Same format as self::dependsOn
+     */
+    private array $processAfter = [];
 
     /**
      * AbstractParameter constructor (alternate syntax)
@@ -353,7 +358,7 @@ abstract class Parameter
      * Add a dependency for this parameter
      *
      * If this parameter is allowed only if another parameter is present, then add the other parameter name
-     * using this method.  Additionally, you may optionally add a check (to check if the parameter has a
+     * using this method. Additionally, you may optionally add a check (to check if the parameter has a
      * certain value or some-such) by passing a callback.
      *
      * @param string $otherParameterName
@@ -375,6 +380,20 @@ abstract class Parameter
     final public function addDependsOnAbsenceOf(string $otherParameterName): static
     {
         $this->dependsOnAbsenceOf[] = $otherParameterName;
+        return $this;
+    }
+
+    /**
+     * List of parameter names that, if they are present, must be processed first
+     *
+     * The difference between this and `dependsOn()` is that the other parameters do not have to exist.
+     *
+     * Additionally, you may optionally add a check (to check if the parameter has a certain value or some-such)
+     * by passing a callback.
+     */
+    final public function addProcessAfter(string $otherParameterName, ?callable $callback = null): static
+    {
+        $this->processAfter[$otherParameterName] = $callback;
         return $this;
     }
 
@@ -453,6 +472,14 @@ abstract class Parameter
         }
         if ($checkDependencies && ! empty($this->dependsOnAbsenceOf)) {
             $preSteps[] = new DependencyCheckStep($this->dependsOnAbsenceOf, DependencyCheckStep::MUST_NOT_EXIST);
+        }
+
+        if ($checkDependencies && ! empty($this->processAfter)) {
+            $preSteps[] = new DependencyCheckStep(
+                array_keys($this->processAfter),
+                DependencyCheckStep::MAY_EXIST,
+                array_filter($this->processAfter)
+            );
         }
 
         // Get pre-type-cast preparation steps
@@ -569,6 +596,17 @@ abstract class Parameter
     public function listDependencies(): array
     {
         return array_unique(array_merge(array_keys($this->dependsOn), $this->dependsOnAbsenceOf));
+    }
+
+    /**
+     * List parameter names that this parameter must run after
+     *
+     * @param array $allParamNames<int,string>
+     * @return array<int,string>
+     */
+    public function listOptionalDependencies(array $allParamNames): array
+    {
+        return array_intersect(array_keys($this->processAfter), $allParamNames);
     }
 
     // --------------------------------------------------------------

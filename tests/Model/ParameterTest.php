@@ -20,6 +20,7 @@ use MJS\TopSort\CircularDependencyException;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\ParamContext\ParamQueryContext;
 use OpenApiParams\Type\StringParameter;
+use PhpParser\Node\Param;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotEqualTo;
@@ -71,6 +72,30 @@ class ParameterTest extends TestCase
         $this->assertSame(['test2', 'test1', 'test'], array_values($orderOfOps));
     }
 
+    public function testDependenciesAreOrderedCorrectlyWithProcessAfter(): void
+    {
+        $params = new ParameterList('params');
+        $params->addAlphaNumeric('test')
+            ->addDependsOn('test1')
+            ->addProcessAfter('test3');
+        $params->addInteger('test1')->addDependsOn('test2');
+        $params->addBoolean('test2');
+        $params->addYesNo('test3');
+
+        $logger = new TestLogger();
+        $allValues = new ParameterValues(
+            ['test' => 'xyz', 'test1' => 15, 'test2' => false, 'test3' => 'yes'],
+            new ParamQueryContext($logger)
+        );
+        $params->prepare($allValues);
+
+        $orderOfOps = array_unique(array_map(function (array $logMessage) {
+            return $logMessage['context']['name'];
+        }, $logger->records));
+
+        $this->assertSame(['test2', 'test1', 'test3', 'test'], array_values($orderOfOps));
+    }
+
     public function testDependencyLoopThrowsException(): void
     {
         $this->expectException(CircularDependencyException::class);
@@ -83,6 +108,55 @@ class ParameterTest extends TestCase
 
         $allValues = new ParameterValues(['test' => 'xyz', 'test1' => 15, 'test2' => false]);
         $params->prepare($allValues);
+    }
+
+    public function testDependencyWithCallback(): void
+    {
+        $cbTest = false;
+
+        $params = new ParameterList('params');
+        $params->addAlphaNumeric('test')
+            ->addDependsOn('test1', function () use (&$cbTest) {
+                $cbTest = true;
+            });
+        $params->addInteger('test1');
+
+        $allValues = new ParameterValues(['test' => 'xyz', 'test1' => 15]);
+        $params->prepare($allValues);
+
+        $this->assertTrue($cbTest);
+    }
+
+    public function testOptionalDependencyWithCallback(): void
+    {
+        $cbTest = false;
+
+        $params = new ParameterList('params');
+        $params->addAlphaNumeric('test')
+            ->addProcessAfter('test1', function () use (&$cbTest) {
+                $cbTest = true;
+            });
+        $params->addInteger('test1');
+
+        $allValues = new ParameterValues(['test' => 'xyz', 'test1' => 15]);
+        $params->prepare($allValues);
+
+        $this->assertTrue($cbTest);
+    }
+
+    public function testOptionalDependencyIsActuallyOptional(): void
+    {
+        $params = new ParameterList('params');
+        $params->addAlphaNumeric('test')
+            ->addProcessAfter('test1')
+            ->addProcessAfter('test2'); // test2 doesn't exist
+        $params->addInteger('test1');
+
+        $allValues = new ParameterValues(['test' => 'xyz', 'test1' => 15]);
+        $preparedValues = $params->prepare($allValues);
+
+        $this->assertEquals('xyz', $preparedValues->get('test')->getPreparedValue());
+        $this->assertEquals(15, $preparedValues->get('test1')->getPreparedValue());
     }
 
     public function testGetDocumentationReturnsExpectedArray(): void

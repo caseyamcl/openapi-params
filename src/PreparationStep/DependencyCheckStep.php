@@ -22,6 +22,7 @@ use InvalidArgumentException;
 use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\ParameterValues;
+use Webmozart\Assert\Assert;
 
 /**
  * Class DependencyCheckStep
@@ -30,24 +31,27 @@ use OpenApiParams\Model\ParameterValues;
  */
 class DependencyCheckStep implements PreparationStep
 {
-    public const MUST_EXIST = true;
-    public const MUST_NOT_EXIST = false;
+    public const MUST_NOT_EXIST = 0;
+    public const MUST_EXIST = 1;
+    public const MAY_EXIST = 2;
 
     /**
      * @var array<int,string>
      */
     private array $paramNames;
     private ?array $callbacks = [];
-    private bool $mode;
+    private int $mode;
 
     /**
      * DependencyCheckStep constructor.
      * @param array|string[] $params List of parameter names
-     * @param bool $mode  Either TRUE (self::MUST_EXIST) or FALSE (self::MUST_NOT_EXIST)
+     * @param int $mode  Either 1 (self::MUST_EXIST). 0 (self::MUST_NOT_EXIST), or 2 (self::MAY_EXIST)
      * @param array|null $callbacks  Keys are param names, values are callbacks
      */
-    public function __construct(array $params, bool $mode = self::MUST_EXIST, ?array $callbacks = [])
+    public function __construct(array $params, int $mode = self::MUST_EXIST, ?array $callbacks = [])
     {
+        Assert::inArray($mode, (new \ReflectionClass($this))->getConstants());
+
         $this->paramNames = $params;
         $this->callbacks = $callbacks;
         $this->mode = $mode;
@@ -95,12 +99,19 @@ class DependencyCheckStep implements PreparationStep
     public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
         // values must exist
-        if ($this->mode === self::MUST_EXIST) {
-            $template = '%s parameter can only be used when other parameter(s) are present: %s';
-            $valid = count(array_diff($this->paramNames, $allValues->listNames())) === 0;
-        } else { // values must not exist
-            $template = '%s parameter can not be used when other parameter(s) are present: %s';
-            $valid = array_diff($this->paramNames, $allValues->listNames()) == $this->paramNames;
+        switch ($this->mode) {
+            case self::MUST_EXIST:
+                $template = '%s parameter can only be used when other parameter(s) are present: %s';
+                $valid = count(array_diff($this->paramNames, $allValues->listNames())) === 0;
+                break;
+            case self::MUST_NOT_EXIST:
+                $template = '%s parameter can not be used when other parameter(s) are present: %s';
+                $valid = array_diff($this->paramNames, $allValues->listNames()) == $this->paramNames;
+                break;
+            case self::MAY_EXIST:
+            default:
+                $template = '';
+                $valid = true;
         }
 
         if (! $valid) {
