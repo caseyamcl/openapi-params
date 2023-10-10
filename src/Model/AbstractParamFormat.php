@@ -81,7 +81,7 @@ abstract class AbstractParamFormat implements ParamFormat
     {
         try {
             return $this->getName();
-        } catch (ReflectionException | RuntimeException $e) {
+        } catch (RuntimeException) {
             return '';
         }
     }

@@ -58,7 +58,7 @@ class TemporalFormat extends DateTimeFormat
             new Callback(function (string $value) {
                 try {
                     return (bool) CarbonImmutable::parse($value);
-                } catch (Exception | InvalidArgumentException $e) {
+                } catch (Exception | InvalidArgumentException) {
                     return false;
                 }
             }),

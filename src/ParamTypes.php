@@ -49,7 +49,7 @@ final class ParamTypes
      * @param string $paramName   Optional name
      * @return Parameter
      */
-    public static function resolveTypeInstance(string $type, $paramName = ''): Parameter
+    public static function resolveTypeInstance(string $type, string $paramName = ''): Parameter
     {
         $map = [
             self::STRING  => StringParameter::class,

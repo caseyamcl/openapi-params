@@ -22,7 +22,6 @@ use ArrayIterator;
 use Countable;
 use IteratorAggregate;
 use RuntimeException;
-use Traversable;
 
 /**
  * Parameter Value Collection for use during parameter processing

@@ -20,7 +20,6 @@ namespace OpenApiParams\Format;
 
 use RuntimeException;
 use OpenApiParams\Model\AbstractParamFormat;
-use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\Type\NumberParameter;
 
 /**

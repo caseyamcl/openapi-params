@@ -18,8 +18,6 @@ declare(strict_types=1);
 
 namespace OpenApiParams\Model;
 
-use Webmozart\Assert\Assert;
-
 /**
  * Invalid Parameter Error
  *

@@ -66,8 +66,8 @@ class PrepareObjectPropertiesStep implements PreparationStep
     {
         return sprintf(
             'prepare properties in object parameter %s: %s',
-            (string) $this->parameter,
-            implode(', ', array_keys((array) $this->parameter->getProperties()))
+            $this->parameter,
+            implode(', ', array_keys($this->parameter->getProperties()))
         );
     }
 

@@ -19,7 +19,6 @@ declare(strict_types=1);
 namespace OpenApiParams\Format;
 
 use OpenApiParams\Model\AbstractParamFormat;
-use OpenApiParams\Model\ParameterValidationRule;
 use OpenApiParams\Type\IntegerParameter;
 
 /**

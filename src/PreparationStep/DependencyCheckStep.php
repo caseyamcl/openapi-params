@@ -22,6 +22,7 @@ use InvalidArgumentException;
 use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\ParameterValues;
+use ReflectionClass;
 use Webmozart\Assert\Assert;
 
 /**
@@ -39,7 +40,7 @@ class DependencyCheckStep implements PreparationStep
      * @var array<int,string>
      */
     private array $paramNames;
-    private ?array $callbacks = [];
+    private ?array $callbacks;
     private int $mode;
 
     /**
@@ -50,7 +51,7 @@ class DependencyCheckStep implements PreparationStep
      */
     public function __construct(array $params, int $mode = self::MUST_EXIST, ?array $callbacks = [])
     {
-        Assert::inArray($mode, (new \ReflectionClass($this))->getConstants());
+        Assert::inArray($mode, (new ReflectionClass($this))->getConstants());
 
         $this->paramNames = $params;
         $this->callbacks = $callbacks;

@@ -39,7 +39,7 @@ class ParameterValuesContext
     /**
      * ParameterContext constructor.
      *
-     * @param string $name Should be something like 'query', 'body', 'cookie', 'path', etc..
+     * @param string $name Should be something like 'query', 'body', 'cookie', 'path', etc...
      * @param ParameterDeserializer|null $deserializer
      * @param LoggerInterface|null $logger
      */

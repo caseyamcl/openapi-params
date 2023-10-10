@@ -2,10 +2,11 @@
 
 namespace OpenApiParams\Validator;
 
+use Attribute;
 use Symfony\Component\Validator\Attribute\HasNamedArguments;
 use Symfony\Component\Validator\Constraint;
 
-#[\Attribute]
+#[Attribute]
 class ValidObjectProperties extends Constraint
 {
     public const VALID_OBJECT_PROPERTIES_ERROR = '75dbf6e9-fb53-449f-8eb8-6777fb12e55e';
@@ -18,7 +19,7 @@ class ValidObjectProperties extends Constraint
     public array $requiredProperties = [];
 
     /**
-     * @var string This should be the full path to the property (e.g., "/data/myarr[3]/myobject")
+     * @var string This should be the full path to the property (e.g., "/data/myArr[3]/myObject")
      */
     public string $propertyName = '';
 

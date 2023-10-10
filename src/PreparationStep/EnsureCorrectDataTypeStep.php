@@ -56,7 +56,7 @@ class EnsureCorrectDataTypeStep implements PreparationStep
      */
     public function getApiDocumentation(): ?string
     {
-        // Documentation should be self explanatory...
+        // Documentation should be self-explanatory
         return null;
     }
 

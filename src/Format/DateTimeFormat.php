@@ -68,7 +68,6 @@ class DateTimeFormat extends AbstractParamFormat
     public function setEarliestDate(?DateTimeInterface $earliestDate): void
     {
         $this->earliestDate = $earliestDate ? CarbonImmutable::instance($earliestDate) : null;
-        ;
     }
 
     /**

@@ -33,9 +33,9 @@ class AlphanumericFormat extends AbstractParamFormat
     public const NAME = 'alphanumeric';
     public const TYPE_CLASS = StringParameter::class;
 
-    private const ALPHANUM_PATTERN = "a-zA-Z0-9";
+    private const ALPHANUMERIC_PATTERN = "a-zA-Z0-9";
 
-    private string $extraChars = '';
+    private string $extraChars;
 
     /**
      * AlphanumericFormat constructor.
@@ -78,7 +78,7 @@ class AlphanumericFormat extends AbstractParamFormat
     {
         $regexPattern = sprintf(
             '/^[%s%s]*$/',
-            self::ALPHANUM_PATTERN,
+            self::ALPHANUMERIC_PATTERN,
             $this->extraChars
         );
 
@@ -87,7 +87,7 @@ class AlphanumericFormat extends AbstractParamFormat
                 new Regex($regexPattern),
                 trim(sprintf(
                     'value must be alphanumeric %s',
-                    ($this->extraChars ? "(also allowed: {$this->extraChars})" : '')
+                    ($this->extraChars ? "(also allowed: $this->extraChars)" : '')
                 ))
             )
         ];

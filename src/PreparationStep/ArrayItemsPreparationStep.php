@@ -103,7 +103,7 @@ class ArrayItemsPreparationStep implements PreparationStep
      * Prepare each item in the array
      *
      * @param mixed $value      The value
-     * @param string $itemName  Pointer to index (e.g. '[array_name]/5' or '[array_name]/6', etc..)
+     * @param string $itemName  Pointer to index (e.g. '[array_name]/5' or '[array_name]/6', etc...)
      * @param array<int,Parameter> $paramTypeMapping
      * @return mixed
      */
@@ -148,7 +148,7 @@ class ArrayItemsPreparationStep implements PreparationStep
      *
      * @param mixed $item
      * @param string $paramName
-     * @return array|Parameter[]  Empty array means that any type is allowed
+     * @return array<int,Parameter>  Empty array means that any type is allowed
      */
     private function resolveParamsForItem(mixed $item, string $paramName): array
     {
@@ -157,7 +157,7 @@ class ArrayItemsPreparationStep implements PreparationStep
 
             try {
                 $params = [ParamTypes::resolveParameterForValue($item, $paramName)];
-            } catch (RuntimeException $e) {
+            } catch (RuntimeException) {
                 $msg = sprintf('Invalid data type: %s (could not map to parameter)', gettype($item));
                 throw InvalidValueException::fromMessage($this, $paramName, $item, $msg);
             }
@@ -171,7 +171,7 @@ class ArrayItemsPreparationStep implements PreparationStep
         } else {
             // Craft an error message
             $validTypes = [];
-            foreach ($this->parameterTypeMap as $phpType => $paramTypes) {
+            foreach ($this->parameterTypeMap as $paramTypes) {
                 $validTypes = array_merge($validTypes, $this->resolveValidParameterTypeNames($paramTypes));
             }
 

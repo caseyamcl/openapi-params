@@ -138,7 +138,7 @@ class StringParameter extends Parameter
      * Set the format to temporal value
      *
      * Accepts all date/time values and anything that can be parsed by Carbon
-     * (e.g. "yesterday", "tomorrow", "today at 3pm", etc)
+     * (e.g. "yesterday", "tomorrow", "today at 3pm", etc...)
      *
      * @param DateTimeInterface|null $earliest
      * @param DateTimeInterface|null $latest
@@ -168,7 +168,7 @@ class StringParameter extends Parameter
         if ($format && $format->appliesToType() !== static::class) {
             throw new LogicException(sprintf(
                 "Cannot apply format %s to type %s (format only applies to type: %s) in parameter: %s",
-                (string) $format,
+                $format,
                 static::PHP_DATA_TYPE,
                 $format->appliesToType(),
                 $this->getName()
@@ -182,7 +182,7 @@ class StringParameter extends Parameter
     /**
      * Enable string sanitization
      *
-     * default is FALSE in case data is binary or you wish to use non-built in sanitization
+     * default is FALSE in case data is binary, or you wish to use non-built in sanitization
      *
      * @param bool $sanitize
      * @return self

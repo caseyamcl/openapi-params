@@ -65,7 +65,7 @@ final class ParameterValue
     public function getPreparedValue(): mixed
     {
         if (! $this->isPrepared) {
-            throw new RuntimeException("Parameter has not yet been prepared: {$this->name}");
+            throw new RuntimeException("Parameter has not yet been prepared: $this->name");
         }
         return $this->preparedValue;
     }

@@ -28,18 +28,18 @@ final class UnpackCSV
     /**
      * @var array<int,string>
      */
-    private array $defaultSeparators = [];
+    private array $defaultSeparators;
 
     /**
      * @param string $value
      * @param array<int,string>|string $separators
      * @return array<int,string>
      */
-    public static function un(string $value, array|string $separators = [','])
+    public static function un(string $value, array|string $separators = [',']): array
     {
         static $that;
         if (! $that) {
-            $that = new static();
+            $that = new UnpackCSV();
         }
 
         return $that->unpack($value, $separators);
@@ -71,7 +71,7 @@ final class UnpackCSV
      * @param array<int,string>|string $separators
      * @return array<int,string>
      */
-    public function unpack(string $value, array|string $separators = '')
+    public function unpack(string $value, array|string $separators = ''): array
     {
         $separators = $separators ? (array) $separators : $this->defaultSeparators;
 
@@ -82,7 +82,7 @@ final class UnpackCSV
             }
         }
 
-        // Use fgetcsv to read the CSV
+        // Read the CSV
         $stream = fopen('php://memory', 'r+');
         $value = preg_replace("/[\r\n]+/", '', $value);
         fwrite($stream, $value);
