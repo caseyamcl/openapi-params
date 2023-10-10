@@ -115,9 +115,9 @@ abstract class Parameter
      * Get a copy of this parameter with a specific name
      *
      * @param string $name
-     * @return static|Parameter
+     * @return static
      */
-    final public function withName(string $name): Parameter
+    final public function withName(string $name): static
     {
         $that = clone $this;
         $that->name = $name;
@@ -130,12 +130,12 @@ abstract class Parameter
      *
      * @param callable|ParameterValidationRule|Constraint $rule
      * @param string $documentation Will be ignored if $rule is instance of ParameterValidationRule
-     * @return self
+     * @return static
      */
     final public function addValidationRule(
         callable|ParameterValidationRule|Constraint $rule,
         string $documentation = ''
-    ): self {
+    ): static {
         $this->validationRules[] = $this->buildValidationRule($rule, $documentation);
         return $this;
     }
@@ -149,9 +149,9 @@ abstract class Parameter
      * To pass documentation, pass instances of ParameterValidationRule or use self::addValidationRule()
      *
      * @param callable|ParameterValidationRule|Constraint ...$rules
-     * @return self
+     * @return static
      */
-    final public function addValidationRules(callable|ParameterValidationRule|Constraint ...$rules): self
+    final public function addValidationRules(callable|ParameterValidationRule|Constraint ...$rules): static
     {
         foreach ($rules as $rule) {
             $this->addValidationRule($rule);
