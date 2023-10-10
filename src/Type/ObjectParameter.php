@@ -201,8 +201,8 @@ class ObjectParameter extends Parameter
         }
 
         // Required Properties?
-        $requiredProperties = array_filter(array_keys($this->properties), function (string $name) {
-            return $this->properties[$name]->isRequired();
+        $requiredProperties = array_filter($this->properties, function (Parameter $param) {
+            return $param->isRequired();
         });
         $rules[] = new ParameterValidationRule(
             new ValidObjectProperties($requiredProperties),

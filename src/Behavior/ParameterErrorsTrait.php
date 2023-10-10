@@ -28,7 +28,7 @@ use OpenApiParams\Model\ParameterError;
 trait ParameterErrorsTrait
 {
     /**
-     * @var array<int,ParameterError>
+     * @var array<string,ParameterError>
      */
     private array $errors = [];
 
@@ -38,7 +38,7 @@ trait ParameterErrorsTrait
     }
 
     /**
-     * @return array<int,ParameterError>
+     * @return array<string,ParameterError>
      */
     public function getErrors(): array
     {
@@ -46,7 +46,7 @@ trait ParameterErrorsTrait
     }
 
     /**
-     * @return array<int,ParameterError>
+     * @return array<string,ParameterError>
      */
     public function getErrorsWithPointerPrefix(string $pointerPrefix): array
     {

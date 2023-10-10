@@ -83,7 +83,7 @@ class AggregateErrorsException extends RuntimeException implements IteratorAggre
     }
 
     /**
-     * @return array<int,ParameterError[]>
+     * @return array<string,ParameterError>
      */
     public function getErrors(): array
     {
