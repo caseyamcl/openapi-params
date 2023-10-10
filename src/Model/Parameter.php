@@ -104,7 +104,7 @@ abstract class Parameter
      * @param string $name Parameter name
      * @param bool $required Is this a required parameter
      */
-    final public function __construct(string $name = '', bool $required = false)
+    public function __construct(string $name = '', bool $required = false)
     {
         $this->name = $name;
         $required ? $this->makeRequired() : $this->makeOptional();
