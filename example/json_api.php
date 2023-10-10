@@ -1,10 +1,13 @@
 <?php
 
+use OpenApiParams\Format\AlphanumericFormat;
 use OpenApiParams\Type\ArrayParameter;
 use OpenApiParams\Type\IntegerParameter;
 use OpenApiParams\Type\ObjectParameter;
 use OpenApiParams\Type\StringParameter;
-use Respect\Validation\Validator as v;
+use Symfony\Component\Validator\Constraints\Choice;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Regex;
 
 require_once(__DIR__ . '/../vendor/autoload.php');
 
@@ -52,16 +55,18 @@ $testData = (object) [
 // Relationship parameter
 $relationshipParam = fn($nullable = true) => ObjectParameter::create('data')->setNullable($nullable)->addProperties(
     StringParameter::create('type', true),
-    IntegerParameter::create('id', true) // can we auto-extract from entity metadata what data type the identifier is?
+    IntegerParameter::create('id', true)->setAllowTypeCast(true)
 );
 
 $dataParam = ObjectParameter::create()->addProperty(
     ObjectParameter::create('data', true)->addProperties(
-        StringParameter::create('id', true)->addValidationRule(v::numericVal()),
-        StringParameter::create('type', true)->addValidationRule(v::alnum('_')),
+        StringParameter::create('id', true)->addValidationRule(new Regex('/^[0-9]+$/')),
+        StringParameter::create('type', true)->setFormat(new AlphanumericFormat()),
         ObjectParameter::create('attributes')->addProperties(
             StringParameter::create('displayName')->setSanitize(true),
-            StringParameter::create('title')->addValidationRule(v::in(['CEO', 'CIO', 'CFO'])->length(null, 3))
+            StringParameter::create('title')
+                ->addValidationRule(new Choice(['CEO', 'CIO', 'CFO']))
+                ->addValidationRule(new Length(max: 3))
         ),
         ObjectParameter::create('relationships')->addProperties(
             // To-Many w/data
@@ -84,5 +89,5 @@ $dataParam = ObjectParameter::create()->addProperty(
     )
 );
 
-var_export($dataParam->prepare(json_decode($rawData)));
-//var_export($dataParam->prepare($testData));
+//var_export($dataParam->prepare(json_decode($rawData)));
+var_export($dataParam->prepare($testData));
