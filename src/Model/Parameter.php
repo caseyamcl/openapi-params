@@ -20,6 +20,7 @@ namespace OpenApiParams\Model;
 
 use LogicException;
 use OpenApiParams\Behavior\SetValidatorTrait;
+use OpenApiParams\Contract\ParameterInterface;
 use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Contract\PreparationStep;
 use OpenApiParams\PreparationStep\AllowNullPreparationStep;
@@ -38,7 +39,7 @@ use Symfony\Component\Validator\Constraint;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-abstract class Parameter
+abstract class Parameter implements ParameterInterface
 {
     use RequireConstantTrait;
     use SetValidatorTrait;
