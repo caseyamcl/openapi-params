@@ -143,7 +143,7 @@ class ObjectParameterTest extends AbstractParameterTestBase
 
     public function testRequiredPropertiesProduceTheCorrectDocumentationFormat()
     {
-        $param = $this->getInstance('test')->addProperties(
+        $param = $this->getInstance()->addProperties(
             StringParameter::create('firstName')->makeRequired(true),
             IntegerParameter::create('age')->makeRequired(true)
         );
@@ -159,12 +159,27 @@ class ObjectParameterTest extends AbstractParameterTestBase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('missing required properties: "firstName, age"');
 
-        $param = $this->getInstance('test')->addProperties(
+        $param = $this->getInstance()->addProperties(
             StringParameter::create('firstName')->makeRequired(true),
             IntegerParameter::create('age')->makeRequired(true)
         );
 
         $param->prepare((object) []);
+    }
+
+    public function testAddPropertyListAddsPropertiesToObject(): void
+    {
+        $propertyList = [
+            StringParameter::create('firstName')->makeRequired(),
+            IntegerParameter::create('age')->makeRequired()
+        ];
+
+        $param = $this->getInstance()->addPropertyList($propertyList);
+
+        $docs = $param->getDocumentation();
+        $this->assertArrayNotHasKey('required', $docs['properties']['firstName']);
+        $this->assertArrayNotHasKey('required', $docs['properties']['age']);
+        $this->assertEquals(['firstName', 'age'], $docs['required']);
     }
 
     // --------------------------------------------------------------

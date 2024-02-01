@@ -162,6 +162,19 @@ class ObjectParameter extends Parameter
     }
 
     /**
+     * @param iterable<Parameter> $properties
+     * @return self
+     */
+    final public function addPropertyList(iterable $parameters): self
+    {
+        foreach ($parameters as $param) {
+            $this->addProperty($param);
+        }
+
+        return $this;
+    }
+
+    /**
      * Get built-in validation rules
      *
      * These are added to the validation preparation step automatically
