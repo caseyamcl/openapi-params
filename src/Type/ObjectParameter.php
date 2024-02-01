@@ -162,7 +162,7 @@ class ObjectParameter extends Parameter
     }
 
     /**
-     * @param iterable<Parameter> $properties
+     * @param iterable<Parameter> $parameters
      * @return self
      */
     final public function addPropertyList(iterable $parameters): self
