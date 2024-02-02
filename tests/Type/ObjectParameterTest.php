@@ -16,6 +16,7 @@
 
 namespace OpenApiParams\Type;
 
+use LogicException;
 use OpenApiParams\AbstractParameterTestBase;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
@@ -180,6 +181,24 @@ class ObjectParameterTest extends AbstractParameterTestBase
         $this->assertArrayNotHasKey('required', $docs['properties']['firstName']);
         $this->assertArrayNotHasKey('required', $docs['properties']['age']);
         $this->assertEquals(['firstName', 'age'], $docs['required']);
+    }
+
+    public function testAfterAddPropertyRuns(): void
+    {
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('Test');
+
+        $getSubClass = function () {
+            return new class () extends ObjectParameter {
+                protected function afterAddProperty(Parameter $parameter): void
+                {
+                    throw new LogicException('Test');
+                }
+            };
+        };
+
+        $obj = $getSubClass();
+        $obj->addProperty(new StringParameter('TestParam'));
     }
 
     // --------------------------------------------------------------

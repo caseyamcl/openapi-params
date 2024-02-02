@@ -145,6 +145,7 @@ class ObjectParameter extends Parameter
         Assert::notEmpty($parameter->getName(), 'cannot add parameter without a name to an object');
 
         $this->properties[$parameter->getName()] = $parameter;
+        $this->afterAddProperty($parameter);
         return $this;
     }
 
@@ -287,5 +288,14 @@ class ObjectParameter extends Parameter
     protected function getPostValidationPreparationSteps(): array
     {
         return [new PrepareObjectPropertiesStep($this)];
+    }
+
+    /**
+     * This is for classes that inherit from this class to add additional logic to each property
+     * For example, disallowing property names or injecting callbacks
+     */
+    protected function afterAddProperty(Parameter $parameter): void
+    {
+        // Empty
     }
 }
