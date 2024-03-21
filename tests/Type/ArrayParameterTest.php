@@ -215,7 +215,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
     public function testPrepareThrowsInvalidParameterExceptionWihNoDeserializer()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('invalid data type; expected: array; you provided: string');
+        $this->expectExceptionMessage("invalid data type for parameter 'test'; expected: array; you provided: string");
 
         $context = (new ParameterValuesContext('test', null));
         $allValues = ParameterValues::single('1,2,3', $context, 'test');

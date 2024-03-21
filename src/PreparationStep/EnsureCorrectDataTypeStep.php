@@ -91,7 +91,8 @@ class EnsureCorrectDataTypeStep implements PreparationStep
         }
 
         $message = sprintf(
-            'invalid data type; expected: %s; you provided: %s',
+            "invalid data type for parameter '%s'; expected: %s; you provided: %s",
+            $paramName,
             implode(', ', $this->phpDataTypes),
             gettype($value)
         );
