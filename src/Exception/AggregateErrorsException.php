@@ -46,11 +46,11 @@ class AggregateErrorsException extends RuntimeException implements IteratorAggre
     /**
      * AggregateParameterErrorsException constructor.
      *
-     * @param Traversable|array|ParameterException[] $exceptions
+     * @param iterable<ParameterException> $exceptions
      * @param int $code
      * @param Throwable|null $previous
      */
-    public function __construct(iterable $exceptions, int $code = 0, Throwable $previous = null)
+    public function __construct(iterable $exceptions, int $code = 0, ?Throwable $previous = null)
     {
         $this->exceptions = is_array($exceptions) ? $exceptions : iterator_to_array($exceptions);
         Assert::allIsInstanceOf($this->exceptions, ParameterException::class);

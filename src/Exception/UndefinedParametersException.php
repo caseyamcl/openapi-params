@@ -32,7 +32,7 @@ class UndefinedParametersException extends RuntimeException implements Parameter
 {
     use ParameterErrorsTrait;
 
-    public function __construct(array $paramNames, $code = 422, Throwable $previous = null)
+    public function __construct(array $paramNames, $code = 422, ?Throwable $previous = null)
     {
         foreach ($paramNames as $paramName) {
             $this->addError(new ParameterError('Undefined parameter: ' . $paramName, $paramName));

@@ -61,7 +61,7 @@ final class UnpackCSV
      * @param array<int,string> $separators
      * @return array<int,string>
      */
-    public function __invoke(string $value, array $separators = null): array
+    public function __invoke(string $value, ?array $separators = null): array
     {
         return $this->unpack($value, (array) $separators);
     }

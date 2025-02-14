@@ -99,24 +99,16 @@ class StringParameter extends Parameter
      * Set format to date
      *
      * Times are ignored; use StringParameter::makeDateTime() if you want to preserve the time
-     *
-     * @param DateTimeInterface|null $earliest
-     * @param DateTimeInterface|null $latest
-     * @return self
      */
-    final public function makeDate(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
+    final public function makeDate(?DateTimeInterface $earliest = null, ?DateTimeInterface $latest = null): self
     {
         return $this->setFormat(new Format\DateFormat($earliest, $latest));
     }
 
     /**
      * Set the format to date/time
-     *
-     * @param DateTimeInterface|null $earliest
-     * @param DateTimeInterface|null $latest
-     * @return self
      */
-    final public function makeDateTime(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
+    final public function makeDateTime(?DateTimeInterface $earliest = null, ?DateTimeInterface $latest = null): self
     {
         return $this->setFormat(new Format\DateTimeFormat($earliest, $latest));
     }
@@ -126,8 +118,6 @@ class StringParameter extends Parameter
      *
      * This format does nothing programmatically, but is important for API documentation in the case that clients
      * automatically parse the documentation to generate forms.
-     *
-     * @return self
      */
     final public function makePassword(): self
     {
@@ -139,12 +129,8 @@ class StringParameter extends Parameter
      *
      * Accepts all date/time values and anything that can be parsed by Carbon
      * (e.g. "yesterday", "tomorrow", "today at 3pm", etc...)
-     *
-     * @param DateTimeInterface|null $earliest
-     * @param DateTimeInterface|null $latest
-     * @return self
      */
-    final public function makeTemporal(DateTimeInterface $earliest = null, DateTimeInterface $latest = null): self
+    final public function makeTemporal(?DateTimeInterface $earliest = null, ?DateTimeInterface $latest = null): self
     {
         return $this->setFormat(new Format\TemporalFormat($earliest, $latest));
     }
