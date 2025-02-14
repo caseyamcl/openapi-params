@@ -44,11 +44,9 @@ final class CallbackStep implements PreparationStep
     }
 
     /**
-     * CallbackStep constructor.
-     *
      * @param callable $callback Callback signature is ($value): mixed (throw \InvalidArgumentException if invalid)
-     * @param string $description A description of the step
-     * @param string|null $documentation
+     * @param string $description A description of the step; mainly for logging purposes
+     * @param string|null $documentation Public-facing documentation for this step (if none necessary, return null)
      */
     public function __construct(callable $callback, string $description, ?string $documentation = null)
     {
@@ -57,9 +55,6 @@ final class CallbackStep implements PreparationStep
         $this->documentation = $documentation;
     }
 
-    /**
-     * Get documentation for this preparation step to include parameter notes
-     */
     public function __toString(): string
     {
         return $this->description;
@@ -82,12 +77,6 @@ final class CallbackStep implements PreparationStep
         }
     }
 
-    /**
-     * Get API Documentation for this step
-     *
-     * If this step defines a rule that is important to be included in the API documentation, then include
-     * it here.  e.g. "value must be ..."
-     */
     public function getApiDocumentation(): ?string
     {
         return $this->documentation;
