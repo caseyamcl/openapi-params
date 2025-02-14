@@ -3,12 +3,12 @@
 An OpenApi-compatible parameter processing library
 
 This library aims to provide a reusable and framework independent codebase for
-describing and processing parameters compatible with the [OpenApi 3.x](https://swagger.io/specification/)
+describing and processing parameters compatible with the [OpenApi 3.0.x](https://swagger.io/specification/)
 standard.
 
 It is useful for people who want to create RESTful APIs that are PHP 
-code-driven (i.e. spec doesn't come from a YAML or JSON file, but is defined
-by the code itself).
+[code-first](https://learn.openapis.org/best-practices.html#use-a-design-first-approach) 
+(i.e. spec doesn't come from a YAML or JSON file, but is defined by the code itself).
 
 ## Features:
  
@@ -83,13 +83,13 @@ var_dump($queryParams->getApiDocumentation());
 
 ### Concepts
 
-The concepts and abstractions in this library are based off of the[OpenApi v3](https://swagger.io/specification/) 
-specification. There are a few definitions:
+The concepts and abstractions in this library are based off of the [OpenApi v3.0 specification](https://spec.openapis.org/oas/v3.0.4.html#format).
+There are a few definitions:
 
-* **Parameter**
-    * This is a strictly-defined, basic primitive data type [OpenApi parameter](https://swagger.io/docs/specification/basic-structure/#parameters).
-    * A parameter value can appear in the query string, body, cookie, header, or path.
-    * In this library, parameter types are represented by classes in the `Type` namespace, and they are fixed (you cannot create custom types):
+* **Parameter (definition)**
+    * This is a strictly-defined, basic primitive data type [OpenApi parameter](https://swagger.io/docs/specification/v3_0/describing-parameters/).
+    * In this library, parameter types are instances of the classes in the `Type` namespace.
+    * Parameter definition types are [strictly defined](https://spec.openapis.org/oas/v3.0.4.html#data-types) (meaning you cannot create custom types) as follows:
         * String
         * Boolean
         * Object
@@ -97,18 +97,19 @@ specification. There are a few definitions:
         * Number (float or double)
         * Integer (int32 or int64)
 * **Parameter Value**
-    * This library makes a distinction between parameters (definitions) and parameter values.
-    * You define parameter definitions and then pass the definitions a series of values. The library
-      then checks the values against the definition rules.
+    * The actual values that are defined by parameter definitions; for example, parameter `name=bob`
+      * The parameter definition is `name`, and the value is `bob`.
+    * In this library, each parameter is an object of one of the classes in the `Type` namespace. 
+    * This library then checks the values against the definition rules, custom validation rules, and processes them via
+      preparation steps (see below).
 * **Format**
-    * An [OpenApi format](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#data-types).
-    * In this library, formats are represented by classes in the `Format` namespace, and they are extensible (you can create your own formats).
+    * An [OpenApi format](https://spec.openapis.org/oas/v3.0.4.html#format).
+    * In this library, formats are represented by classes in the `Format` namespace, and you can create your own formats.
     * This library includes all the built-in formats defined by the [OpenApi specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#data-types),
      as well as a [few others](#parameter-types-and-formats).
 * **Preparation Step**
-    * A class that transforms a value in some way (see details below).
-    * For example, the `SanitizeStep` sanitizes string parameters.
-    * You can add as many custom preparation steps as you need to.
+    * A class that transforms a value in some way. For example, the `SanitizeStep` sanitizes string parameters.
+    * In addition to the built-in steps that are documented below, you can add as many custom preparation steps as you need to.
 * **Deserializer**
     * A class that [deserializes arrays and objects](https://swagger.io/docs/specification/serialization/)
     * This library includes one deserializer, and it behaves as follows:
@@ -117,17 +118,18 @@ specification. There are a few definitions:
         * Header parameters are deserialized with `style=simple`, `explode=true`
         * Cookie parameters are deserialized with `style=form`, `explode=false`
         * Body parameters are not deserialized
-    * You can define a custom deserializer if the default one doesn't suit your needs
+    * You can define a custom deserializer if the built-in one doesn't suit your needs
 * **Parameter Validation Rule**
-    * A combination of a [Symfony Constraint](https://symfony.com/doc/current/validation.html#constraints) and a description 
-      of what the rule does.
+    * A wrapper around a [Symfony Constraint](https://symfony.com/doc/current/validation.html#constraints)
+      that adds a description of what the rule does.
+    * Implemented as a Preparation Step
 
-## Parameter Types and Formats
+#### Parameter Types and Formats
 
 OpenApi-Params supports all the built-in [OpenApi v3 parameter types](https://swagger.io/docs/specification/data-models/data-types/)
-and formats.  Types are in the `OpenApi-Params\Type` namespace, and formats are in the `OpenApi-Params\Format` namespace.
+and formats.  Types are in the `OpenApiParams\Type` namespace, and formats are in the `OpenApi-Params\Format` namespace.
 
-In addition, OpenApi-Params provides a couple of extra built-in "convenience" formats:
+In addition, this library provides some extra built-in "convenience" formats:
 
 * **AlphanumericFormat** - Accepts and validates alphanumeric values, with optional additional parameters
 * **EmailFormat** - Accepts and validates any email address via the 
@@ -135,15 +137,14 @@ In addition, OpenApi-Params provides a couple of extra built-in "convenience" fo
 * **TemporalFormat** - Accepts and converts to instance of `CarbonImmutable` any
   string supported by PHP's [`strtotime` function](https://www.php.net/manual/en/function.strtotime.php) 
 * **UuidFormat** - Accepts and validates any valid UUID
-* **YesNoFormat** - Accepts, validates, and converts to boolean any 
-  "truthy" string, including 'true/false', '1/0', 'yes/no', or 'on/off'
+* **YesNoFormat** - Accepts, validates, and converts to boolean any "truthy" string, including 'true/false', '1/0', 'yes/no', or 'on/off'
 
-### Adding custom formats
+#### Adding custom formats
 
-OpenApi3 doesn't allow you to specify custom data types, but it does allow custom formats for data types.
-Simply implement the `Contract\ParamFormat` interface.
+OpenApi3 does not allow you to specify custom data types, but it does allow custom formats for data types.
+To do this, implement the `Contract\ParamFormat` interface.
 
-Or, for convenience, extend the `Model\AbstractParamFormat` class:
+Or, for convenience, extend the `Model\AbstractParamFormat` class, which provides sensible default implementations:
 
 ```php
 use OpenApiParams\Model\AbstractParamFormat;
@@ -152,7 +153,7 @@ use OpenApiParams\Type\StringParameter;
 
 class IpAddressFormat extends AbstractParamFormat
 {
-    // This is a required constant
+    // This is a required constant when extending the AbstractParamFormat class
     public const TYPE_CLASS = StringParameter::class;
     
     /**
@@ -160,33 +161,27 @@ class IpAddressFormat extends AbstractParamFormat
      *
      * These are added to the validation preparation step automatically
      *
-     * @return array|ParameterValidationRule
+     * @return array<ParameterValidationRule>
      */
     public function getValidationRules() : array
     {
-         // TODO: Provide example of getValidationRules() method in action
+         // TODO: Provide example of getValidationRules() method in action (if no rules, this can be empty)
          return [];
     }
 }
 ```
 
-In addition, if the parameter format does something to prepare or transform
-the value, override the `getPreparationSteps()` method.
+In addition, if the parameter format does something to prepare or transform the value, override the `getPreparationSteps()` method.
+An example of this is in the `Format\CsvFormat`, which deserializes the value into an array.
 
-An example of this is in the `Format\CsvFormat`, which deserializes the
-value into an array.
-
-Finally, if you want the format to append to the `description` in the API
-documentation generated by this library, override the `getDocumentation()` method.
-By default, it returns `NULL`, which means to not append anything to the `description`.
-
-For an example of a format that adds a description, refer to the
-`Format\Alphanumeric` format (which describes which characters are allowed
-in the string).
+If you want the format to append to the `description` in the API documentation generated by this library, 
+override the `getDocumentation()` method. By default, it returns `null`, which means that it does not append anything to the `description`.
+An example of a format that adds a description is the `Format\Alphanumeric` format, which describes which 
+characters are allowed in the string.
 
 ### Object values
 
-Object values consist of nested Parameter objects. For example, consider the following JSON:API data structure:
+Object values consist of nested `Parameter` objects. For example, consider the following [json:api](https://jsonapi.org/) data structure:
 
 ```json
 {
@@ -231,11 +226,10 @@ listed that occurred during processing.
 This library provides a built-in preparation step is for validation using the 
 [Symfony Validator Component](https://symfony.com/doc/current/validation.html) library.
 
-Rules are wrapped in the `ParameterValidationRule` class, because most
-rules require documentation (which is the point of the OpenApi specification).
+Rules are wrapped in the `ParameterValidationRule` class, because most rules require documentation.
 
-However, you can add a rule to a parameter without documentation if you
-believe that documentation is not necessary (e.g. the validation is self-evident in the parameter format).
+You can add a rule to a parameter without documentation if you believe that documentation is not necessary; 
+in other words, the validation is self-evident in the parameter format.
 
 ```php
 use OpenApiParams\Model\ParameterValidationRule;
@@ -256,14 +250,19 @@ $prepared = $paramList->prepare(['password' => 'correctHorseBatteryStaple!']);
 $prepared->getPreparedValue('password');
 ```
 
+In the above example, `$ruleOne` would be better implemented using the built-in `$pwParam->setMinLength(8);`.
+`$ruleTwo` is necessary in the 'password' string type, because a parameter cannot have two formats assigned. Otherwise,
+the built-in `$pwParam->setFormat(new AlphanmericFormat(extraChars: '_-!#'))` would be a better fit.
+
 ## Preparation Steps
 
 Each parameter runs through a series of preparation steps which run in serial, one after the other. If everything 
 succeeds, then the prepared value is returned. This allows you to transform the value into whatever the consuming 
 library needs (an entity object, for example).
 
-If an error or exception occurs during a step, subsequent steps are not run. See the "Handling Errors" section below for
-details.
+If an error or exception occurs during any step, subsequent steps are not run, and an `InvalidValueException` is thrown,
+which is caught in the `ParameterList` class logic and compiled into an `AggregateErrorsException` instance.
+For details, see the "Handling Errors" section below.
 
 ### Other built-in steps
 
@@ -286,17 +285,46 @@ Built-in preparation steps are automatically added for specific types and format
 
 ### Callback Step
 
-In addition to the above built-in steps, this library provides for the fairly common use-case of needing to perform a custom action on a parameter.
-For example, converting a value into a database entity, processing a filter, or processing pagination info.
+In addition to the above built-in steps, this library provides for the fairly common use-case of needing to perform a custom 
+action on a parameter. For example, converting a value into a database entity, processing a filter, or processing pagination info.
 
-To create a custom callback for a parameter... _todo: Complete this!_
+To create a custom callback for a parameter, pass a callable to an instance of the `PreparationStep\CallbackStep` class:
+
+```php
+use InvalidArgumentException;
+use OpenApiParams\PreparationStep\CallbackStep;
+use OpenApiParams\OpenApiParams;
+
+$entityManager = SomeEntityManagerFactory::build();
+
+// This is our callback
+// Type definitions are encouraged in function definitions and return signatures
+$convertToEntityCallback = function (string $value) use ($entityManager): EntityObject {
+    $entity = $entityManager->find($value);
+    if (! $entity) {
+        throw new InvalidArgumentException('Could not resolve ID to entity class: ' . $value);
+    }
+    return $entity;
+};
+
+// Setup a parameter
+$paramList = OpenApiParms::bodyParams();
+$pwParam = $paramList->addString('entity_id', required: true)->setFormat(new UuidFormat());
+
+// Build CallbackStep
+$pwParam->addPreparationStep(new CallbackStep(
+    callback: $convertToEntityCallback,
+    descripton: 'Converts IDs to database entities',
+    documentation: null 
+));
+```
 
 ## Handling Errors
 
-OpenApi-Params was designed around the assumption that errors would be most commonly turned into HTTP messages.
+This library was designed around the assumption that errors would be most commonly turned into HTTP messages.
 
 _todo.. document in-depth_
 
 ## Debugging
 
-OpenApi-Params .. _todo: document in-depth_
+OpenApiParams .. _todo: document in-depth_
