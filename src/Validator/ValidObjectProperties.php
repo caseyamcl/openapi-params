@@ -43,7 +43,7 @@ class ValidObjectProperties extends Constraint
     public function __construct(
         array $requiredProperties,
         string $propertyName = '',
-        array $groups = null,
+        ?array $groups = null,
         mixed $payload = null
     ) {
         parent::__construct([], $groups, $payload);

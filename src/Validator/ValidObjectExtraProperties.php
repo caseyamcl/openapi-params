@@ -35,7 +35,7 @@ class ValidObjectExtraProperties extends Constraint
     public array $allowedProperties = [];
 
     #[HasNamedArguments]
-    public function __construct(array $allowedProperties, array $groups = null, mixed $payload = null)
+    public function __construct(array $allowedProperties, ?array $groups = null, mixed $payload = null)
     {
         parent::__construct([], $groups, $payload);
         $this->allowedProperties = $allowedProperties;

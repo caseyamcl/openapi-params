@@ -22,7 +22,7 @@ use Psr\Log\LoggerInterface;
 
 class ParamQueryContextTest extends ParameterValuesContextTestBase
 {
-    protected function getContextInstance(LoggerInterface $logger = null): ParameterValuesContext
+    protected function getContextInstance(?LoggerInterface $logger = null): ParameterValuesContext
     {
         return new ParamQueryContext($logger);
     }

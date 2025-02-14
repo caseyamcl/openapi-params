@@ -44,7 +44,7 @@ abstract class ParameterValuesContextTestBase extends TestCase
         $this->assertSame($this->getExpectedName(), $this->getContextInstance()->getName());
     }
 
-    protected function getContextInstance(LoggerInterface $logger = null): ParameterValuesContext
+    protected function getContextInstance(?LoggerInterface $logger = null): ParameterValuesContext
     {
         return new ParameterValuesContext('values', new StandardDeserializer(), $logger);
     }

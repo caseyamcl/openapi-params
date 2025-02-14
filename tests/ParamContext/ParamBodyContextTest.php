@@ -32,7 +32,7 @@ class ParamBodyContextTest extends ParameterValuesContextTestBase
         $this->assertNull($this->getContextInstance()->getDeserializer());
     }
 
-    protected function getContextInstance(LoggerInterface $logger = null): ParameterValuesContext
+    protected function getContextInstance(?LoggerInterface $logger = null): ParameterValuesContext
     {
         return new ParamBodyContext(null, $logger);
     }
