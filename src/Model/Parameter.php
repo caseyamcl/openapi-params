@@ -221,7 +221,7 @@ abstract class Parameter implements ParameterInterface
      */
     final public function getAllowedValues(): ?array
     {
-        return $this->enum;
+        return ($this->isNullable()) ? array_merge($this->enum, [null]) : $this->enum;
     }
 
     final public function isNullable(): bool

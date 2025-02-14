@@ -43,19 +43,19 @@ class StringParameterTest extends AbstractParameterTestBase
     public function testSetTrim()
     {
         // Enabled by default
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $prepared = $param->prepare('  some value  ');
         $this->assertEquals('some value', $prepared);
 
         // Disabled explicitly
-        $param = $this->getInstance()->setTrim(false);
+        $param = $this->buildInstance()->setTrim(false);
         $this->assertEquals('   some value ', $param->prepare('   some value '));
     }
 
     public function testSetMaxLength()
     {
         $this->expectException(InvalidValueException::class);
-        $param = $this->getInstance()->setMaxLength(2);
+        $param = $this->buildInstance()->setMaxLength(2);
         $this->assertArrayHasKey('maxLength', $param->getDocumentation());
         $param->prepare('some value');
     }
@@ -63,14 +63,14 @@ class StringParameterTest extends AbstractParameterTestBase
     public function testSetMinLength()
     {
         $this->expectException(InvalidValueException::class);
-        $param = $this->getInstance()->setMinLength(25);
+        $param = $this->buildInstance()->setMinLength(25);
         $this->assertArrayHasKey('minLength', $param->getDocumentation());
         $param->prepare('some value');
     }
 
     public function testSetSanitize()
     {
-        $param = $this->getInstance()->setSanitize(true);
+        $param = $this->buildInstance()->setSanitize(true);
         $prepared = $param->prepare("<p>This is ä 'test'</p>");
         $this->assertEquals('This is ä test', $prepared);
     }
@@ -78,7 +78,7 @@ class StringParameterTest extends AbstractParameterTestBase
     public function testSetLength()
     {
         $this->expectException(InvalidValueException::class);
-        $param = $this->getInstance()->setLength(1, 3);
+        $param = $this->buildInstance()->setLength(1, 3);
         $this->assertArrayHasKey('minLength', $param->getDocumentation());
         $this->assertArrayHasKey('maxLength', $param->getDocumentation());
         $param->prepare("<p>This is ä 'test'</p>");
@@ -87,7 +87,7 @@ class StringParameterTest extends AbstractParameterTestBase
     public function testSetPatternWithPhpDelimiters()
     {
         $this->expectException(InvalidValueException::class);
-        $param = $this->getInstance()->setPattern('/^abc$/');
+        $param = $this->buildInstance()->setPattern('/^abc$/');
         $this->assertArrayHasKey('pattern', $param->getDocumentation());
         $param->prepare('def');
     }
@@ -95,19 +95,19 @@ class StringParameterTest extends AbstractParameterTestBase
     public function testSetPatternWithoutPhpDelimiters()
     {
         $this->expectException(InvalidValueException::class);
-        $param = $this->getInstance()->setPattern('^abc$');
+        $param = $this->buildInstance()->setPattern('^abc$');
         $param->prepare('def');
     }
 
     public function testSetPatternFailsWithInvalidRegexp()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->getInstance()->setPattern('asd(');
+        $this->buildInstance()->setPattern('asd(');
     }
 
     public function testSetFormatWorksWithValidFormat()
     {
-        $obj = $this->getInstance()->setFormat(new PasswordFormat());
+        $obj = $this->buildInstance()->setFormat(new PasswordFormat());
         $this->assertInstanceOf(PasswordFormat::class, $obj->getFormat());
     }
 
@@ -115,7 +115,7 @@ class StringParameterTest extends AbstractParameterTestBase
     {
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Cannot apply format');
-        $this->getInstance()->setFormat(new Int32Format()); // Invalid!
+        $this->buildInstance()->setFormat(new Int32Format()); // Invalid!
     }
 
     /**
@@ -126,7 +126,7 @@ class StringParameterTest extends AbstractParameterTestBase
     public function testMakeMethods(string $methodName, string $expectedFormatClass)
     {
         /** @var StringParameter $obj */
-        $obj = call_user_func([$this->getInstance(), $methodName]);
+        $obj = call_user_func([$this->buildInstance(), $methodName]);
         $this->assertInstanceOf($expectedFormatClass, $obj->getFormat());
     }
 
@@ -154,7 +154,7 @@ class StringParameterTest extends AbstractParameterTestBase
      * @param string $name
      * @return StringParameter
      */
-    protected function getInstance(string $name = 'test'): Parameter
+    protected function buildInstance(string $name = 'test'): Parameter
     {
         return new StringParameter($name);
     }

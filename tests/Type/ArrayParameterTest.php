@@ -32,13 +32,13 @@ class ArrayParameterTest extends AbstractParameterTestBase
     public function testHeterogeneousTypesAllowedWhenNoTypesAdded()
     {
         $value = ['hi', 25, 34.0, [1,2,3]];
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $this->assertSame($value, $param->prepare($value));
     }
 
     public function testSetAllowedParamDefinitionMultipleWithValidValues()
     {
-        $param = $this->getInstance()
+        $param = $this->buildInstance()
             ->addAllowedParamDefinition(new StringParameter(''))
             ->addAllowedParamDefinition(new IntegerParameter(''));
 
@@ -48,7 +48,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
     public function testSetAllowedParamDefinitionSingleWithValidValues()
     {
         $subParam = (new StringParameter(''))->setTrim(true);
-        $param = $this->getInstance()->addAllowedParamDefinition($subParam);
+        $param = $this->buildInstance()->addAllowedParamDefinition($subParam);
         $this->assertSame(['test'], $param->prepare(['   test ']));
     }
 
@@ -58,26 +58,26 @@ class ArrayParameterTest extends AbstractParameterTestBase
         $this->expectExceptionMessage(ArrayItemsPreparationStep::class);
 
         $subParam = (new StringParameter(''))->setTrim(true);
-        $param = $this->getInstance()->addAllowedParamDefinition($subParam);
+        $param = $this->buildInstance()->addAllowedParamDefinition($subParam);
         $param->prepare([1.2]);
     }
 
     public function testSetAllowedTypesWithValidTypesAndData()
     {
-        $param = $this->getInstance()->addAllowedType('string', 'integer');
+        $param = $this->buildInstance()->addAllowedType('string', 'integer');
         $this->assertEquals([25, 'test'], $param->prepare([25, 'test']));
     }
 
     public function testSetAllowedTypesThrowsExceptionWithNonExistentType()
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->getInstance()->addAllowedType('string', 'xx');
+        $this->buildInstance()->addAllowedType('string', 'xx');
     }
 
     public function testSetAllowedTypesThrowsExceptionWithValidTypesButInvalidData()
     {
         $this->expectException(InvalidValueException::class);
-        $param = $this->getInstance()->addAllowedType('string', 'integer');
+        $param = $this->buildInstance()->addAllowedType('string', 'integer');
         $param->prepare([25.35, 'test']);
     }
 
@@ -86,33 +86,33 @@ class ArrayParameterTest extends AbstractParameterTestBase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('Invalid data type: string');
 
-        $param = $this->getInstance()->addAllowedParamDefinition(new IntegerParameter('item'));
+        $param = $this->buildInstance()->addAllowedParamDefinition(new IntegerParameter('item'));
         $param->prepare(['hi', 25]);
     }
 
     public function testAddPreparationStepForEachRulesAreRun()
     {
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $param->addPreparationStepForEach(new CallbackStep('strtoupper', 'Convert string to upper-case'));
         $this->assertSame(['A','B','C'], $param->prepare(['a', 'b', 'c']));
     }
 
     public function testEach()
     {
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $param->each(new CallbackStep('strtoupper', 'Convert string to upper-case'));
         $this->assertSame(['A','B','C'], $param->prepare(['a', 'b', 'c']));
     }
 
     public function testDescribeWithDefaultArguments()
     {
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $this->assertEquals(['type' => 'array', 'items' => new stdClass()], $param->getDocumentation());
     }
 
     public function testDescribeWithParameterSet()
     {
-        $param = $this->getInstance()
+        $param = $this->buildInstance()
             ->addAllowedParamDefinition((new StringParameter(''))->setMinLength(5));
 
         $this->assertEquals(
@@ -123,7 +123,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
 
     public function testDescribeWithMultipleParametersSet()
     {
-        $param = $this->getInstance()->addAllowedType('string', 'integer');
+        $param = $this->buildInstance()->addAllowedType('string', 'integer');
         $this->assertEquals(
             [
                 'oneOf' => [
@@ -137,7 +137,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
 
     public function testSetUniqueItemsWithUniqueItems()
     {
-        $param = $this->getInstance()->setUniqueItems(true);
+        $param = $this->buildInstance()->setUniqueItems(true);
         $this->assertEquals([2, 3, 5], $param->prepare([2, 3, 5]));
     }
 
@@ -146,7 +146,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(ValidationStep::class);
 
-        $param = $this->getInstance()->setUniqueItems(true);
+        $param = $this->buildInstance()->setUniqueItems(true);
         $param->prepare([2, 2, 5]);
     }
 
@@ -155,7 +155,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(ValidationStep::class);
 
-        $param = $this->getInstance()->setMinItems(3);
+        $param = $this->buildInstance()->setMinItems(3);
         $param->prepare([2, 2]);
     }
 
@@ -164,13 +164,13 @@ class ArrayParameterTest extends AbstractParameterTestBase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(ValidationStep::class);
 
-        $param = $this->getInstance()->setMaxItems(3);
+        $param = $this->buildInstance()->setMaxItems(3);
         $param->prepare([2, 2, 3, 4]);
     }
 
     public function testInvalidParameterExceptionReflectsPathOfItemCorrectly()
     {
-        $param = $this->getInstance()->addAllowedType('integer');
+        $param = $this->buildInstance()->addAllowedType('integer');
 
         try {
             $param->prepare([3, 9, -4, 'oops', 6, 'crud']);
@@ -184,7 +184,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
 
     public function testInvalidParameterInNestedObjectReflectsPathOfItemCorrectly()
     {
-        $param = $this->getInstance()->addAllowedParamDefinition(
+        $param = $this->buildInstance()->addAllowedParamDefinition(
             ObjectParameter::create()->addProperty(StringParameter::create('firstName')->setMinLength(30))
         );
 
@@ -204,7 +204,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
     {
         $context = (new ParameterValuesContext('test', new StandardDeserializer()));
         $parameter = $this
-            ->getInstance()
+            ->buildInstance()
             ->addAllowedParamDefinition(IntegerParameter::create()->setAllowTypeCast(true));
 
         $allValues = ParameterValues::single(['1,2,3'], $context, 'test');
@@ -219,7 +219,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
 
         $context = (new ParameterValuesContext('test', null));
         $allValues = ParameterValues::single('1,2,3', $context, 'test');
-        $this->getInstance()->prepare('1,2,3', $allValues);
+        $this->buildInstance()->prepare('1,2,3', $allValues);
     }
 
     public function testPrepareThrowsInvalidParameterExceptionWithDeserializerButInvalidDataType()
@@ -227,7 +227,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
         $this->expectException(InvalidValueException::class);
         $context = (new ParameterValuesContext('test', new StandardDeserializer()));
         $allValues = ParameterValues::single(15.3, $context, 'test');
-        $this->getInstance()->prepare(15.3, $allValues);
+        $this->buildInstance()->prepare(15.3, $allValues);
     }
 
     // --------------------------------------------------------------
@@ -258,7 +258,7 @@ class ArrayParameterTest extends AbstractParameterTestBase
      * @param string $name
      * @return ArrayParameter
      */
-    protected function getInstance(string $name = 'test'): ArrayParameter
+    protected function buildInstance(string $name = 'test'): ArrayParameter
     {
         return new ArrayParameter($name);
     }

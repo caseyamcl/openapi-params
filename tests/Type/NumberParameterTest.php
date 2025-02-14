@@ -34,7 +34,7 @@ class NumberParameterTest extends AbstractNumericParameterTestBase
      */
     public function testIntegerTypeCastToFloatOrDoubleWhenDecimalNotRequired()
     {
-        $obj = $this->getInstance('test')
+        $obj = $this->buildInstance('test')
             ->setAllowTypeCast(false)
             ->setRequireDecimal(false);
 
@@ -46,7 +46,7 @@ class NumberParameterTest extends AbstractNumericParameterTestBase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(EnsureCorrectDataTypeStep::class);
 
-        $obj = $this->getInstance()
+        $obj = $this->buildInstance()
             ->setAllowTypeCast(false)
             ->setRequireDecimal(true);
 
@@ -55,21 +55,21 @@ class NumberParameterTest extends AbstractNumericParameterTestBase
 
     public function testIsRequireDecimalTrue()
     {
-        $obj = $this->getInstance()->setRequireDecimal(true);
+        $obj = $this->buildInstance()->setRequireDecimal(true);
         $this->assertTrue($obj->isRequireDecimal());
         $this->assertInstanceOf(ParamFormat::class, $obj->getFormat());
     }
 
     public function testIsRequireDecimalFalse()
     {
-        $obj = $this->getInstance()->setRequireDecimal(false);
+        $obj = $this->buildInstance()->setRequireDecimal(false);
         $this->assertFalse($obj->isRequireDecimal());
         $this->assertNull($obj->getFormat());
     }
 
     public function testIntegerAllowedWhenRequireDecimalIsFalse()
     {
-        $obj = $this->getInstance()->setRequireDecimal(false);
+        $obj = $this->buildInstance()->setRequireDecimal(false);
         $this->assertEquals(25, $obj->prepare(25));
     }
 
@@ -77,7 +77,7 @@ class NumberParameterTest extends AbstractNumericParameterTestBase
     {
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('invalid data type');
-        $obj = $this->getInstance()->setRequireDecimal(true);
+        $obj = $this->buildInstance()->setRequireDecimal(true);
         $obj->prepare(25);
     }
 
@@ -112,7 +112,7 @@ class NumberParameterTest extends AbstractNumericParameterTestBase
      * @param string $name
      * @return NumberParameter
      */
-    protected function getInstance(string $name = 'test'): Parameter
+    protected function buildInstance(string $name = 'test'): Parameter
     {
         return new NumberParameter($name);
     }

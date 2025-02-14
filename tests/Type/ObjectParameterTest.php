@@ -31,13 +31,13 @@ class ObjectParameterTest extends AbstractParameterTestBase
 {
     public function testSetSchemaName()
     {
-        $param = $this->getInstance()->setSchemaName('Something');
+        $param = $this->buildInstance()->setSchemaName('Something');
         $this->assertSame('Something', $param->getSchemaName());
     }
 
     public function testObjectWithNoExplicitPropertiesDefinedAllowsArbitraryParameters()
     {
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $this->assertEquals('item', $param->prepare((object) ['arbitrary' => 'item'])->arbitrary);
     }
 
@@ -46,13 +46,13 @@ class ObjectParameterTest extends AbstractParameterTestBase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('allowed properties: "name"');
 
-        $param = $this->getInstance()->addProperty(StringParameter::create('name'));
+        $param = $this->buildInstance()->addProperty(StringParameter::create('name'));
         $param->prepare((object) ['arbitrary' => 'item']);
     }
 
     public function testObjectWithExplicitPropertiesAndAllowExtraAllowsArbitraryParameters()
     {
-        $param = $this->getInstance()
+        $param = $this->buildInstance()
             ->addProperty(StringParameter::create('name'))
             ->setAllowAdditionalProperties(true);
 
@@ -64,7 +64,7 @@ class ObjectParameterTest extends AbstractParameterTestBase
 
     public function testSetMinPropertiesWithValidData()
     {
-        $param = $this->getInstance()->setMinProperties(2);
+        $param = $this->buildInstance()->setMinProperties(2);
 
         $value = (object) ['test' => 'item', 'test2' => 'item'];
         $this->assertSame($value, $param->prepare($value));
@@ -75,13 +75,13 @@ class ObjectParameterTest extends AbstractParameterTestBase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(ValidationStep::class);
 
-        $param = $this->getInstance()->setMinProperties(5);
+        $param = $this->buildInstance()->setMinProperties(5);
         $param->prepare((object) ['test' => 'item', 'test2' => 'item']);
     }
 
     public function testSetMaxPropertiesWithValidData()
     {
-        $param = $this->getInstance()->setMaxProperties(3);
+        $param = $this->buildInstance()->setMaxProperties(3);
 
         $value = (object) ['test' => 'item', 'test2' => 'item'];
         $this->assertSame($value, $param->prepare($value));
@@ -92,13 +92,13 @@ class ObjectParameterTest extends AbstractParameterTestBase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(ValidationStep::class);
 
-        $param = $this->getInstance()->setMaxProperties(1);
+        $param = $this->buildInstance()->setMaxProperties(1);
         $param->prepare((object) ['test' => 'item', 'test2' => 'item']);
     }
 
     public function testNestedPropertiesArePreparedCorrectlyProcessedWithValidData()
     {
-        $param = $this->getInstance()->addProperty(
+        $param = $this->buildInstance()->addProperty(
             ObjectParameter::create('person')
                 ->addProperty(StringParameter::create('firstName')->setTrim(true))
                 ->addProperty(IntegerParameter::create('age')->makeRequired())
@@ -114,7 +114,7 @@ class ObjectParameterTest extends AbstractParameterTestBase
 
     public function testPropertiesThrowExceptionWithExpectedPointer()
     {
-        $param = $this->getInstance('test')->addProperty(
+        $param = $this->buildInstance('test')->addProperty(
             StringParameter::create('firstName')->setMinLength(30)
         );
 
@@ -128,7 +128,7 @@ class ObjectParameterTest extends AbstractParameterTestBase
 
     public function testNestedPropertiesWithInvalidDataThrowExceptionWithExpectedPointer()
     {
-        $param = $this->getInstance('test')->addProperty(
+        $param = $this->buildInstance('test')->addProperty(
             ObjectParameter::create('person')
                 ->addProperty(StringParameter::create('firstName')->setMinLength(30))
                 ->addProperty(IntegerParameter::create('age'))
@@ -144,7 +144,7 @@ class ObjectParameterTest extends AbstractParameterTestBase
 
     public function testRequiredPropertiesProduceTheCorrectDocumentationFormat()
     {
-        $param = $this->getInstance()->addProperties(
+        $param = $this->buildInstance()->addProperties(
             StringParameter::create('firstName')->makeRequired(true),
             IntegerParameter::create('age')->makeRequired(true)
         );
@@ -160,7 +160,7 @@ class ObjectParameterTest extends AbstractParameterTestBase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('missing required properties: "firstName, age"');
 
-        $param = $this->getInstance()->addProperties(
+        $param = $this->buildInstance()->addProperties(
             StringParameter::create('firstName')->makeRequired(true),
             IntegerParameter::create('age')->makeRequired(true)
         );
@@ -175,7 +175,7 @@ class ObjectParameterTest extends AbstractParameterTestBase
             IntegerParameter::create('age')->makeRequired()
         ];
 
-        $param = $this->getInstance()->addPropertyList($propertyList);
+        $param = $this->buildInstance()->addPropertyList($propertyList);
 
         $docs = $param->getDocumentation();
         $this->assertArrayNotHasKey('required', $docs['properties']['firstName']);
@@ -229,7 +229,7 @@ class ObjectParameterTest extends AbstractParameterTestBase
      * @param string $name
      * @return ObjectParameter
      */
-    protected function getInstance(string $name = 'test'): Parameter
+    protected function buildInstance(string $name = 'test'): Parameter
     {
         return new ObjectParameter($name);
     }

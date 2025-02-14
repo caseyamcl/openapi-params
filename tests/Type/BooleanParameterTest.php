@@ -49,7 +49,7 @@ class BooleanParameterTest extends AbstractParameterTestBase
      * @param string $name
      * @return Parameter
      */
-    protected function getInstance(string $name = 'test'): Parameter
+    protected function buildInstance(string $name = 'test'): Parameter
     {
         return new BooleanParameter($name);
     }

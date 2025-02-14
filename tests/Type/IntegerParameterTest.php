@@ -24,7 +24,7 @@ class IntegerParameterTest extends AbstractNumericParameterTestBase
 {
     public function testIntegerParameterAlwaysHasType(): void
     {
-        $intObj = $this->getInstance();
+        $intObj = $this->buildInstance();
         $this->assertInstanceOf(ParamFormat::class, $intObj->getFormat());
     }
 
@@ -52,7 +52,7 @@ class IntegerParameterTest extends AbstractNumericParameterTestBase
      * @param string $name
      * @return IntegerParameter
      */
-    protected function getInstance(string $name = 'test'): Parameter
+    protected function buildInstance(string $name = 'test'): Parameter
     {
         return new IntegerParameter($name);
     }

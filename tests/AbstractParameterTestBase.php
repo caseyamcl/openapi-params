@@ -36,9 +36,9 @@ use Symfony\Component\Validator\Constraints\IsTrue;
  */
 abstract class AbstractParameterTestBase extends TestCase
 {
-    public function testParameterDocumentationContainsExpectedValues()
+    public function testParameterDocumentationContainsExpectedValues(): void
     {
-        $doc = $this->getInstance('test')->getDocumentation();
+        $doc = $this->buildInstance('test')->getDocumentation();
 
         // The 'type' value should *always* exist in the documentation
         $this->assertArrayHasKey('type', $doc);
@@ -46,12 +46,12 @@ abstract class AbstractParameterTestBase extends TestCase
 
     public function testStringReturnsName(): void
     {
-        $this->assertSame($this->getInstance()->__toString(), $this->getInstance()->getName());
+        $this->assertSame($this->buildInstance()->__toString(), $this->buildInstance()->getName());
     }
 
     public function testGetName(): void
     {
-        $this->assertNotEmpty($this->getInstance()->getName());
+        $this->assertNotEmpty($this->buildInstance()->getName());
     }
 
     /**
@@ -60,7 +60,7 @@ abstract class AbstractParameterTestBase extends TestCase
      */
     public function testTypeCastWorksCorrectlyWhenEnabled($value): void
     {
-        $param = $this->getInstance()->setAllowTypeCast(true);
+        $param = $this->buildInstance()->setAllowTypeCast(true);
         if ($types = $param->getPhpDataTypes()) {
             $this->assertContains(gettype($param->prepare($value)), $types);
         } else {
@@ -77,7 +77,7 @@ abstract class AbstractParameterTestBase extends TestCase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(EnsureCorrectDataTypeStep::class);
 
-        $param = $this->getInstance()->setAllowTypeCast(false);
+        $param = $this->buildInstance()->setAllowTypeCast(false);
         $param->prepare($value);
     }
 
@@ -86,13 +86,13 @@ abstract class AbstractParameterTestBase extends TestCase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage(EnsureCorrectDataTypeStep::class);
 
-        $param = $this->getInstance()->setAllowTypeCast(false);
+        $param = $this->buildInstance()->setAllowTypeCast(false);
         $param->prepare(null);
     }
 
     public function testNullValueWrapsPreparationStepsWhenEnabled()
     {
-        $param = $this->getInstance()->setAllowTypeCast(false);
+        $param = $this->buildInstance()->setAllowTypeCast(false);
         $param->setNullable(true);
 
         $this->assertContainsOnlyInstancesOf(AllowNullPreparationStep::class, $param->getPreparationSteps());
@@ -100,7 +100,7 @@ abstract class AbstractParameterTestBase extends TestCase
 
     public function testNullValueIsUnchangedWhenEnabled()
     {
-        $param = $this->getInstance()->setAllowTypeCast(false);
+        $param = $this->buildInstance()->setAllowTypeCast(false);
         $param->setNullable(true);
 
         $this->assertSame(null, $param->prepare(null));
@@ -111,12 +111,12 @@ abstract class AbstractParameterTestBase extends TestCase
      */
     public function testEnumCheckRunsIfEnumPresent($value)
     {
-        $param = $this->getInstance()->setAllowTypeCast(false);
+        $param = $this->buildInstance()->setAllowTypeCast(false);
         $param->setEnum($this->getTwoOrMoreValidValues());
         $this->assertEquals($value, $param->prepare($value));
     }
 
-    public function testEnumCheckFailsIfEnumNotPresent()
+    public function testEnumCheckFailsIfEnumNotPresent(): void
     {
         $this->expectExceptionMessage(InvalidValueException::class);
         $this->expectExceptionMessage('value must be one of');
@@ -124,8 +124,19 @@ abstract class AbstractParameterTestBase extends TestCase
         $values = $this->getTwoOrMoreValidValues();
         $valueToTest = array_shift($values);
 
-        $param = $this->getInstance()->setEnum($values);
+        $param = $this->buildInstance()->setEnum($values);
         $param->prepare($valueToTest);
+    }
+
+    /**
+     * @dataProvider validValueDataProvider
+     */
+    public function testEnumListsNullIfNullable(): void
+    {
+        $param = $this->buildInstance()->setAllowTypeCast(false);
+        $param->setEnum($this->getTwoOrMoreValidValues());
+        $param->setNullable(true);
+        $this->assertContains(null, $param->getDocumentation()['enum']);
     }
 
     public function testDependencyTestRunsAndFailsIfMissingDependency()
@@ -133,7 +144,7 @@ abstract class AbstractParameterTestBase extends TestCase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('parameter can only be used when other parameter(s) are present: nonexistent');
 
-        $param = $this->getInstance('test');
+        $param = $this->buildInstance('test');
         $value = current($this->getTwoOrMoreValidValues());
         $param->addDependsOn('nonexistent');
 
@@ -147,7 +158,7 @@ abstract class AbstractParameterTestBase extends TestCase
      */
     public function testDependencyTestDoesNotRunWhenParameterValuesNotPassedToPrepare()
     {
-        $param = $this->getInstance('test');
+        $param = $this->buildInstance('test');
         $value = current($this->getTwoOrMoreValidValues());
         $param->addDependsOn('nonexistent');
 
@@ -159,7 +170,7 @@ abstract class AbstractParameterTestBase extends TestCase
         $this->expectException(InvalidValueException::class);
         $this->expectExceptionMessage('parameter can not be used when other parameter(s) are present: foo');
 
-        $param = $this->getInstance('test');
+        $param = $this->buildInstance('test');
         $param->addDependsOnAbsenceOf('foo');
         $value = current($this->getTwoOrMoreValidValues());
 
@@ -169,7 +180,7 @@ abstract class AbstractParameterTestBase extends TestCase
 
     public function testGetDefault(): void
     {
-        $param = $this->getInstance('test');
+        $param = $this->buildInstance('test');
         $value = current($this->getTwoOrMoreValidValues());
         $param->setDefaultValue($value);
         $this->assertSame($value, $param->getDefault());
@@ -177,63 +188,62 @@ abstract class AbstractParameterTestBase extends TestCase
 
     public function testSetDescription(): void
     {
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $param->setDescription('test');
         $this->assertStringStartsWith('test', $param->getDescription());
     }
 
     /**
-     * @param ParameterValidationRule|Constraint|callable $rule
      * @dataProvider validValidationRuleProvider
      */
-    public function testAddValidationWithValidArguments($rule)
+    public function testAddValidationWithValidArguments(ParameterValidationRule|Constraint|Callback|callable $rule)
     {
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $param->addValidationRule($rule);
         $this->assertTrue(true, 'test passed');
     }
 
-    public function testSetExamples()
+    public function testSetExamples(): void
     {
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $examples = $this->getTwoOrMoreValidValues();
         $param->setExamples($examples);
         $this->assertEquals($examples, $param->listExamples());
     }
 
-    public function testSetDefaultThrowsExceptionWhenIsRequired()
+    public function testSetDefaultThrowsExceptionWhenIsRequired(): void
     {
         $this->expectException(LogicException::class);
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $param->makeRequired(true);
         $param->setDefaultValue(current($this->getTwoOrMoreValidValues()));
     }
 
-    public function testSetRequiredThrowsExceptionIfDefaultIsSet()
+    public function testSetRequiredThrowsExceptionIfDefaultIsSet(): void
     {
         $this->expectException(LogicException::class);
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $param->setDefaultValue(current($this->getTwoOrMoreValidValues()));
         $param->makeRequired(true);
     }
 
-    public function testSetDeprecatedSetsDocumentationAppropriately()
+    public function testSetDeprecatedSetsDocumentationAppropriately(): void
     {
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $param->setDeprecated(true);
         $this->assertArrayHasKey('deprecated', $param->getDocumentation());
     }
 
-    public function testSetWriteOnly()
+    public function testSetWriteOnly(): void
     {
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $param->setWriteOnly(true);
         $this->assertTrue($param->isWriteOnly());
     }
 
-    public function testReadOnly()
+    public function testReadOnly(): void
     {
-        $param = $this->getInstance();
+        $param = $this->buildInstance();
         $param->setReadOnly(true);
         $this->assertTrue($param->isReadOnly());
     }
@@ -292,8 +302,7 @@ abstract class AbstractParameterTestBase extends TestCase
     abstract protected static function getValuesForTypeCastTest(): array;
 
     /**
-     * @param string $name
-     * @return Parameter
+     * Build an instance of this type
      */
-    abstract protected function getInstance(string $name = 'test'): Parameter;
+    abstract protected function buildInstance(string $name = 'test'): Parameter;
 }
