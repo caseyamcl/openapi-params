@@ -28,6 +28,8 @@ use Symfony\Component\Validator\Constraints\Regex;
 /**
  * OpenAPI String Byte Format
  *
+ * @deprecated See https://spec.openapis.org/registry/format/
+ *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
 class ByteFormat extends AbstractParamFormat

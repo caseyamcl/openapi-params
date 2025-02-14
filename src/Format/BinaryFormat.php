@@ -25,6 +25,7 @@ use OpenApiParams\Type\StringParameter;
 /**
  * OpenAPI String Binary Format
  *
+ * @deprecated See https://spec.openapis.org/registry/format/
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
 class BinaryFormat extends AbstractParamFormat
