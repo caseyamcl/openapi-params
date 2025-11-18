@@ -78,6 +78,21 @@ $prepared = $queryParams->prepare([
 var_dump($queryParams->getApiDocumentation());
 ```
 
+## Usage
+
+Most usage will start in the `OpenApiParams\OpenApiParams` class. There are four static methods in this class with pre-configured
+defaults based on what [type of parameters](https://swagger.io/docs/specification/v3_0/describing-parameters/#parameter-types) 
+you are specifying: path, query, body, header, or cookie.
+
+```php
+use OpenApiParams\OpenApiParams;
+
+$params = OpenApiParams::bodyParams();
+$params = OpenApiParams::queryParams();
+$params = OpenApiParams::headerParams();
+$params = OpenApiParams::pathParams();
+```
+
 ## In-Depth
 
 ### Concepts
