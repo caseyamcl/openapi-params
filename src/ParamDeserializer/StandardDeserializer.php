@@ -36,7 +36,7 @@ class StandardDeserializer implements ParameterDeserializer
      * Example: "3,4,5" becomes ['3', '4', '5']
      *
      * @param mixed $value
-     * @return array
+     * @return array<mixed>
      */
     public function deserializeArray(mixed $value): array
     {
@@ -52,10 +52,10 @@ class StandardDeserializer implements ParameterDeserializer
      *
      * Example string deserialization: 'role=admin,firstName=Alex' becomes { $role = 'admin; $firstName = 'Alex'; }
      *
-     * @param string|stdClass|array $value
+     * @param mixed $value
      * @return stdClass
      */
-    public function deserializeObject($value): stdClass
+    public function deserializeObject(mixed $value): stdClass
     {
         switch (true) {
             case $value instanceof stdClass:

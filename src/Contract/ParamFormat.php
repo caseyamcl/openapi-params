@@ -63,7 +63,7 @@ interface ParamFormat
     /**
      * Get built-in preparation steps that run after validation
      *
-     * @return array
+     * @return array<mixed>
      */
     public function getPostValidationPreparationSteps(): array;
 }

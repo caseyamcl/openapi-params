@@ -31,15 +31,15 @@ interface ParameterDeserializer
      * Deserialize array value from string
      *
      * @param string|mixed $value
-     * @return array
+     * @return array<mixed>
      */
     public function deserializeArray(mixed $value): array;
 
     /**
      * Deserialize object value from a string
      *
-     * @param string|mixed $value  PHP may automatically do some processing for us (in the case of $_GET),
-     *                             so we cannot specify a strict string type here.
+     * @param string|mixed $value  PHP may automatically do some processing for us (in the case of $_GET).
+     *                             So we cannot specify a strict string type here.
      * @return stdClass
      */
     public function deserializeObject(mixed $value): stdClass;

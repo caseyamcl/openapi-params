@@ -33,6 +33,7 @@ use Webmozart\Assert\Assert;
  * Aggregate Parameter Exception - Represents multiple errors
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
+ * @implements IteratorAggregate<int,ParameterException>
  */
 class AggregateErrorsException extends RuntimeException implements IteratorAggregate, Countable, ParameterException
 {

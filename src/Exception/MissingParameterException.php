@@ -32,7 +32,7 @@ class MissingParameterException extends RuntimeException implements ParameterExc
 {
     use ParameterErrorsTrait;
 
-    public function __construct(string $paramName, $code = 422, ?Throwable $previous = null)
+    public function __construct(string $paramName, int $code = 422, ?Throwable $previous = null)
     {
         $error = new ParameterError('Missing required parameter: ' . $paramName, $paramName);
         $this->addError($error);
