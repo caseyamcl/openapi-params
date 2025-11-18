@@ -1,8 +1,9 @@
 parameters:
-    level: 2
+    level: 4
     paths:
         - src
         - tests
     reportUnmatchedIgnoredErrors: true
+    treatPhpDocTypesAsCertain: false
     excludePaths:
         - src/Behavior/ConvenienceMethodsTrait.php

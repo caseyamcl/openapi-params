@@ -33,9 +33,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
  */
 class StringParameterTest extends AbstractParameterTestBase
 {
-    /**
-     * @return array|array[]
-     */
     protected static function getValuesForTypeCastTest(): array
     {
         return [1.0, true];

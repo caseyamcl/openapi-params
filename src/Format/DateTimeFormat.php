@@ -83,7 +83,7 @@ class DateTimeFormat extends AbstractParamFormat
      *
      * These are added to the validation preparation step automatically
      *
-     * @return array<int,ParameterValidationRule>
+     * @return array<int,ParamValidationRule>
      */
     public function getValidationRules(): array
     {

@@ -69,7 +69,8 @@ class ParameterValuesTest extends TestCase
 
     public function testGetIterator()
     {
-        $obj = (new ParameterValues(['foo' => 'bar', 'baz' => 'biz']));
+        $obj = new ParameterValues(['foo' => 'bar', 'baz' => 'biz']);
+        // @phpstan-ignore-next-line method.alreadyNarrowedType
         $this->assertContainsOnlyInstancesOf(ParameterValue::class, $obj);
     }
 

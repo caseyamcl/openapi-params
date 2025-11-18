@@ -148,7 +148,7 @@ class StringParameter extends Parameter
     final public function setFormat(?ParamFormat $format): self
     {
         if (! empty($this->format)) {
-            trigger_error('Format already set for parameter: ' . $this->getName() ?: '(unnamed parameter)');
+            trigger_error('Format already set for parameter: ' . ($this->getName() ?: '(unnamed parameter)'));
         }
 
         if ($format && $format->appliesToType() !== static::class) {

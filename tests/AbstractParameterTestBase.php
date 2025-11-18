@@ -16,7 +16,6 @@
 
 namespace OpenApiParams;
 
-use InvalidArgumentException;
 use LogicException;
 use OpenApiParams\Model\ParameterValidationRule;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -28,7 +27,6 @@ use OpenApiParams\Model\ParameterValues;
 use OpenApiParams\PreparationStep\AllowNullPreparationStep;
 use OpenApiParams\PreparationStep\EnsureCorrectDataTypeStep;
 use Symfony\Component\Validator\Constraints\Callback;
-use Symfony\Component\Validator\Constraints\IsTrue;
 
 /**
  * Class AbstactParameterTest
@@ -188,8 +186,7 @@ abstract class AbstractParameterTestBase extends TestCase
     public function testAddValidationWithValidArguments(ParameterValidationRule|Constraint|Callback|callable $rule)
     {
         $param = $this->buildInstance();
-        $param->addValidationRule($rule);
-        $this->assertTrue(true, 'test passed');
+        $this->assertInstanceof(Parameter::class, $param->addValidationRule($rule));
     }
 
     public function testSetExamples(): void

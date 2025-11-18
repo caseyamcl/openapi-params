@@ -215,7 +215,7 @@ class ObjectParameterTest extends AbstractParameterTestBase
     /**
      * Return values that are not the correct type, but can be automatically type-cast if that is enabled
      *
-     * @return array<string,mixed>  Values for type cast check
+     * @return array<int, array<string, string>|string>  Values for type cast check
      */
     protected static function getValuesForTypeCastTest(): array
     {

@@ -57,7 +57,7 @@ abstract class Parameter implements ParameterInterface
     private mixed $default = null;
     private bool $nullable = false;
     private ?array $enum = null;
-    private ?array $examples = [];
+    private array $examples = [];
     private bool $deprecated = false;
     private int $readWriteMode = self::READ_WRITE;
     protected ?ParamFormat $format = null;
@@ -536,7 +536,8 @@ abstract class Parameter implements ParameterInterface
      * Prepare the parameter
      *
      * @param mixed $value
-     * @param ParameterValues|null $allValues
+     * @param ParameterValues|null $allValues  Input may be null if we're not passing all the other values
+     * @param-out ParameterValues $allValues   This method assigns a value to the variable if it is null
      * @return mixed
      */
     final public function prepare(mixed $value, ?ParameterValues &$allValues = null): mixed
