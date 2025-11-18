@@ -60,12 +60,7 @@ class ValidationStep implements PreparationStep
     }
 
     /**
-     * Get API Documentation for this step
-     *
-     * If this step defines a rule that is important to be included in the API documentation, then include
-     * it here.  e.g. "value must be ..."
-     *
-     * @return string|null
+     * Returns a list of validation rule descriptions separated by line-breaks
      */
     public function getApiDocumentation(): ?string
     {
@@ -74,11 +69,6 @@ class ValidationStep implements PreparationStep
         }, $this->rules)));
     }
 
-    /**
-     * Describe what this step does
-     *
-     * @return string
-     */
     public function __toString(): string
     {
         return 'runs the following validation checks: ' . PHP_EOL . trim($this->getApiDocumentation());

@@ -30,11 +30,11 @@ use Webmozart\Assert\Assert;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class DependencyCheckStep implements PreparationStep
+readonly class DependencyCheckStep implements PreparationStep
 {
-    public const MUST_NOT_EXIST = 0;
-    public const MUST_EXIST = 1;
-    public const MAY_EXIST = 2;
+    public const int MUST_NOT_EXIST = 0;
+    public const int MUST_EXIST = 1;
+    public const int MAY_EXIST = 2;
 
     /**
      * @var array<int,string>
@@ -45,6 +45,7 @@ class DependencyCheckStep implements PreparationStep
 
     /**
      * DependencyCheckStep constructor.
+     *
      * @param array|string[] $params List of parameter names
      * @param int $mode  Either 1 (self::MUST_EXIST). 0 (self::MUST_NOT_EXIST), or 2 (self::MAY_EXIST)
      * @param array|null $callbacks  Keys are param names, values are callbacks
@@ -54,18 +55,10 @@ class DependencyCheckStep implements PreparationStep
         Assert::inArray($mode, (new ReflectionClass($this))->getConstants());
 
         $this->paramNames = $params;
-        $this->callbacks = $callbacks;
         $this->mode = $mode;
+        $this->callbacks = $callbacks;
     }
 
-    /**
-     * Get API Documentation for this step
-     *
-     * If this step defines a rule that is important to be included in the API description, then include
-     * it here.  e.g. "value must be ..."
-     *
-     * @return string|null
-     */
     public function getApiDocumentation(): ?string
     {
         $template = $this->mode === self::MUST_EXIST
@@ -75,11 +68,6 @@ class DependencyCheckStep implements PreparationStep
         return sprintf($template, implode(', ', $this->paramNames));
     }
 
-    /**
-     * Describe what this step does (will appear in debug log if enabled)
-     *
-     * @return string
-     */
     public function __toString(): string
     {
         $template = $this->mode === self::MUST_EXIST
@@ -89,24 +77,16 @@ class DependencyCheckStep implements PreparationStep
         return sprintf($template, implode(', ', $this->paramNames));
     }
 
-    /**
-     * Prepare a parameter
-     *
-     * @param mixed $value The current value to be processed
-     * @param string $paramName
-     * @param ParameterValues $allValues All the values
-     * @return mixed
-     */
     public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
         // values must exist
         switch ($this->mode) {
             case self::MUST_EXIST:
-                $template = '%s parameter can only be used when other parameter(s) are present: %s';
+                $template = "'%s' parameter can be used only when other parameter(s) are present: %s";
                 $valid = count(array_diff($this->paramNames, $allValues->listNames())) === 0;
                 break;
             case self::MUST_NOT_EXIST:
-                $template = '%s parameter can not be used when other parameter(s) are present: %s';
+                $template = "'%s' parameter cannot be used when other parameter(s) are present: %s";
                 $valid = array_diff($this->paramNames, $allValues->listNames()) == $this->paramNames;
                 break;
             case self::MAY_EXIST:

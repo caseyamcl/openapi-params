@@ -31,7 +31,7 @@ use OpenApiParams\Type\NumberParameter;
  */
 class DoubleFormat extends AbstractParamFormat
 {
-    public const TYPE_CLASS = NumberParameter::class;
+    public const string TYPE_CLASS = NumberParameter::class;
 
     public function __construct()
     {

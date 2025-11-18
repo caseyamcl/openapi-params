@@ -28,29 +28,19 @@ use OpenApiParams\Model\ParameterValues;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ObjectDeserializeStep implements PreparationStep
+readonly class ObjectDeserializeStep implements PreparationStep
 {
     /**
-     * Get API Documentation for this step
-     *
-     * If this step defines a rule that is important to be included in the API description, then include
-     * it here.  e.g. "value must be ..."
-     *
-     * @return string|null
+     * No documentation necessary for this
      */
     public function getApiDocumentation(): ?string
     {
         return null;
     }
 
-    /**
-     * Describe what this step does (will appear in debug log if enabled)
-     *
-     * @return string
-     */
     public function __toString(): string
     {
-        return 'deserializes value to object';
+        return 'deserializes value to object according to OpenAPI specs';
     }
 
     /**

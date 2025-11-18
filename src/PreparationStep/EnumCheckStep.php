@@ -27,34 +27,24 @@ use OpenApiParams\Model\ParameterValues;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class EnumCheckStep implements PreparationStep
+readonly class EnumCheckStep implements PreparationStep
 {
     /**
      * EnumCheckStep constructor.
      */
     public function __construct(
-        private readonly array $allowedValues
+        private array $allowedValues
     ) {
     }
 
     /**
-     * Get API Documentation for this step
-     *
-     * If this step defines a rule that is important to be included in the API description, then include
-     * it here.  e.g. "value must be ..."
-     *
-     * @return string|null
+     * enums are always added to the documentation automatically, so this would be redundant
      */
     public function getApiDocumentation(): ?string
     {
-        return null; // enums are always added to the documentation automatically, so this would be redundant
+        return null;
     }
 
-    /**
-     * Describe what this step does (will appear in debug log if enabled)
-     *
-     * @return string
-     */
     public function __toString(): string
     {
         return 'check raw typecast value against allowed values: ' . $this->serializeValues();
@@ -81,12 +71,6 @@ class EnumCheckStep implements PreparationStep
         }
     }
 
-    /**
-     * Serialize values for message
-     *
-     * @param array|null $values
-     * @return string
-     */
     private function serializeValues(?array $values = null): string
     {
         foreach ($values ?: $this->allowedValues as $val) {

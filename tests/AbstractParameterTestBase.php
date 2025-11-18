@@ -131,7 +131,7 @@ abstract class AbstractParameterTestBase extends TestCase
     public function testDependencyTestRunsAndFailsIfMissingDependency()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('parameter can only be used when other parameter(s) are present: nonexistent');
+        $this->expectExceptionMessage('parameter can be used only when other parameter(s) are present: nonexistent');
 
         $param = $this->buildInstance('test');
         $value = current($this->getTwoOrMoreValidValues());
@@ -157,7 +157,7 @@ abstract class AbstractParameterTestBase extends TestCase
     public function testDependencyTestRunsAndFailsIfOtherNotAllowedParamPresent()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('parameter can not be used when other parameter(s) are present: foo');
+        $this->expectExceptionMessage('parameter cannot be used when other parameter(s) are present: foo');
 
         $param = $this->buildInstance('test');
         $param->addDependsOnAbsenceOf('foo');

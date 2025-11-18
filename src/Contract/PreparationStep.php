@@ -33,14 +33,14 @@ interface PreparationStep
      * Get API Documentation for this step
      *
      * If this step defines a rule that is important to be included in the API description, then include
-     * it here.  e.g. "value must be ..."
+     * it here; e.g., "value must be ..."
      *
      * If no documentation is required for this rule, return NULL
      */
     public function getApiDocumentation(): ?string;
 
     /**
-     * Describe what this step does (will appear in debug log if enabled)
+     * Describe what this step does (will appear in the debug log if enabled)
      */
     public function __toString(): string;
 

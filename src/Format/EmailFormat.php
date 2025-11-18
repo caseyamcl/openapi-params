@@ -25,8 +25,8 @@ use Symfony\Component\Validator\Constraints\Email;
 
 class EmailFormat extends AbstractParamFormat
 {
-    public const TYPE_CLASS = StringParameter::class;
-    public const NAME = 'email';
+    public const string TYPE_CLASS = StringParameter::class;
+    public const string NAME = 'email';
 
     public function getValidationRules(): array
     {

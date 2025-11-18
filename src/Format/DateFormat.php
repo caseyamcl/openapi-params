@@ -32,11 +32,11 @@ use OpenApiParams\Type\StringParameter;
  */
 class DateFormat extends DateTimeFormat
 {
-    public const TYPE_CLASS = StringParameter::class;
-    public const NAME = 'date';
+    public const string TYPE_CLASS = StringParameter::class;
+    public const string NAME = 'date';
 
-    public const VALID_FORMATS = ['Y-m-d'];
-    public const DATE_FORMAT_EXAMPLE = '2017-07-21';
+    public const array VALID_FORMATS = ['Y-m-d'];
+    public const string DATE_FORMAT_EXAMPLE = '2017-07-21';
 
     /**
      * Get built-in parameter preparation steps

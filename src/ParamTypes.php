@@ -35,18 +35,18 @@ use Webmozart\Assert\Assert;
  */
 final class ParamTypes
 {
-    public const STRING = 'string';
-    public const BOOLEAN = 'boolean';
-    public const OBJECT = 'object';
-    public const ARRAY = 'array';
-    public const NUMBER = 'number';
-    public const INTEGER = 'integer';
+    public const string STRING = 'string';
+    public const string BOOLEAN = 'boolean';
+    public const string OBJECT = 'object';
+    public const string ARRAY = 'array';
+    public const string NUMBER = 'number';
+    public const string INTEGER = 'integer';
 
     /**
      * Create a type instance of a given parameter
      *
-     * @param string $type        Parameter type (OpenApi) name
-     * @param string $paramName   Optional name
+     * @param string $type Parameter type (OpenApi) name
+     * @param string $paramName Optional name
      * @return Parameter
      */
     public static function resolveTypeInstance(string $type, string $paramName = ''): Parameter

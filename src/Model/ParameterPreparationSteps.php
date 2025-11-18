@@ -65,7 +65,7 @@ final class ParameterPreparationSteps implements IteratorAggregate, Countable
     }
 
     /**
-     * Append a step to the end of the preparation step stack and get new copy of this object
+     * Append a step to the end of the preparation step stack and get a new copy of this object
      */
     public function withStep(PreparationStep $step): ParameterPreparationSteps
     {

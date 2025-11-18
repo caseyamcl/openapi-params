@@ -26,27 +26,21 @@ use OpenApiParams\Model\ParameterValues;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class AllowNullPreparationStep implements PreparationStep
+readonly class AllowNullPreparationStep implements PreparationStep
 {
     public function __construct(
-        private readonly PreparationStep $innerStep
+        private PreparationStep $innerStep
     ) {
     }
 
     /**
-     * Get API Documentation for this step
-     *
-     * If this step defines a rule that is important to be included in the API description, then include
-     * it here.  e.g. "value must be ..."
+     * Wraps the documentation for the inner step
      */
     public function getApiDocumentation(): ?string
     {
         return $this->innerStep->getApiDocumentation();
     }
 
-    /**
-     * Describe what this step does (will appear in debug log if enabled)
-     */
     public function __toString(): string
     {
         return $this->innerStep->__toString() . ' (if value is not NULL)';

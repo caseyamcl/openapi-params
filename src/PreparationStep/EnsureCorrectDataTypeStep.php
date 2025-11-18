@@ -23,61 +23,39 @@ use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\ParameterValues;
 
 /**
- * Ensure Correct Data Type step
+ * Ensure correct data types
  *
- * This step is built into the AbstractParameter, so if your parameter extends
- * that class, it will be run automatically.
+ * This step is built into the Parameter class and runs for every value.
  *
  * Its purpose is to ensure that the correct data type was passed (or to type-cast it to
- * the correct type if the ParameterValuesContext allows)
+ * the correct type if the ParameterValuesContext allows).
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class EnsureCorrectDataTypeStep implements PreparationStep
+readonly class EnsureCorrectDataTypeStep implements PreparationStep
 {
     /**
      * EnsureCorrectDataTypeStep constructor.
-     * @param array<int,string> $phpDataTypes  Built-in PHP data type to check for
-     * @param bool $allowCast      Attempt to auto-cast to the given type (useful in numeric query values)
+     * @param array<int,string> $phpDataTypes Built-in PHP data type(s) to check the value against
+     * @param bool $allowCast Allow attempt to auto-cast to the given type (useful in numeric query values)
      */
     public function __construct(
-        private readonly array $phpDataTypes,
-        private readonly bool $allowCast = false
+        private array $phpDataTypes,
+        private bool $allowCast = false
     ) {
     }
 
-    /**
-     * Get API Documentation for this step
-     *
-     * If this step defines a rule that is important to be included in the API documentation, then include
-     * it here.  e.g. "value must be ..."
-     *
-     * @return string|null
-     */
     public function getApiDocumentation(): ?string
     {
         // Documentation should be self-explanatory
         return null;
     }
 
-    /**
-     * Describe what this step does
-     *
-     * @return string
-     */
     public function __toString(): string
     {
         return 'ensure correct datatype(s): ' . implode(', ', $this->phpDataTypes);
     }
 
-    /**
-     * Prepare a parameter
-     *
-     * @param mixed $value
-     * @param string $paramName
-     * @param ParameterValues $allValues
-     * @return mixed
-     */
     public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
         if (in_array(gettype($value), $this->phpDataTypes)) {

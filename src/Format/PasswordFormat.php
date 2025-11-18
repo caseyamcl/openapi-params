@@ -30,8 +30,8 @@ use OpenApiParams\Type\StringParameter;
  */
 class PasswordFormat extends AbstractParamFormat
 {
-    public const TYPE_CLASS = StringParameter::class;
-    public const NAME = 'password';
+    public const string TYPE_CLASS = StringParameter::class;
+    public const string NAME = 'password';
 
     public function getValidationRules(): array
     {

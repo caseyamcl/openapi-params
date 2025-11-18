@@ -25,7 +25,7 @@ use Symfony\Component\Validator\Constraint;
 #[Attribute]
 class ValidObjectProperties extends Constraint
 {
-    public const VALID_OBJECT_PROPERTIES_ERROR = '75dbf6e9-fb53-449f-8eb8-6777fb12e55e';
+    public const string VALID_OBJECT_PROPERTIES_ERROR = '75dbf6e9-fb53-449f-8eb8-6777fb12e55e';
 
     public string $message = 'value is missing required properties: "{{ missingProperties }}"';
 

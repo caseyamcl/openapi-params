@@ -40,11 +40,11 @@ use Symfony\Component\Validator\Constraints\LessThanOrEqual;
  */
 class DateTimeFormat extends AbstractParamFormat
 {
-    public const TYPE_CLASS = StringParameter::class;
-    public const NAME = 'date-time';
+    public const string TYPE_CLASS = StringParameter::class;
+    public const string NAME = 'date-time';
 
-    public const VALID_FORMATS = [DateTimeInterface::RFC3339, DateTimeInterface::RFC3339_EXTENDED];
-    public const DATE_FORMAT_EXAMPLE = '2017-07-21T17:32:28Z';
+    public const array VALID_FORMATS = [DateTimeInterface::RFC3339, DateTimeInterface::RFC3339_EXTENDED];
+    public const string DATE_FORMAT_EXAMPLE = '2017-07-21T17:32:28Z';
 
     private ?CarbonImmutable $earliestDate;
 

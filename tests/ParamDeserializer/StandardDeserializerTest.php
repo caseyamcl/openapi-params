@@ -59,14 +59,13 @@ class StandardDeserializerTest extends TestCase
     public function testDeserializeObjectThrowsExceptionOnInvalidType()
     {
         $this->expectException(InvalidArgumentException::class);
-        // @phpstan-ignore-next-line This is supposed to not throw an error
-        (new StandardDeserializer())->deserializeObject(22); // int is invalid type
+        (new StandardDeserializer())->deserializeObject(22); // int is an invalid type
     }
 
     public function testDeserializeArrayThrowsExceptionOnInvalidType()
     {
         $this->expectException(InvalidArgumentException::class);
-        (new StandardDeserializer())->deserializeArray(22); // int is invalid type
+        (new StandardDeserializer())->deserializeArray(22); // int is an invalid type
     }
 
     public function testGarbledStringThrowsException()

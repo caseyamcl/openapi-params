@@ -52,7 +52,7 @@ class DependencyCheckStepTest extends TestCase
     public function testMustExistFailsWhenOtherValueAbsent()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('buzz parameter can only be used when other parameter(s) are present: zurb');
+        $this->expectExceptionMessage("'buzz' parameter can be used only when other parameter(s) are present: zurb");
 
         $step = new DependencyCheckStep(['zurb']);
         $step->__invoke('buzz', 'buzz', $this->getAllValues());
@@ -68,7 +68,7 @@ class DependencyCheckStepTest extends TestCase
     public function testMustNotExistFailsWhenOtherValuePresent()
     {
         $this->expectException(InvalidValueException::class);
-        $this->expectExceptionMessage('buzz parameter can not be used when other parameter(s) are present: foo');
+        $this->expectExceptionMessage("'buzz' parameter cannot be used when other parameter(s) are present: foo");
 
         $step = new DependencyCheckStep(['foo'], DependencyCheckStep::MUST_NOT_EXIST);
         $step->__invoke('buzz', 'buzz', $this->getAllValues());

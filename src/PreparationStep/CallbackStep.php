@@ -29,7 +29,7 @@ use OpenApiParams\Model\ParameterValues;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-final class CallbackStep implements PreparationStep
+readonly class CallbackStep implements PreparationStep
 {
     private Closure $step;
     private string $description;
@@ -60,14 +60,6 @@ final class CallbackStep implements PreparationStep
         return $this->description;
     }
 
-    /**
-     * Prepare a parameter
-     *
-     * @param mixed $value
-     * @param string $paramName
-     * @param ParameterValues $allValues
-     * @return mixed
-     */
     public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
         try {

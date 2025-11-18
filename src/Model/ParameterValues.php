@@ -32,6 +32,9 @@ use RuntimeException;
  */
 final class ParameterValues implements Countable, IteratorAggregate
 {
+    /**
+     * @var array<string,ParameterValue>
+     */
     private array $values = [];
     private ParameterValuesContext $context;
 
@@ -90,6 +93,17 @@ final class ParameterValues implements Countable, IteratorAggregate
         }
     }
 
+    public function getPreparedValues(): array
+    {
+        $out = [];
+        foreach ($this->values as $name => $value) {
+            if ($value->isPrepared()) {
+                $out[$name] = $value->getPreparedValue();
+            }
+        }
+        return $out;
+    }
+
     public function getRawValue(string $name): mixed
     {
         if ($this->hasValue($name)) {
@@ -97,6 +111,11 @@ final class ParameterValues implements Countable, IteratorAggregate
         } else {
             throw new RuntimeException('Parameter not found: ' . $name);
         }
+    }
+
+    public function getRawValues(): array
+    {
+        return array_map(fn (ParameterValue $v) => $v->getRawValue(), $this->values);
     }
 
     /**
@@ -112,7 +131,7 @@ final class ParameterValues implements Countable, IteratorAggregate
     }
 
     /**
-     * @return ArrayIterator<int,ParameterValue>
+     * @return ArrayIterator<string,ParameterValue>
      */
     public function getIterator(): ArrayIterator
     {
@@ -120,7 +139,7 @@ final class ParameterValues implements Countable, IteratorAggregate
     }
 
     /**
-     * List parameter names as array
+     * List parameter names as an array
      *
      * @return array<int,string>
      */
@@ -135,7 +154,7 @@ final class ParameterValues implements Countable, IteratorAggregate
     }
 
     /**
-     * Get a copy of this object with added raw value
+     * Get a copy of this object with an added raw value
      */
     public function withRawValue(string $name, mixed $rawValue): ParameterValues
     {

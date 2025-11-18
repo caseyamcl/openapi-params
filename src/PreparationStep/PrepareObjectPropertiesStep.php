@@ -27,9 +27,9 @@ use stdClass;
 use Webmozart\Assert\Assert;
 
 /**
- * Prepare object properties parameter preparation step
+ * Prepare an object properties parameter
  *
- * This recursively traverses the properties of an object until all properties are prepared
+ * Recursively traverses the properties of an object until all properties are prepared
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
@@ -45,12 +45,7 @@ class PrepareObjectPropertiesStep implements PreparationStep
     }
 
     /**
-     * Get API Documentation for this step
-     *
-     * If this step defines a rule that is important to be included in the API documentation, then include
-     * it here.  e.g. "value must be ..."
-     *
-     * @return string|null
+     * No documentation necessary for this
      */
     public function getApiDocumentation(): ?string
     {
@@ -58,9 +53,7 @@ class PrepareObjectPropertiesStep implements PreparationStep
     }
 
     /**
-     * Describe what this step does (will appear in debug log if enabled)
-     *
-     * @return string
+     * Step description
      */
     public function __toString(): string
     {
@@ -95,7 +88,7 @@ class PrepareObjectPropertiesStep implements PreparationStep
         }
 
         foreach ((array) $value as $propName => $propValue) {
-            // No defined property/parameter?  No preparation necessary.
+            // No defined property/parameter? If not, no preparation is necessary.
             if (! array_key_exists($propName, $definedProperties)) {
                 continue;
             }

@@ -32,7 +32,7 @@ use RuntimeException;
  */
 class Int64Format extends AbstractParamFormat
 {
-    public const TYPE_CLASS = IntegerParameter::class;
+    public const string TYPE_CLASS = IntegerParameter::class;
 
     public function __construct()
     {

@@ -34,10 +34,10 @@ use Symfony\Component\Validator\Constraints\Regex;
  */
 class ByteFormat extends AbstractParamFormat
 {
-    public const TYPE_CLASS = StringParameter::class;
-    public const NAME = 'byte';
+    public const string TYPE_CLASS = StringParameter::class;
+    public const string NAME = 'byte';
 
-    private const BASE64_REGEX = '/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/';
+    private const string BASE64_REGEX = '/^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$/';
 
     /**
      * Get built-in validation rules
@@ -72,6 +72,6 @@ class ByteFormat extends AbstractParamFormat
 
     public function getDocumentation(): ?string
     {
-        return "Value must a base64-encoded string.";
+        return "value must a base64-encoded string.";
     }
 }

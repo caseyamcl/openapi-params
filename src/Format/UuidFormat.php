@@ -29,8 +29,8 @@ use Symfony\Component\Validator\Constraints\Uuid;
  */
 class UuidFormat extends AbstractParamFormat
 {
-    public const NAME = 'uuid';
-    public const TYPE_CLASS = StringParameter::class;
+    public const string NAME = 'uuid';
+    public const string TYPE_CLASS = StringParameter::class;
 
     public function getValidationRules(): array
     {

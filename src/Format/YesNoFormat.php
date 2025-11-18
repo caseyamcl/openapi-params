@@ -33,10 +33,10 @@ use Symfony\Component\Validator\Constraints\Choice;
  */
 class YesNoFormat extends AbstractParamFormat
 {
-    public const TYPE_CLASS = StringParameter::class;
-    public const NAME = 'yesno';
+    public const string TYPE_CLASS = StringParameter::class;
+    public const string NAME = 'yesno';
 
-    public const BOOLEAN_MAP = [
+    public const array BOOLEAN_MAP = [
         'true'  => true,  '1' => true,  'yes' => true, 'on' => true,
         'false' => false, '0' => false, 'no' => false, 'off' => false
     ];
@@ -71,6 +71,6 @@ class YesNoFormat extends AbstractParamFormat
 
     public function getDocumentation(): ?string
     {
-        return 'Value must be "true/false", "yes/no", "on/off", or "1/0".';
+        return 'value must be "true/false", "yes/no", "on/off", or "1/0".';
     }
 }

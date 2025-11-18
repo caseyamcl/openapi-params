@@ -102,8 +102,8 @@ abstract class Parameter implements ParameterInterface
     /**
      * AbstractParameter constructor.
      *
-     * @param string $name Parameter name
-     * @param bool $required Is this a required parameter
+     * @param string $name
+     * @param bool $required
      */
     final public function __construct(string $name = '', bool $required = false)
     {
@@ -339,7 +339,7 @@ abstract class Parameter implements ParameterInterface
     /**
      * Set default value
      *
-     * NULL is the only allowable value if this parameter is required
+     * This throws an exception if the parameter is set as required
      */
     final public function setDefaultValue(mixed $default): static
     {
@@ -360,11 +360,11 @@ abstract class Parameter implements ParameterInterface
      *
      * If this parameter is allowed only if another parameter is present, then add the other parameter name
      * using this method. Additionally, you may optionally add a check (to check if the parameter has a
-     * certain value or some-such) by passing a callback.
+     * specific value or some-such) by passing a callback.
      *
      * @param string $otherParameterName
-     * @param callable|null $callback     Optional callback; signature is $cb(ParameterValue $value): void
-     *                                    The callback should throw an \InvalidArgument exception if value is invalid.
+     * @param callable|null $callback  Optional callback; signature is $cb(ParameterValue $dependencyValue): void
+     *                                 The callback should throw an \InvalidArgument exception if the value is invalid.
      * @return static
      */
     final public function addDependsOn(string $otherParameterName, ?callable $callback = null): static
@@ -389,8 +389,13 @@ abstract class Parameter implements ParameterInterface
      *
      * The difference between this and `dependsOn()` is that the other parameters do not have to exist.
      *
-     * Additionally, you may optionally add a check (to check if the parameter has a certain value or some-such)
+     * Additionally, you may optionally add a check (to check if the parameter has a specific value or some-such)
      * by passing a callback.
+     *
+     * @param string $otherParameterName
+     * @param callable|null $callback Optional callback; signature is $cb(ParameterValue $dependencyValue): void
+     *                                The callback should throw an \InvalidArgument exception if the value is invalid.
+     * @return static
      */
     final public function addProcessAfter(string $otherParameterName, ?callable $callback = null): static
     {
@@ -583,7 +588,7 @@ abstract class Parameter implements ParameterInterface
     }
 
     /**
-     * Return whether this parameter allows to typecast
+     * Return whether this parameter allows typecasting
      */
     public function allowsTypeCast(): bool
     {
@@ -634,7 +639,7 @@ abstract class Parameter implements ParameterInterface
     }
 
     /**
-     * Get built-in parameter preparation steps that run before validation step
+     * Get built-in parameter preparation steps that run before the validation step
      *
      * These run after type-check/type-cast but before validation
      *
@@ -646,7 +651,7 @@ abstract class Parameter implements ParameterInterface
     }
 
     /**
-     * Get built-in parameter preparation steps that run after validation step
+     * Get built-in parameter preparation steps that run after the validation step
      *
      * These run after validation but before format-specific preparation steps
      *

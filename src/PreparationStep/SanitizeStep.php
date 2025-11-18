@@ -31,11 +31,6 @@ use OpenApiParams\Model\ParameterValues;
  */
 class SanitizeStep implements PreparationStep
 {
-    /**
-     * Get documentation for this preparation step to include parameter notes
-     *
-     * @return string
-     */
     public function __toString(): string
     {
         return 'sanitizes input using filter_var FILTER_SANITIZE_SPECIAL_CHARS';
@@ -43,11 +38,6 @@ class SanitizeStep implements PreparationStep
 
     /**
      * Prepare a parameter
-     *
-     * @param mixed $value
-     * @param string $paramName
-     * @param ParameterValues $allValues
-     * @return mixed
      */
     public function __invoke(mixed $value, string $paramName, ParameterValues $allValues): mixed
     {
@@ -55,12 +45,7 @@ class SanitizeStep implements PreparationStep
     }
 
     /**
-     * Get API Documentation for this step
-     *
-     * If this step defines a rule that is important to be included in the API documentation, then include
-     * it here.  e.g. "value must be ..."
-     *
-     * @return string|null
+     * No documentation necessary for this step
      */
     public function getApiDocumentation(): ?string
     {

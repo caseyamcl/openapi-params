@@ -35,8 +35,8 @@ use Symfony\Component\Validator\Constraints\Callback;
  */
 class TemporalFormat extends DateTimeFormat
 {
-    public const NAME = 'temporal';
-    public const TYPE_CLASS = StringParameter::class;
+    public const string NAME = 'temporal';
+    public const string TYPE_CLASS = StringParameter::class;
 
     public function getPreValidationPreparationSteps(): array
     {
@@ -49,7 +49,7 @@ class TemporalFormat extends DateTimeFormat
 
     public function getDocumentation(): ?string
     {
-        return 'Value must be a valid date/time (examples: "now", "2017-03-04", "tomorrow", "2017-03-04T01:30:40Z").';
+        return 'value must be a valid date/time (examples: "now", "2017-03-04", "tomorrow", "2017-03-04T01:30:40Z").';
     }
 
     protected function getBaseRule(): ParamValidationRule

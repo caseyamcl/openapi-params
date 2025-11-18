@@ -31,7 +31,7 @@ use Webmozart\Assert\Assert;
  *
  * @author Casey McLaughlin <caseyamcl@gmail.com>
  */
-class ArrayItemsPreparationStep implements PreparationStep
+readonly class ArrayItemsPreparationStep implements PreparationStep
 {
     public const array ALL = [];
 
@@ -43,8 +43,8 @@ class ArrayItemsPreparationStep implements PreparationStep
      * @param iterable<int,PreparationStep> $forEach  Additional steps to run for each item
      */
     public function __construct(
-        private readonly array $parameterTypeMap = self::ALL,
-        private readonly iterable $forEach = []
+        private array $parameterTypeMap = self::ALL,
+        private iterable $forEach = []
     ) {
     }
 

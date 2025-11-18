@@ -30,8 +30,8 @@ use OpenApiParams\Type\StringParameter;
  */
 class BinaryFormat extends AbstractParamFormat
 {
-    public const TYPE_CLASS = StringParameter::class;
-    public const NAME = 'binary';
+    public const string TYPE_CLASS = StringParameter::class;
+    public const string NAME = 'binary';
 
     /**
      * Get built-in validation rules

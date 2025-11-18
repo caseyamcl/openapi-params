@@ -30,7 +30,7 @@ use OpenApiParams\Type\IntegerParameter;
  */
 class Int32Format extends AbstractParamFormat
 {
-    public const TYPE_CLASS = IntegerParameter::class;
+    public const string TYPE_CLASS = IntegerParameter::class;
 
     public function getValidationRules(): array
     {

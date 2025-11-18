@@ -30,8 +30,8 @@ use Symfony\Component\Validator\Constraints\Regex;
  */
 class AlphanumericFormat extends AbstractParamFormat
 {
-    public const NAME = 'alphanumeric';
-    public const TYPE_CLASS = StringParameter::class;
+    public const string NAME = 'alphanumeric';
+    public const string TYPE_CLASS = StringParameter::class;
 
     private const ALPHANUMERIC_PATTERN = "a-zA-Z0-9";
 
@@ -61,9 +61,9 @@ class AlphanumericFormat extends AbstractParamFormat
     public function getDocumentation(): ?string
     {
         return trim(sprintf(
-            'Value can contain only alphanumeric characters %s',
+            'value can contain only alphanumeric characters %s',
             $this->extraChars ? 'or any of the following: ' . $this->extraChars : ''
-        )) . '.';
+        ));
     }
 
 
