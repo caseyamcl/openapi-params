@@ -16,16 +16,13 @@
 
 namespace OpenApiParams\PreparationStep;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use stdClass;
 
 class EnumCheckStepTest extends TestCase
 {
-    /**
-     * @dataProvider valuesDataProvider
-     * @param array $value
-     * @param string $expected
-     */
+    #[DataProvider('valuesDataProvider')]
     public function testToStringPrintsExpectedMessages(array $value, string $expected): void
     {
         $expected = 'check raw typecast value against allowed values: ' . $expected;

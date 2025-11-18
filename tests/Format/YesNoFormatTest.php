@@ -23,6 +23,7 @@ use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Type\StringParameter;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class YesNoFormatTest extends AbstractParamFormatTestBase
 {
@@ -31,20 +32,13 @@ class YesNoFormatTest extends AbstractParamFormatTestBase
         $this->assertEquals(0, 0);
     }
 
-    /**
-     * @dataProvider validDataProvider
-     * @param string $value
-     * @param bool $expected
-     */
+    #[DataProvider('validDataProvider')]
     public function testPrepareUsingValidData(string $value, bool $expected): void
     {
         $this->assertSame($expected, $this->getParameterWithFormat()->prepare($value));
     }
 
-    /**
-     * @dataProvider invalidDataProvider
-     * @param string $value
-     */
+    #[DataProvider('invalidDataProvider')]
     public function testPrepareUsingInvalidData(string $value): void
     {
         $this->expectException(InvalidValueException::class);

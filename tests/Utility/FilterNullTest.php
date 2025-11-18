@@ -16,15 +16,12 @@
 
 namespace OpenApiParams\Utility;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class FilterNullTest extends TestCase
 {
-    /**
-     * @dataProvider valuesProvider
-     * @param array $values
-     * @param array $expected
-     */
+    #[DataProvider('valuesProvider')]
     public function testFilterNull(array $values, array $expected)
     {
         $this->assertSame(array_values(FilterNull::filterNull($values)), array_values($expected));
@@ -47,6 +44,6 @@ class FilterNullTest extends TestCase
             'c' => 'C'
         ];
 
-        $this->assertSame(FilterNull::filterNull($arr), ['a' => 'A', 'c' => 'C']);
+        $this->assertSame(['a' => 'A', 'c' => 'C'], FilterNull::filterNull($arr));
     }
 }

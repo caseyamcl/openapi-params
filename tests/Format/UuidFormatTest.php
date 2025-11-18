@@ -21,6 +21,7 @@ use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Type\StringParameter;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class UuidFormatTest extends AbstractParamFormatTestBase
 {
@@ -28,6 +29,7 @@ class UuidFormatTest extends AbstractParamFormatTestBase
      * @dataProvider validUuidDataProvider
      * @param string $value
      */
+    #[DataProvider('validUuidDataProvider')]
     public function testValidData(string $value): void
     {
         $this->assertSame($value, $this->getParameterWithFormat()->prepare($value));
@@ -42,10 +44,7 @@ class UuidFormatTest extends AbstractParamFormatTestBase
         ];
     }
 
-    /**
-     * @dataProvider invalidUuidDataProvider
-     * @param string $value
-     */
+    #[DataProvider('invalidUuidDataProvider')]
     public function testInvalidDataThrowsException(string $value): void
     {
         $this->expectException(InvalidValueException::class);

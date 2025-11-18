@@ -22,22 +22,17 @@ use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Type\StringParameter;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class TemporalFormatTest extends AbstractParamFormatTestBase
 {
-    /**
-     * @dataProvider validValuesDataProvider
-     * @param string $value
-     */
+    #[DataProvider('validValuesDataProvider')]
     public function testFormatWithValidValues(string $value): void
     {
         $this->assertInstanceOf(CarbonImmutable::class, $this->getParameterWithFormat()->prepare($value));
     }
 
-    /**
-     * @dataProvider invalidValuesDataProvider
-     * @param string $value
-     */
+    #[DataProvider('invalidValuesDataProvider')]
     public function testFormatThrowsExceptionWithInvalidValues(string $value): void
     {
         $this->expectException(InvalidValueException::class);

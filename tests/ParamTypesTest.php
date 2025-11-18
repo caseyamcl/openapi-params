@@ -18,6 +18,7 @@ declare(strict_types=1);
 
 namespace OpenApiParams;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use RuntimeException;
 use stdClass;
@@ -34,11 +35,7 @@ class ParamTypesTest extends TestCase
         ParamTypes::resolveParameterForValue($fh, 'test');
     }
 
-    /**
-     * @param $value
-     * @param string $expectedType
-     * @dataProvider valueProvider
-     */
+    #[DataProvider('valueProvider')]
     public function testResolveParameterForValue($value, string $expectedType)
     {
         $value = ParamTypes::resolveParameterForValue($value, 'test');

@@ -19,6 +19,7 @@ namespace OpenApiParams;
 use InvalidArgumentException;
 use LogicException;
 use OpenApiParams\Model\ParameterValidationRule;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Constraint\Constraint;
 use PHPUnit\Framework\TestCase;
 use OpenApiParams\Exception\InvalidValueException;
@@ -54,10 +55,7 @@ abstract class AbstractParameterTestBase extends TestCase
         $this->assertNotEmpty($this->buildInstance()->getName());
     }
 
-    /**
-     * @dataProvider typeCastDataProvider()
-     * @param $value
-     */
+    #[DataProvider('typeCastDataProvider')]
     public function testTypeCastWorksCorrectlyWhenEnabled($value): void
     {
         $param = $this->buildInstance()->setAllowTypeCast(true);
@@ -68,10 +66,7 @@ abstract class AbstractParameterTestBase extends TestCase
         }
     }
 
-    /**
-     * @dataProvider typeCastDataProvider()
-     * @param mixed $value
-     */
+    #[DataProvider('typeCastDataProvider')]
     public function testTypeCastThrowsExceptionForInvalidTypeWhenDisabled($value): void
     {
         $this->expectException(InvalidValueException::class);
@@ -106,9 +101,7 @@ abstract class AbstractParameterTestBase extends TestCase
         $this->assertSame(null, $param->prepare(null));
     }
 
-    /**
-     * @dataProvider validValueDataProvider
-     */
+    #[DataProvider('validValueDataProvider')]
     public function testEnumCheckRunsIfEnumPresent($value)
     {
         $param = $this->buildInstance()->setAllowTypeCast(false);
@@ -128,9 +121,7 @@ abstract class AbstractParameterTestBase extends TestCase
         $param->prepare($valueToTest);
     }
 
-    /**
-     * @dataProvider validValueDataProvider
-     */
+    #[DataProvider('validValueDataProvider', false)]
     public function testEnumListsNullIfNullable(): void
     {
         $param = $this->buildInstance()->setAllowTypeCast(false);
@@ -193,9 +184,7 @@ abstract class AbstractParameterTestBase extends TestCase
         $this->assertStringStartsWith('test', $param->getDescription());
     }
 
-    /**
-     * @dataProvider validValidationRuleProvider
-     */
+    #[DataProvider('validValidationRuleProvider')]
     public function testAddValidationWithValidArguments(ParameterValidationRule|Constraint|Callback|callable $rule)
     {
         $param = $this->buildInstance();

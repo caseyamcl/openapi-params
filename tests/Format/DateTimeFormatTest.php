@@ -23,14 +23,11 @@ use OpenApiParams\Contract\ParamFormat;
 use OpenApiParams\Exception\InvalidValueException;
 use OpenApiParams\Model\Parameter;
 use OpenApiParams\Type\StringParameter;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 class DateTimeFormatTest extends AbstractParamFormatTestBase
 {
-    /**
-     * @param string $dtString
-     * @dataProvider dateTimeProvider
-     * @throws Exception
-     */
+    #[DataProvider('dateTimeProvider')]
     public function testValidDatesArePreparedCorrectly(string $dtString): void
     {
         $param = $this->getParameterWithFormat();
@@ -60,11 +57,7 @@ class DateTimeFormatTest extends AbstractParamFormatTestBase
         $param->prepare('foobar');
     }
 
-    /**
-     * @dataProvider dateTimeProvider
-     * @param string $date
-     * @throws Exception
-     */
+    #[DataProvider('dateTimeProvider')]
     public function testEarliestDateWithValidDates(string $date): void
     {
         /** @var DateTimeFormat $format */
@@ -75,11 +68,7 @@ class DateTimeFormatTest extends AbstractParamFormatTestBase
         $this->assertEquals(new CarbonImmutable($date), $param->prepare($date));
     }
 
-    /**
-     * @dataProvider dateTimeProvider
-     * @param string $date
-     * @throws Exception
-     */
+    #[DataProvider('dateTimeProvider')]
     public function testEarliestDateWithInvalidDates(string $date): void
     {
         $this->expectException(InvalidValueException::class);
@@ -93,11 +82,7 @@ class DateTimeFormatTest extends AbstractParamFormatTestBase
         $param->prepare($date);
     }
 
-    /**
-     * @dataProvider dateTimeProvider
-     * @param string $date
-     * @throws Exception
-     */
+    #[DataProvider('dateTimeProvider')]
     public function testLatestDateWithValidDates(string $date): void
     {
         /** @var DateTimeFormat $format */
@@ -108,11 +93,7 @@ class DateTimeFormatTest extends AbstractParamFormatTestBase
         $this->assertEquals(new CarbonImmutable($date), $param->prepare($date));
     }
 
-    /**
-     * @dataProvider dateTimeProvider
-     * @param string $date
-     * @throws Exception
-     */
+    #[DataProvider('dateTimeProvider')]
     public function testLatestDateWithInvalidDates(string $date): void
     {
         $this->expectException(InvalidValueException::class);
@@ -126,17 +107,11 @@ class DateTimeFormatTest extends AbstractParamFormatTestBase
         $param->prepare($date);
     }
 
-    /**
-     * @return ParamFormat
-     */
     protected function getFormat(): ParamFormat
     {
         return new DateTimeFormat();
     }
 
-    /**
-     * @return Parameter
-     */
     protected function getParameterWithFormat(): Parameter
     {
         return (new StringParameter('test'))->setFormat(new DateTimeFormat());

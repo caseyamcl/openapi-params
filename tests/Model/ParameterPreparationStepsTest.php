@@ -32,7 +32,7 @@ class ParameterPreparationStepsTest extends TestCase
     {
         $notes = $this->getInstance()->listNotes();
         $this->assertSame(2, count($notes));
-        $this->assertContainsOnly('string', $notes);
+        $this->assertContainsOnlyString($notes);
     }
 
     public function testGetIterator()

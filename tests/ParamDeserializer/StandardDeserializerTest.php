@@ -17,14 +17,12 @@
 namespace OpenApiParams\ParamDeserializer;
 
 use InvalidArgumentException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class StandardDeserializerTest extends TestCase
 {
-    /**
-     * @dataProvider validArraysProvider
-     * @param $val
-     */
+    #[DataProvider('validArraysProvider')]
     public function testDeserializeArrayWithValidData($val)
     {
         $this->assertEquals([1, 2, 3], (new StandardDeserializer())->deserializeArray($val));
@@ -40,10 +38,7 @@ class StandardDeserializerTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider validObjectsProvider
-     * @param $val
-     */
+    #[DataProvider('validObjectsProvider')]
     public function testDeserializeObjectWithValidData($val)
     {
         $this->assertEquals(

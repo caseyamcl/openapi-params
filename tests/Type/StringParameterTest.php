@@ -24,6 +24,7 @@ use OpenApiParams\Format;
 use OpenApiParams\Format\Int32Format;
 use OpenApiParams\Format\PasswordFormat;
 use OpenApiParams\Model\Parameter;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Class StringParameterTest
@@ -118,11 +119,7 @@ class StringParameterTest extends AbstractParameterTestBase
         $this->buildInstance()->setFormat(new Int32Format()); // Invalid!
     }
 
-    /**
-     * @dataProvider makeMethodDataProvider
-     * @param string $methodName
-     * @param string $expectedFormatClass
-     */
+    #[DataProvider('makeMethodDataProvider')]
     public function testMakeMethods(string $methodName, string $expectedFormatClass)
     {
         /** @var StringParameter $obj */

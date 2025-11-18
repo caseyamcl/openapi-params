@@ -22,15 +22,12 @@ use OpenApiParams\ParamContext\ParamBodyContext;
 use OpenApiParams\ParamContext\ParamHeaderContext;
 use OpenApiParams\ParamContext\ParamPathContext;
 use OpenApiParams\ParamContext\ParamQueryContext;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 class OpenApiParamsTest extends TestCase
 {
-    /**
-     * @dataProvider dataValuesProvider
-     * @param array $toCall
-     * @param string $expectedClass
-     */
+    #[DataProvider('dataValuesProvider')]
     public function testFactoryMethods(array $toCall, string $expectedClass)
     {
         /** @var ParameterList $paramList */
