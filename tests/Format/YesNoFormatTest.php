@@ -63,6 +63,12 @@ class YesNoFormatTest extends AbstractParamFormatTestBase
         foreach (YesNoFormat::BOOLEAN_MAP as $key => $value) {
             yield [(string) $key, $value];
         }
+
+        // Test uppercase too
+        yield ['YES', true];
+        yield ['NO', false];
+        yield ['ON', true];
+        yield ['OFF', false];
     }
 
     /**

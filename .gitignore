@@ -7,6 +7,7 @@ composer.lock
 .idea/*
 
 # Testing
+/phpunit.xml
 build/
 .phpunit.cache/
 .phpunit.result.cache

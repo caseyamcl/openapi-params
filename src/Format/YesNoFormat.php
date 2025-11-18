@@ -51,6 +51,15 @@ class YesNoFormat extends AbstractParamFormat
         ];
     }
 
+    public function getPreValidationPreparationSteps(): array
+    {
+        return [
+            new CallbackStep(function (string $value) {
+                return strtolower($value);
+            }, 'make value case-insensitive (convert all string values to lowercase)')
+        ];
+    }
+
     public function getPostValidationPreparationSteps(): array
     {
         return [
