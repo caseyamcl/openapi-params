@@ -40,6 +40,10 @@ class UnixPathValidator extends ConstraintValidator
             throw new UnexpectedValueException($value, 'string');
         }
 
+        if ($value === '/') {
+            return;
+        }
+
         $regex = ($constraint->allowRelativePath) ? '/^[\w\s\/]+$/' : '/^\/([\w\s\/]+)$/';
         $result = preg_match($regex, $value);
 
