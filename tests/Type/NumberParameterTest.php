@@ -34,7 +34,7 @@ class NumberParameterTest extends AbstractNumericParameterTestBase
      */
     public function testIntegerTypeCastToFloatOrDoubleWhenDecimalNotRequired()
     {
-        $obj = $this->buildInstance('test')
+        $obj = $this->buildInstance()
             ->setAllowTypeCast(false)
             ->setRequireDecimal(false);
 
@@ -99,9 +99,9 @@ class NumberParameterTest extends AbstractNumericParameterTestBase
 
 
     /**
-     * Return values that are not the correct type, but can be automatically type-cast if that is enabled
+     * Return values that are not the correct type but can be automatically type-cast if that is enabled
      *
-     * @return array|mixed[]  Values for type cast check
+     * @return array  Values for type cast check
      */
     protected static function getValuesForTypeCastTest(): array
     {
@@ -117,11 +117,7 @@ class NumberParameterTest extends AbstractNumericParameterTestBase
         return new NumberParameter($name);
     }
 
-    /**
-     * @param int $value
-     * @return float
-     */
-    protected function cast(int $value): float
+    protected function cast(int|float $value): float
     {
         return (PHP_FLOAT_DIG >= 15) ? doubleval($value) : floatval($value);
     }

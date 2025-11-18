@@ -33,13 +33,13 @@ use Webmozart\Assert\Assert;
  */
 class ArrayItemsPreparationStep implements PreparationStep
 {
-    public const ALL = [];
+    public const array ALL = [];
 
     /**
      * ArrayItemsPreparationStep constructor.
      *
-     * @param array<string,Parameter> $parameterTypeMap keys are PHP data type name; values are an array
-     *                                                  of possible parameter definitions
+     * @param array<string,Parameter[]> $parameterTypeMap keys are PHP data type name; values are an array
+     *                                                    of possible parameter definitions
      * @param iterable<int,PreparationStep> $forEach  Additional steps to run for each item
      */
     public function __construct(
@@ -52,7 +52,7 @@ class ArrayItemsPreparationStep implements PreparationStep
      * Get API Documentation for this step
      *
      * If this step defines a rule that is important to be included in the API documentation, then include
-     * it here.  e.g. "value must be ..."
+     * it here; e.g., "value must be ..."
      */
     public function getApiDocumentation(): ?string
     {
@@ -60,7 +60,7 @@ class ArrayItemsPreparationStep implements PreparationStep
     }
 
     /**
-     * Describe what this step does (will appear in debug log if enabled)
+     * Describe what this step does (will appear in the debug log if enabled)
      *
      * @return string
      */
@@ -170,16 +170,16 @@ class ArrayItemsPreparationStep implements PreparationStep
             $params = $this->listParameters();
         } else {
             // Craft an error message
-            $validTypes = [];
+            $validTypeNames = [];
             foreach ($this->parameterTypeMap as $paramTypes) {
-                $validTypes = array_merge($validTypes, $this->resolveValidParameterTypeNames($paramTypes));
+                $validTypeNames = array_merge($validTypeNames, $this->resolveValidParameterTypeNames($paramTypes));
             }
 
-            $message = sprintf('Invalid data type: %s (allowed: %s)', gettype($item), implode(', ', $validTypes));
+            $message = sprintf('Invalid data type: %s (allowed: %s)', gettype($item), implode(', ', $validTypeNames));
             throw InvalidValueException::fromMessage($this, $paramName, $item, $message);
         }
 
-        // Set name and append additional preparation steps for each parameter
+        // Set the name and append additional preparation steps for each parameter
         return array_map(function (Parameter $param) use ($paramName) {
             $param = $param->withName($paramName);
             call_user_func_array([$param, 'addPreparationStep'], $this->forEach);

@@ -37,16 +37,17 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
  */
 class ArrayParameter extends Parameter
 {
-    public const TYPE_NAME = 'array';
-    public const PHP_DATA_TYPE = 'array';
+    public const string TYPE_NAME = 'array';
+    public const string PHP_DATA_TYPE = 'array';
 
     /**
-     * @var array<int,Parameter>
+     * @var array<string,Parameter[]>
      */
     private array $allowedTypes = [];
     private bool $uniqueItems = false;
     private ?int $minItems = null;
     private ?int $maxItems = null;
+
     /**
      * @var array<int,PreparationStep>
      */
@@ -88,7 +89,7 @@ class ArrayParameter extends Parameter
     }
 
     /**
-     * Set minimum items number of items (null for no minimum)
+     * Set the minimum allowable number of items (null for no minimum)
      *
      * @param int|null $minItems
      * @return self
@@ -100,7 +101,7 @@ class ArrayParameter extends Parameter
     }
 
     /**
-     * Set maximum allowable number of items (null for no maximum)
+     * Set the maximum allowable number of items (null for no maximum)
      *
      * @param int|null $maxItems
      * @return self

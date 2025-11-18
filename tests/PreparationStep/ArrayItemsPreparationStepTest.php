@@ -33,7 +33,7 @@ class ArrayItemsPreparationStepTest extends TestCase
         $this->assertEquals($items, $step->__invoke($items, 'test', new ParameterValues([$items])));
     }
 
-    public function testForEachRunsWhenNoMappingButForeachSpecified()
+    public function testForeachRunsWhenNoMappingButForeachSpecified()
     {
         $foreach = [
             new CallbackStep(function ($value) {
@@ -57,7 +57,7 @@ class ArrayItemsPreparationStepTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
         $step = new ArrayItemsPreparationStep();
 
-        /** @noinspection PhpParamsInspection */
+        /** @phpstan-ignore-next-line This is supposed to throw an error */
         $step->__invoke('not-array', 'test', new ParameterValues(['not-array']));
     }
 
@@ -73,7 +73,7 @@ class ArrayItemsPreparationStepTest extends TestCase
         $this->assertSame(['xx'], $step->__invoke(['xx'], 'test', new ParameterValues(['23'])));
     }
 
-    public function testInvokeThrowsExpectedExceptionWhenMorThanOneParameterPerTypeIsDefinedAndNoneMatch()
+    public function testInvokeThrowsExpectedExceptionWhenMoreThanOneParameterPerTypeIsDefinedAndNoneMatch()
     {
         $step = new ArrayItemsPreparationStep([
             'string' => [
@@ -87,7 +87,7 @@ class ArrayItemsPreparationStepTest extends TestCase
         $step->__invoke(['XX'], 'test', new ParameterValues(['XX']));
     }
 
-    public function testForEachIsRunAfterWhenMultipleParameterRulesAreSet()
+    public function testForeachIsRunAfterWhenMultipleParameterRulesAreSet()
     {
         $step = new ArrayItemsPreparationStep([
             'string' => [
@@ -101,7 +101,7 @@ class ArrayItemsPreparationStepTest extends TestCase
         $this->assertSame(['XX'], $step->__invoke(['xx'], 'test', new ParameterValues(['xx'])));
     }
 
-    public function testForEachIsRunAfterWhenSingleParameterRuleIsSet()
+    public function testForeachIsRunAfterWhenSingleParameterRuleIsSet()
     {
         $step = new ArrayItemsPreparationStep(
             ['string' => [(new StringParameter())->setPattern('^[a-z]+$')->setTrim(true)]],

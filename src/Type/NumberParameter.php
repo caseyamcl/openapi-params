@@ -33,8 +33,8 @@ use Symfony\Component\Validator\Constraints\Type;
  */
 class NumberParameter extends AbstractNumericParameter
 {
-    public const TYPE_NAME = 'number';
-    public const PHP_DATA_TYPE = null;
+    public const string TYPE_NAME = 'number';
+    public const null PHP_DATA_TYPE = null;
 
     private bool $requireDecimal = false;
 
