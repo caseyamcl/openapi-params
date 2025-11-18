@@ -194,4 +194,36 @@ class ParameterValuesTest extends TestCase
 
         $obj->withPreparedValue('FIZZ', 123);
     }
+
+    public function testGetPreparedValuesReturnsEmptyArrayBeforeValuesArePrepared(): void
+    {
+        $obj = (new ParameterValues(['foo' => 'bar', 'baz' => 'biz']));
+        $this->assertEquals([], $obj->getPreparedValues());
+    }
+
+    public function testGetPreparedValuesReturnsArrayWithOnlyPreparedValues(): void
+    {
+        $obj = (new ParameterValues(['foo' => 'bar', 'baz' => 'biz']))
+            ->withPreparedValue('foo', 'bAr')  // Simulate step 1
+            ->withPreparedValue('foo', 'BAR'); // Simulate step 2
+
+        // baz hasn't been prepared, so we only expect to see the 'foo' parameter
+        $this->assertEquals(['foo' => 'BAR'], $obj->getPreparedValues());
+    }
+
+    public function testGetRawValuesReturnsExpectedValueWhenValuesAreNotPrepared(): void
+    {
+        $obj = (new ParameterValues(['foo' => 'bar', 'baz' => 'biz']));
+        $this->assertEquals(['foo' => 'bar', 'baz' => 'biz'], $obj->getRawValues());
+    }
+
+    public function testGetRawValuesReturnsExpectedValueWhenValuesArePrepared(): void
+    {
+        $obj = (new ParameterValues(['foo' => 'bar', 'baz' => 'biz']))
+            ->withPreparedValue('foo', 'bAr')  // Simulate step 1
+            ->withPreparedValue('foo', 'BAR'); // Simulate step 2
+
+        // baz hasn't been prepared, so we only expect to see the 'foo' parameter
+        $this->assertEquals(['foo' => 'bar', 'baz' => 'biz'], $obj->getRawValues());
+    }
 }
